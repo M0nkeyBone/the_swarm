@@ -1,0 +1,18 @@
+"""Example plugin: a die the agents can roll. Copy this file to make your own; edit it while the House runs."""
+import random
+
+DESCRIPTION = "Agents can roll dice and the result is shared with the room."
+
+
+def roll(ctx, agent, args):
+    try:
+        sides = max(2, min(100, int(args.get("sides", 6))))
+    except Exception:
+        sides = 6
+    n = random.randint(1, sides)
+    ctx.store["rolls"] = ctx.store.get("rolls", 0) + 1
+    ctx.say(agent, f"I rolled {n}")
+    return f"You rolled a {n} on a {sides}-sided die. The house has seen {ctx.store['rolls']} rolls."
+
+
+ACTIONS = {"roll_dice": {"doc": '{"sides": 6}  roll a die and say the result out loud', "run": roll}}

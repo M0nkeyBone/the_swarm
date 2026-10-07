@@ -1,0 +1,1836 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,user-scalable=yes">
+<title>The House</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+<style>
+
+@property --dz{syntax:'<number>';inherits:false;initial-value:0}
+@property --mc{syntax:'<color>';inherits:false;initial-value:#0B1218}
+body{margin:0;background:#0E131A}
+.world{position:absolute;left:0;top:157px;width:900px;height:495px;transform-origin:450px 247.5px;transform:rotateX(var(--tilt,60deg)) rotateZ(var(--rot,45deg)) scale(var(--k));transform-style:preserve-3d;--u:45px;--k:0.8}
+.grp{position:absolute;left:0;top:0;width:0;height:0;transform-style:preserve-3d}
+.hgrp{transform:translate3d(calc(3*var(--u)),0,0)}
+.fl{position:absolute;box-sizing:border-box;left:calc(var(--x)*var(--u));top:calc(var(--y)*var(--u));width:calc(var(--w)*var(--u));height:calc(var(--d)*var(--u));background-color:var(--c);background-image:linear-gradient(rgba(255,255,255,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.05) 1px,transparent 1px);background-size:var(--u) var(--u);transform:translateZ(calc(var(--z,0)*1px))}
+.bx{position:absolute;left:calc(var(--x)*var(--u));top:calc(var(--y)*var(--u));width:calc(var(--w)*var(--u));height:calc(var(--d)*var(--u));transform-style:preserve-3d;transform:translateZ(calc(var(--z,0)*var(--u)))}
+.bx>i{position:absolute;display:block;opacity:var(--wo,1);transition:opacity .3s}
+.wn{--wo:var(--oN,1)}
+.ww{--wo:var(--oW,1)}
+.wl{--wo:var(--oL,1)}
+.bx>.t{left:0;top:0;width:100%;height:100%;background:var(--c);transform:translateZ(calc(var(--h)*var(--u)))}
+.bx>.s{left:0;top:100%;width:100%;height:calc(var(--h)*var(--u));transform-origin:0 0;transform:translateZ(calc(var(--h)*var(--u))) rotateX(-90deg);background:color-mix(in srgb,var(--c),#000 var(--ds,28%))}
+.bx>.e{left:100%;top:0;width:calc(var(--h)*var(--u));height:100%;transform-origin:0 0;transform:translateZ(calc(var(--h)*var(--u))) rotateY(90deg);background:color-mix(in srgb,var(--c),#000 var(--de,46%))}
+.dc{position:absolute;box-sizing:border-box;border-radius:50%;left:calc((var(--x) - var(--r))*var(--u));top:calc((var(--y) - var(--r))*var(--u));width:calc(var(--r)*2*var(--u));height:calc(var(--r)*2*var(--u));transform:translateZ(calc(var(--z,3)*1px))}
+.rg{position:absolute;box-sizing:border-box;left:calc(-0.55*var(--u));top:calc(-0.55*var(--u));width:calc(1.1*var(--u));height:calc(1.1*var(--u));border-radius:50%;border:3px solid var(--rc);box-shadow:0 0 14px var(--rc);transform:translateZ(3px)}
+.bb{position:absolute;left:calc(var(--x)*var(--u));top:calc(var(--y)*var(--u));width:0;height:0;transform-style:preserve-3d;transform:translateZ(calc(var(--z,0)*var(--u)))}
+.bb>.up{position:absolute;left:0;bottom:0;transform-origin:0 100%;transform:rotateZ(calc(-1*var(--rot,45deg))) rotateX(calc(-1*var(--tilt,60deg))) scale(calc(var(--bs,1)/var(--k,0.8))) translateX(-50%)}
+.up svg{display:block}
+.tg{display:block;font-family:'Silkscreen',monospace;font-size:11px;line-height:1.35;white-space:nowrap;padding:3px 7px;background:#0E131A;border:1px solid #3A4A5F;color:#DCE6F0}
+.sb{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#93A4B8}
+.bub{position:relative;box-sizing:border-box;width:190px;padding:6px 8px;background:#DCE6F0;color:#0E131A;font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.35}
+.bub::after{content:"";position:absolute;left:50%;bottom:-5px;width:10px;height:10px;background:#DCE6F0;transform:translateX(-50%) rotate(45deg)}
+.msg{box-sizing:border-box;width:170px;padding:5px 8px;background:#0E131A;border:1px dashed #C9922B;color:#F2B84B;font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:1.35}
+.hp{display:block;transform-origin:50% 100%;animation:hop 0.7s ease-in-out infinite}
+.hp2{display:block;transform-origin:50% 100%;animation:hop2 1.1s ease-in-out infinite}
+.typ{display:block;animation:typ 0.25s steps(2) infinite}
+.wV{animation:walkV 48s linear infinite}
+.wO{animation:walkO 20s ease-in-out infinite}
+.wJ{animation:walkJ 30s linear infinite}
+.door{transform:translateZ(calc(var(--dz)*var(--u)));animation:dr 17s infinite}
+.d1{transform:translateZ(calc(var(--dz)*var(--u)));animation:cd1 40s infinite}
+.d2{transform:translateZ(calc(var(--dz)*var(--u)));animation:cd2 40s infinite}
+.gdoor{transform:translateZ(calc(var(--dz)*var(--u)))}
+.ga{animation:gateA 8s forwards}
+.gb{animation:gateB 8s forwards}
+.mon{--c:var(--mc);animation:scr 18s infinite}
+.mong{--c:var(--mc);animation:scrg 22s infinite}
+.patrol{animation:patrol 40s infinite}
+.beam{position:absolute;left:calc(var(--x)*var(--u));top:calc(var(--y)*var(--u));width:calc(var(--w)*var(--u));height:calc(var(--d)*var(--u));background:linear-gradient(90deg,transparent,rgba(242,184,75,0.75));transform:translateZ(2px);opacity:0;animation:beam 40s infinite}
+.win{width:132px;background:#0E131A;border:1px solid #2B8F94;opacity:0;animation:winon 18s infinite}
+.wt{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:2px 6px;background:#10303A;color:#5CE1E6}
+.ln{display:block;height:5px;margin:6px;background:#5CE1E6;width:0;animation:typing 18s steps(10) infinite}
+.stk{position:absolute;height:4px;width:0;animation:draw 48s steps(10) infinite}
+.say{opacity:0;animation:say 12s infinite;animation-fill-mode:backwards}
+.bv1{animation:sayV1 48s infinite}
+.bv2{opacity:0;animation:sayV2 48s infinite}
+.sc0{opacity:0}
+.sa{opacity:0;animation:resA 8s forwards}
+.sb2{opacity:0;animation:resB 8s forwards}
+.ca{opacity:0;animation:chkA 8s forwards}
+.cb{opacity:0;animation:chkB 8s forwards}
+
+.world .tg{display:none}
+.world.lb .tg,.world.s-juno .tg[data-for=juno],.world.s-pip .tg[data-for=pip],.world.s-vela .tg[data-for=vela],.world.s-nix .tg[data-for=nix],.world.s-orrin .tg[data-for=orrin],.world.s-tm .tg[data-for=tm]{display:block}
+.world.lb .tg.fx{display:flex}
+.world .bub{width:auto!important;padding:1px 8px;letter-spacing:2px}
+.bub .tx{display:none}
+.world.lb .bub,.world.s-vela .bub[data-for=vela],.world.s-nix .bub[data-for=nix],.world.s-orrin .bub[data-for=orrin]{width:160px!important;padding:6px 8px;letter-spacing:0}
+.world.lb .bub .tx,.world.s-vela .bub[data-for=vela] .tx,.world.s-nix .bub[data-for=nix] .tx,.world.s-orrin .bub[data-for=orrin] .tx{display:inline}
+.world.lb .bub .dt,.world.s-vela .bub[data-for=vela] .dt,.world.s-nix .bub[data-for=nix] .dt,.world.s-orrin .bub[data-for=orrin] .dt{display:none}
+.dock{height:44px;padding:0 14px;background:#1F2A38;color:#DCE6F0;border:1px solid #3A4A5F;font-family:'IBM Plex Mono',monospace;font-size:11px;cursor:pointer}
+@keyframes hop{0%,100%{transform:translateY(0) scale(1.08,0.9)}50%{transform:translateY(-9px) scale(0.94,1.08)}}
+@keyframes hop2{0%,100%{transform:translateY(0) scale(1.04,0.96)}50%{transform:translateY(-4px) scale(0.97,1.04)}}
+@keyframes typ{0%{transform:translateY(0)}100%{transform:translateY(-2px)}}
+@keyframes dr{0%,38%{--dz:0}44%,56%{--dz:0.85}62%,100%{--dz:0}}
+@keyframes cd1{0%,9%{--dz:0}13%,22%{--dz:1.4}26%,100%{--dz:0}}
+@keyframes cd2{0%,43%{--dz:0}47%,56%{--dz:1.4}60%,100%{--dz:0}}
+@keyframes gateA{0%{--dz:0}10%,70%{--dz:1.9}100%{--dz:0}}
+@keyframes gateB{0%{--dz:0}10%,70%{--dz:1.9}100%{--dz:0}}
+@keyframes scr{0%,8%{--mc:#0B1218}12%,86%{--mc:#5CE1E6}90%,100%{--mc:#0B1218}}
+@keyframes scrg{0%,15%{--mc:#0B1218}20%,75%{--mc:#6FD6A3}80%,100%{--mc:#0B1218}}
+@keyframes winon{0%,10%{opacity:0}14%,86%{opacity:1}90%,100%{opacity:0}}
+@keyframes typing{0%,14%{width:0}22%,84%{width:var(--w)}90%,100%{width:0}}
+@keyframes draw{0%,26%{width:0}34%,94%{width:var(--w)}98%,100%{width:0}}
+@keyframes say{0%{opacity:0}2%{opacity:1}23%{opacity:1}25%,100%{opacity:0}}
+@keyframes sayV1{0%,7%{opacity:1}9%,100%{opacity:0}}
+@keyframes sayV2{0%,28%{opacity:0}30%,44%{opacity:1}46%,100%{opacity:0}}
+@keyframes walkV{0%,8%{left:calc(8*var(--u));top:calc(5.3*var(--u))}14%{left:calc(11.5*var(--u));top:calc(5.8*var(--u))}22%{left:calc(14.6*var(--u));top:calc(6.2*var(--u))}26%,46%{left:calc(16.25*var(--u));top:calc(6.75*var(--u))}52%{left:calc(14.6*var(--u));top:calc(6.2*var(--u))}60%{left:calc(11.5*var(--u));top:calc(5.8*var(--u))}68%,100%{left:calc(8*var(--u));top:calc(5.3*var(--u))}}
+@keyframes walkO{0%,25%{left:calc(12*var(--u));top:calc(9.8*var(--u))}40%,60%{left:calc(12*var(--u));top:calc(10.6*var(--u))}75%,100%{left:calc(12*var(--u));top:calc(9.8*var(--u))}}
+@keyframes walkJ{0%,20%{left:calc(3.4*var(--u));top:calc(2.7*var(--u))}35%{left:calc(2.6*var(--u));top:calc(1.9*var(--u))}50%,65%{left:calc(2.2*var(--u));top:calc(3.9*var(--u))}80%{left:calc(3.4*var(--u));top:calc(3.6*var(--u))}100%{left:calc(3.4*var(--u));top:calc(2.7*var(--u))}}
+@keyframes patrol{0%,2%{transform:translate3d(0,0,0)}10%,22%{transform:translate3d(0,calc(-2.4*var(--u)),0)}32%,34%{transform:translate3d(0,0,0)}44%,56%{transform:translate3d(0,calc(3.2*var(--u)),0)}66%,100%{transform:translate3d(0,0,0)}}
+@keyframes beam{0%,10%{opacity:0}12%,21%{opacity:1}23%,43%{opacity:0}45%,55%{opacity:1}57%,100%{opacity:0}}
+@keyframes resA{0%,45%{opacity:0}50%,92%{opacity:1}100%{opacity:0}}
+@keyframes resB{0%,45%{opacity:0}50%,92%{opacity:1}100%{opacity:0}}
+@keyframes chkA{0%{opacity:0}5%,40%{opacity:1}48%,100%{opacity:0}}
+@keyframes chkB{0%{opacity:0}5%,40%{opacity:1}48%,100%{opacity:0}}
+
+/* ---------- live viewer ---------- */
+.usbl{--wo:var(--usbo,0)}
+.usbp{--wo:var(--usbp,0)}
+#usb,#usb *{pointer-events:none!important}
+.usbt{display:flex;align-items:center;justify-content:center;background:none!important;color:#CFE3FF;font:700 60px "Silkscreen",monospace;letter-spacing:7px;white-space:nowrap;opacity:var(--usbo,0);pointer-events:none}
+#bCenter{display:none}
+.bx>i{opacity:1;transition:none;backface-visibility:hidden}
+.bx.wn>i,.bx.ww>i,.bx.wd>i,.bx.we>i,.bx.wl>i,.bx.usbl>i,.bx.usbp>i{opacity:var(--wo,1);transition:opacity .3s}
+body.mob .bx.fine{display:none}
+body.mob .fl:not(.marble):not(.runner):not(.inlay){background-image:none!important}
+body.mob .world.gest .tg,body.mob .world.gest .bub,body.mob .world.gest .term,body.mob .world.gest .msg,body.mob .world.gest .sb{visibility:hidden}
+body.mob .bx>i{transition:none!important}
+body.mob .world{will-change:transform}
+body.mob #bCenter{display:inline-block}
+.nohigh .bx.wn,.nohigh .bx.ww,.nohigh .bx.wd,.nohigh .bx.we{display:none}
+.nolow .bx.wl{display:none}
+/* museum wing: framed art is a flat textured face; the canvas panel shows the same picture on both sides */
+.fr>.s,.fr.fe>.e{background:var(--art,none) center/100% 100% no-repeat,#0B1410!important;image-rendering:pixelated}
+.fr.fn::after{background:var(--art,none) center/100% 100% no-repeat,#0B1410!important;image-rendering:pixelated}
+.fr.fe>.s,.fr.fn>.s{background:#0B1410!important}
+.cvp>.e{background:var(--cve,none) center/100% 100% no-repeat,#06100A!important;image-rendering:pixelated;box-shadow:inset 0 0 0 2px #7CFF9B}
+.cvp::before{background:var(--cvw,none) center/100% 100% no-repeat,#06100A!important;image-rendering:pixelated;box-shadow:inset 0 0 0 2px #7CFF9B}
+.runner{pointer-events:none;background:linear-gradient(90deg,#3A1A26,#5A2A3A 12%,#5A2A3A 88%,#3A1A26)!important;border:2px solid #D9B25F}
+html,body{margin:0;height:100%;background:#030704;overflow:hidden}
+#app{position:absolute;left:0;top:0;width:1440px;height:920px;transform-origin:0 0;background:#030704;color:#B4F5C6;font-family:'IBM Plex Mono',monospace;font-size:12px}
+.world{transform:scale(var(--k)) rotateX(var(--tilt,60deg)) rotateZ(var(--rot,45deg)) translate3d(var(--tx,0px),var(--ty,0px),0)}
+.beam{animation:none!important;opacity:0;transition:opacity .4s}
+.door{animation:none!important;transition:--dz .6s}
+.stk{animation:none!important;width:var(--w)}
+.world .bub{width:170px!important;padding:6px 8px;letter-spacing:0}
+.world .bub .tx{display:inline}
+.world .bub .dt{display:none}
+.ag.dim .hw,.ag.dim .tg,.ag.dim .bub,.ag.dim .rg{opacity:.1;filter:blur(2px);transition:opacity .4s,filter .4s}
+.msgrow,.ag-row{transition:opacity .3s,filter .3s}
+.msgrow.conv{cursor:pointer}
+.msgrow.dim,.ag-row.dim{opacity:.16;filter:blur(3px)}
+#fbanner{display:none;margin-top:6px;padding:5px 8px;background:#2A2145;color:#C4B0FF;font-size:11px;cursor:pointer}
+.gdoor{transform:translateZ(calc(var(--dz)*var(--u)));transition:--dz 1s}
+.wd{--wo:var(--oD,1)}
+.we{--wo:var(--oE,1)}
+.cdoor>.e,.cdoor>.s{background-image:linear-gradient(#0B1218,#0B1218),repeating-linear-gradient(90deg,transparent 0,transparent 5px,#6E7A8A 5px,#6E7A8A 7px);background-size:70% 16%,70% 16%;background-position:50% 18%,50% 18%;background-repeat:no-repeat}
+.cdoor{transform:translateZ(calc(var(--dz)*var(--u)));transition:--dz .8s}
+.scr{--mc:#0B1218;--c:var(--mc);transition:--mc .6s}
+.ag{transition:left var(--t,1s) linear,top var(--t,1s) linear}
+.world .bb.sel .tg{display:block}
+.world .bb.sel .bub{width:170px!important;padding:6px 8px;letter-spacing:0}
+.world .bb.sel .bub .tx{display:inline}
+.world .bb.sel .bub .dt{display:none}
+.panel{background:#151C26;border:1px solid #263243;box-sizing:border-box}
+.ttl{font-family:'Silkscreen',monospace;font-weight:700;font-size:12px;color:#F2B84B}
+.mut{color:#93A4B8}
+.chip{height:30px;padding:0 10px;border:1px solid #263243;font-family:inherit;font-size:11px;cursor:pointer;background:#1F2A38;color:#93A4B8}
+.chip.on{background:#F2B84B;color:#0E131A}
+input,select{height:36px;box-sizing:border-box;background:#10161E;color:#DCE6F0;border:1px solid #3A4A5F;font-family:inherit;font-size:12px;padding:0 8px}
+.row{display:flex;align-items:center}
+.ag-row{display:flex;align-items:center;gap:10px;height:30px;border-top:1px solid #1F2A38;cursor:pointer}
+.msgrow{display:grid;grid-template-columns:44px minmax(0,1fr);gap:8px;padding:6px 0;border-top:1px solid #1F2A38;cursor:default}
+.det{display:none;margin-top:4px;padding:6px;background:#10161E;border:1px solid #263243;font-size:11px;white-space:pre-wrap;word-break:break-word;color:#93A4B8;max-height:140px;overflow:auto}
+.open .det{display:block}
+.pill{padding:2px 8px;font-size:11px;display:inline-block}
+.newag{display:none;padding:4px 9px;background:#12301F;border:1px dashed #6FD6A3;color:#6FD6A3;font-family:'Silkscreen',monospace;font-size:11px;white-space:nowrap;cursor:pointer}
+.newag:hover{background:#1D4A31}
+.ag.paused .hw,.ag.paused .tg{filter:grayscale(1);opacity:.55}
+.world.lb [data-go]{cursor:pointer;border-color:#7CFF9B}
+.world.lb [data-go]:hover{background:#12301F}
+.eye{transition:left var(--t,1s) ease-in-out,top var(--t,1s) ease-in-out}
+.eyebob{animation:eyebob 2.4s ease-in-out infinite;filter:drop-shadow(0 0 5px #7CFF9B)}
+.eyesvg{display:block;transform-origin:50% 50%;animation:eyeblink 5s infinite}
+@keyframes eyebob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes eyeblink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.12)}}
+/* ---- widescreen terminal theme */
+.world{left:50px!important;top:33.5px!important}
+.hw{position:relative}
+.bin{position:absolute;left:0;top:0;overflow:hidden;pointer-events:none;font-family:'IBM Plex Mono',monospace;line-height:1.05;color:#4dff88;mix-blend-mode:screen}
+.bin span{position:absolute;bottom:-110%;opacity:0;animation:binrise linear infinite;text-shadow:0 0 3px rgba(77,255,136,.6)}
+@keyframes binrise{0%{transform:translateY(0);opacity:0}15%{opacity:.5}70%{opacity:.3}100%{transform:translateY(-190%);opacity:0}}
+.ag.paused .bin{display:none}
+.term{width:104px;background:#020a05;border:1px solid #2E7A47;box-shadow:0 0 8px rgba(60,255,120,.3);font-family:'IBM Plex Mono',monospace;font-size:7px;line-height:1.25;color:#7CFF9B;text-align:left;opacity:.95}
+.term .th{display:flex;align-items:center;gap:2px;padding:1px 3px;background:#0B2A15;border-bottom:1px solid #1E5A33}
+.term .th i{width:4px;height:4px;border-radius:50%;background:#2E7A47}
+.term .th .tt{margin-left:auto;color:#B4F5C6;font-size:6px;letter-spacing:.04em}
+.term .tb{padding:2px 4px;height:36px;overflow:hidden;white-space:pre;display:flex;flex-direction:column;justify-content:flex-end}
+.term .tb div{overflow:hidden;text-overflow:clip}
+.term .cur{display:inline-block;width:4px;height:7px;background:#7CFF9B;animation:blk 1s steps(1) infinite;vertical-align:middle}
+@keyframes blk{50%{opacity:0}}
+.ag.dim .term{opacity:.1;filter:blur(2px)}
+.wdl{transform:translateX(calc(var(--dz)*var(--u)*-1));transition:--dz .55s;animation:none!important}
+.wdr{transform:translateX(calc(var(--dz)*var(--u)));transition:--dz .55s;animation:none!important}
+/* five-sided boxes: the west and north faces are pseudo-elements, so every model has a back when the view is rotated */
+.bx::before,.bx::after{content:"";position:absolute;display:block;opacity:var(--wo,1);transition:opacity .3s}
+.bx::before{left:0;top:0;width:calc(var(--h)*var(--u));height:100%;transform-origin:0 0;transform:translateZ(calc(var(--h)*var(--u))) rotateY(90deg);background:color-mix(in srgb,var(--c),#000 var(--de,46%))}
+.bx::after{left:0;top:0;width:100%;height:calc(var(--h)*var(--u));transform-origin:0 0;transform:translateZ(calc(var(--h)*var(--u))) rotateX(-90deg);background:color-mix(in srgb,var(--c),#000 var(--ds,28%))}
+.glass>i,.glass::before,.glass::after{opacity:.2!important}
+.marble{pointer-events:none;background-image:conic-gradient(#cdc8b8 25%,#8d979f 0 50%,#cdc8b8 0 75%,#8d979f 0)!important;background-size:calc(var(--u)*.5) calc(var(--u)*.5)!important}
+.inlay{pointer-events:none;background:transparent!important;border:2px solid #D9B25F;box-shadow:0 0 6px rgba(217,178,95,.35)}
+.rug{pointer-events:none;border-radius:50%;background:radial-gradient(circle at center,#5A2A3A 0,#5A2A3A 62%,#D9B25F 63%,#D9B25F 67%,#3A1A26 68%,#3A1A26 100%)!important}
+.rugsq{pointer-events:none;border-radius:6px;border:2px solid #D9B25F;background:rgba(40,60,90,.55)!important}
+.spot{pointer-events:none;background:radial-gradient(ellipse,rgba(255,235,170,.32),transparent 68%)!important}
+/* spawn: green digits assemble the creature; death: it turns to dust */
+.ag.spawn .hw{animation:spawnin 2.4s ease-out both}
+@keyframes spawnin{0%{opacity:0;filter:brightness(3) hue-rotate(60deg) saturate(2);clip-path:inset(100% 0 0 0)}40%{opacity:.8;filter:brightness(2.2) hue-rotate(50deg);clip-path:inset(40% 0 0 0)}70%{opacity:1;filter:brightness(1.4)}100%{opacity:1;filter:none;clip-path:inset(0)}}
+.sfx{position:absolute;pointer-events:none;overflow:visible;font-family:'IBM Plex Mono',monospace;color:#4dff88;text-shadow:0 0 4px rgba(77,255,136,.8)}
+.sfx span{position:absolute;opacity:0;animation:sfxrise var(--t,1.8s) ease-out var(--dl,0s) both}
+@keyframes sfxrise{0%{transform:translate(0,var(--y0,10px));opacity:0}20%{opacity:.95}100%{transform:translate(var(--dx,0),calc(var(--y0,10px) - 70px));opacity:0}}
+.dust{position:absolute;pointer-events:none;width:0;height:0}
+.dust i{position:absolute;display:block;width:var(--s,4px);height:var(--s,4px);background:var(--c);opacity:1;animation:dustfly var(--t,1.8s) ease-out var(--dl,0s) forwards}
+@keyframes dustfly{0%{transform:translate(var(--x0),var(--y0));opacity:1}60%{opacity:.8}100%{transform:translate(calc(var(--x0) + var(--dx)),calc(var(--y0) + var(--dy)));opacity:0}}
+.ag.dying .hw{animation:dying 1.4s ease-in forwards}
+@keyframes dying{0%{filter:none;opacity:1}30%{filter:grayscale(1) brightness(1.3);opacity:.9}100%{filter:grayscale(1) brightness(.6) blur(3px);opacity:0;transform:translateY(-8px) scale(1.08)}}
+.tg{font-family:'IBM Plex Mono',monospace!important;background:#030704!important;border:1px solid #1E5A33!important;color:#B4F5C6!important}
+.world.lb .tg{font-size:9px;padding:1px 5px;opacity:.5}
+.world.lb .tg[data-go],.world.lb .tg[data-pick]{font-size:11px;padding:3px 7px;opacity:1}
+.world .ag .tg{font-size:10px;padding:1px 5px;opacity:.9}
+.bub{background:#06200F!important;color:#B4F5C6!important;border:1px solid #2E7A47;font-family:'IBM Plex Mono',monospace;box-shadow:0 0 8px rgba(60,255,120,.12);transition:opacity .5s}
+.bub::after{background:#06200F!important;border-right:1px solid #2E7A47;border-bottom:1px solid #2E7A47}
+.bub.new{border-color:#7CFF9B;box-shadow:0 0 10px rgba(124,255,155,.35)}
+.bub .tx{display:inline;overflow-wrap:anywhere}
+.dock{background:#020503;color:#7CFF9B;border:1px solid #1E5A33;font-family:'IBM Plex Mono',monospace}
+.dock:hover{background:#0B2013}
+.pill.panel{color:#7CFF9B}
+#card,#dArch,#dWeb,#dFiles,#dBox,#dGrave{background:#040905!important;border-color:#1E5A33!important}
+/* ---- master dashboard: terminal */
+#app .panel{background:#040905;border:1px solid #1E5A33;position:relative;font-family:'IBM Plex Mono',monospace}
+#app .panel::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(rgba(0,0,0,.22) 0,rgba(0,0,0,.22) 1px,transparent 1px,transparent 3px)}
+#app .ttl{font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:12px;color:#7CFF9B;text-shadow:0 0 6px rgba(124,255,155,.45)}
+#app .mut{color:#3E9A5C}
+#app #bPause{background:#020503!important;color:#7CFF9B!important;border-color:#1E5A33!important}
+#app .cur{animation:cur 1s steps(1) infinite}
+@keyframes cur{50%{opacity:0}}
+#app .chip{background:transparent;border:0;color:#3E9A5C;height:22px;padding:0 3px;font-size:11px}
+#app .chip::before{content:'['}#app .chip::after{content:']'}
+#app .chip:hover{color:#B4F5C6}
+#app .chip.on{background:transparent;color:#7CFF9B;text-shadow:0 0 6px rgba(124,255,155,.5)}
+#app .msgrow,#app .ag-row{border-top:1px dotted #14452A;color:#B4F5C6}
+#app .ag-row span{color:inherit}
+#app .det{background:#020503;border-color:#14452A;color:#5BBF7E}
+#app input,#app select{background:#020503;color:#7CFF9B;border:1px solid #1E5A33;caret-color:#7CFF9B}
+#app input::placeholder{color:#2E7A47}
+#app .dock{background:#020503;color:#7CFF9B;border:1px solid #1E5A33}
+#app .dock:hover{background:#0B2013}
+#app #fbanner{background:#0B2013;color:#7CFF9B}
+#app [style*="border-top:1px solid #263243"]{border-top:1px dotted #14452A!important}
+
+/* ---------- phone layout ---------- */
+html.mob{overflow-y:auto!important;height:auto!important}
+body.mob{overflow-y:auto!important;height:auto!important;min-height:100%;overscroll-behavior-y:auto;-webkit-overflow-scrolling:touch}
+body.mob #map{touch-action:pan-y!important}
+body.mob .bin,body.mob .eyebob,body.mob .eyesvg{animation:none!important;display:none}
+body.mob .eyebob{display:block}
+body.mob .world *{text-shadow:none!important;box-shadow:none!important}
+body.mob .term{display:none!important}
+body.mob .ag.dim .hw,body.mob .ag.dim .tg,body.mob .ag.dim .bub{filter:none}
+body.mob .world .hw,body.mob .world .tg{will-change:auto}
+body.mob #app{position:relative!important;left:auto!important;top:auto!important;width:100%!important;height:auto!important;transform:none!important;display:flex;flex-direction:column;gap:8px;padding:8px 8px 64px;box-sizing:border-box}
+body.mob #app>*{position:relative!important;left:auto!important;top:auto!important;box-sizing:border-box}
+body.mob #hdr{width:100%!important;height:auto!important;flex-wrap:wrap;gap:6px}
+body.mob #hdr>div:first-child>div:first-child{font-size:13px!important}
+body.mob #hdr .row{flex-wrap:wrap;gap:6px!important}
+body.mob #hdr .pill{padding:3px 8px!important;font-size:11px}
+body.mob #mapw{width:100%!important}
+body.mob #mapbtns{left:6px!important;top:6px!important;flex-wrap:wrap;gap:6px;transform-origin:0 0}
+body.mob #mapbtns .dock{margin-left:0!important;height:38px;min-width:44px}
+body.mob #hint{display:none}
+body.mob #rost,body.mob #rcol,body.mob #mctl{width:100%!important;display:none!important}
+body.mob #rost{height:auto!important;max-height:70vh}
+body.mob #rcol{height:72vh!important}
+body.mob[data-tab=feed] #rcol{display:flex!important}
+body.mob[data-tab=agents] #rost{display:flex!important}
+body.mob[data-tab=ctl] #mctl{display:flex!important;flex-wrap:wrap;gap:8px;padding:10px}
+body.mob #mctl .dock{margin:0!important;height:42px;flex:1 1 40%}
+body.mob #card,body.mob #dReq,body.mob #dArch,body.mob #dWeb,body.mob #dGrave,body.mob #dFiles,body.mob #dBox{position:fixed!important;left:0!important;right:0!important;bottom:56px!important;top:auto!important;width:100%!important;max-height:68vh!important;overflow:auto;z-index:60;box-sizing:border-box}
+body.mob #app>#mtabs{display:flex;position:fixed!important;left:0!important;right:0!important;bottom:0!important;top:auto!important;width:100%!important;height:52px;background:#020503;border-top:1px solid #1E5A33;z-index:70}
+body.mob #mtabs button{flex:1;background:transparent;color:#3E9A5C;border:0;font:15px 'IBM Plex Mono',monospace}
+body.mob #mtabs button.on{color:#7CFF9B;background:#0B2013}
+body.mob input,body.mob select,body.mob textarea{font-size:16px!important}
+body.mob #boardText,body.mob #mailText{height:40px}
+#mtabs{display:none}
+body.mob .ag-row{gap:6px;height:auto!important;min-height:36px}
+body.mob .ag-row>span:nth-child(4),body.mob .ag-row>span:nth-child(5){display:none}
+body.mob .ag-row>span:nth-child(6){width:72px!important;font-size:10px!important}
+body.mob .ag-row>div:nth-child(2){min-width:0;overflow:hidden}
+
+/* ---- v2.6: browser zoom, graphics levels, architect tab */
+html.zoomed,html.zoomed body{overflow:auto}
+#zoomSpacer{position:absolute;left:0;top:0;width:1px;height:1px;pointer-events:none}
+/* Low graphics (chosen, or switched on by itself when the device cannot keep up): drop the costly effects.
+   Blend modes, masks, shadows and filters are what make an old GPU or a phone struggle, more than the boxes themselves. */
+body.lowfx .bin{display:none!important}
+body.lowfx .world *{text-shadow:none!important;box-shadow:none!important}
+body.lowfx .eyebob{filter:none!important;animation:none!important}
+body.lowfx .eyesvg{animation:none!important}
+body.lowfx .bx.fine{display:none}
+body.lowfx .fl:not(.marble):not(.runner):not(.inlay){background-image:none!important}
+body.lowfx .term .cur{animation:none!important}
+body.lowfx .hp{animation-duration:1.4s}
+body.lowfx .panel{box-shadow:none!important}
+body.lowfx .bx>i{transition:none!important}
+body.mob .hp{animation-duration:1.1s}
+.rq{padding:7px 9px;background:#10161E;border:1px solid #263243;display:flex;flex-direction:column;gap:4px}
+.rq .st{display:inline-block;padding:1px 6px;border:1px solid currentColor;font-size:10px;text-transform:uppercase;letter-spacing:.04em}
+.rq pre{white-space:pre-wrap;max-height:220px;overflow:auto;margin:4px 0 0;color:#B8FFCB;background:#06120A;padding:6px;font-size:10.5px;user-select:text}
+#logModal.on{display:flex!important}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <div id="hdr" style="position:absolute;left:24px;top:0;width:1392px;height:68px" class="row">
+    <div style="flex:1;display:flex;flex-direction:column;gap:4px">
+      <div style="font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:20px;color:#7CFF9B;text-shadow:0 0 8px rgba(124,255,155,.45)">house@localhost:~$ ./the_house --live</div>
+      <div id="sub" class="mut" style="font-size:12px">connecting…</div>
+    </div>
+    <div class="row" style="gap:10px">
+      <span class="pill panel" id="hClock" style="padding:6px 12px"></span>
+      <span class="pill panel" id="hAgents" style="padding:6px 12px"></span>
+      <span class="pill panel" id="hModel" style="padding:6px 12px"></span>
+    </div>
+  </div>
+
+  <!-- map -->
+  <div id="mapw" style="position:absolute;left:24px;top:84px;width:1000px;height:562px">
+    <div id="map" style="position:absolute;left:0;top:0;width:1000px;height:562px;box-sizing:border-box;border:1px solid #1E5A33;background:#030704;overflow:hidden;cursor:grab;touch-action:none;user-select:none">
+      <div id="cam" style="position:absolute;left:0;top:0;width:1000px;height:562px">
+        <div id="world" class="world">
+      <div class="bx" style="--x:5.1;--y:0;--w:2.6;--d:11;--z:-0.4;--h:0.38;--c:#59626F"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+      <div class="fl" style="--x:0;--y:0;--w:27;--d:11;--c:#2B3644"></div>
+      <div class="fl" style="--x:5.1;--y:0;--w:2.6;--d:11;--z:1;--c:#3A4452"></div>
+      <div class="grp" id="cellblock"></div>
+      <div class="grp" id="tm" style="transition:transform 2.6s ease-in-out" data-pick="tm">
+        <div class="grp" id="tmbody" style="transform-origin:calc(6.1*var(--u)) calc(5.1*var(--u)) 0;transform:scale3d(.72,.72,.72) rotateZ(var(--face,0deg));transition:transform 1.1s ease-in-out">
+        <div class="bx" style="--x:5.2;--y:4.2;--w:1.8;--d:1.8;--h:0.3;--c:#16191E;--ds:14%;--de:30%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:5.45;--y:4.5;--w:1.3;--d:1.2;--z:0.3;--h:1.25;--c:#1B1F25;--ds:14%;--de:30%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:5.35;--y:4.4;--w:1.5;--d:1.4;--z:1.55;--h:1.3;--c:#20252C;--ds:14%;--de:30%"><i class="t"></i><i class="s"><b style="position:absolute;left:20px;top:4px;width:2px;height:34px;background:#0E131A88;transform:rotate(14deg)"></b><b style="position:absolute;left:18px;top:30px;width:6px;height:6px;background:#6B4E14"></b><b style="position:absolute;left:30px;top:30px;width:6px;height:6px;background:#6B4E14"></b><b style="position:absolute;left:42px;top:30px;width:6px;height:6px;background:#6B4E14"></b></i><i class="e"></i></div>
+        <div class="bx" style="--x:5.05;--y:4.55;--w:0.3;--d:1.1;--z:0.9;--h:1.95;--c:#1B1F25;--ds:14%;--de:30%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:6.85;--y:4.55;--w:0.3;--d:1.1;--z:0.9;--h:1.95;--c:#1B1F25;--ds:14%;--de:30%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:7.2;--y:5.5;--w:0.12;--d:0.12;--h:3.8;--c:#15181C;--ds:14%;--de:30%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:7.14;--y:5.44;--w:0.24;--d:0.24;--z:3.8;--h:0.28;--c:#F2B84B;--ds:0%;--de:0%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:5.6;--y:4.65;--w:1;--d:0.9;--z:2.85;--h:0.8;--c:#242A32;--ds:14%;--de:30%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:5.75;--y:5.55;--w:0.7;--d:0.04;--z:3.15;--h:0.18;--c:#F2B84B;--ds:0%;--de:0%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:5.6;--y:4.65;--w:0.22;--d:0.22;--z:3.65;--h:0.55;--c:#1B1F25;--ds:14%;--de:30%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:6.38;--y:4.65;--w:0.22;--d:0.22;--z:3.65;--h:0.55;--c:#1B1F25;--ds:14%;--de:30%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+          <div class="beam" id="beam" style="--x:5.85;--y:5.6;--w:0.5;--d:2.4;background:linear-gradient(180deg,rgba(242,184,75,.8),transparent)"></div>
+        </div>
+        <div class="dc" style="--x:6.1;--y:5.1;--r:1.1;background:radial-gradient(#000000cc,#00000000 70%)"></div>
+        <div class="bb" style="--x:6.1;--y:5.1;--z:3.3"><div class="up"><span class="tg" data-for="tm" style="border-color:#3A4A5F;color:#DCE6F0">THE TASKMASTER</span></div></div>
+        <div class="bb" style="--x:6.1;--y:5.1;--z:4.1"><div class="up"><div class="msg" id="tmmsg" style="opacity:0;transition:opacity .4s"></div></div></div>
+      </div>
+      <!-- THE HOUSE building (shifted east to leave a courtyard) -->
+      <div class="grp hgrp">
+
+        <!-- Slab, floors -->
+        <div class="bx" style="--x:5;--y:0;--w:12;--d:11;--z:-0.4;--h:0.38;--c:#B03A48"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="fl" data-pick="bed:0" style="--x:5;--y:0;--w:4;--d:4;--z:1;--c:#27415F"></div>
+        <div class="fl" data-pick="bed:1" style="--x:9;--y:0;--w:4;--d:4;--z:1;--c:#2A3B58"></div>
+        <div class="fl" data-pick="bed:2" style="--x:13;--y:0;--w:4;--d:4;--z:1;--c:#25405C"></div>
+        <div class="fl" data-pick="living" style="--x:5;--y:4;--w:8;--d:4;--z:1;--c:#6B5238;background-image:repeating-linear-gradient(90deg,rgba(0,0,0,0.2) 0,rgba(0,0,0,0.2) 1px,transparent 1px,transparent 45px)"></div>
+        <div class="fl" data-pick="gallery" style="--x:13;--y:4;--w:4;--d:4;--z:1;--c:#3C5A60"></div>
+        <div class="fl" data-pick="bed:3" style="--x:5;--y:8;--w:4;--d:3;--z:1;--c:#2B3C59"></div>
+        <div class="fl" data-pick="group" style="--x:9;--y:8;--w:4;--d:3;--z:1;--c:#3A2E4F"></div>
+        <div class="fl" data-pick="owner" style="--x:13;--y:8;--w:4;--d:3;--z:1;--c:#5A4630"></div>
+        <div class="fl" style="--x:7;--y:5.4;--w:4;--d:1.6;--z:2;--c:#5B3F78;border:2px dashed #8A6BAA"></div>
+        <div class="fl" style="--x:9.8;--y:8.6;--w:2.4;--d:2.2;--z:2;--c:#4A3B66;border:2px dashed #7A64A0"></div>
+
+        <!-- Outer walls of the House -->
+        <div class="bx wn" style="--x:4.7;--y:-0.3;--w:12.3;--d:0.3;--h:2.5;--c:#8494AB;--ds:20%;--de:30%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx ww" style="--x:4.7;--y:0;--w:0.3;--d:4.2;--h:2.5;--c:#8494AB;--ds:20%;--de:30%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx ww" style="--x:4.7;--y:5.2;--w:0.3;--d:5.8;--h:2.5;--c:#8494AB;--ds:20%;--de:30%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <!-- Front door of the House (opens on a passing score) -->
+        <div class="bx gdoor" id="gdoor" style="--x:4.7;--y:4.2;--w:0.3;--d:1;--h:2;--c:#8C6A1F"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+
+        <!-- Partitions -->
+        <div class="bx wl" style="--x:8.9;--y:0;--w:0.2;--d:4;--h:0.8;--c:#7C8CA3;--ds:18%;--de:30%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx wl" style="--x:12.9;--y:0;--w:0.2;--d:3.9;--h:0.8;--c:#7C8CA3;--ds:18%;--de:30%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx wl" style="--x:12.9;--y:8.1;--w:0.2;--d:2.9;--h:0.8;--c:#7C8CA3;--ds:18%;--de:30%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx wl" style="--x:8.9;--y:8;--w:0.2;--d:3;--h:0.8;--c:#7C8CA3;--ds:18%;--de:30%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx wl" style="--x:5;--y:3.9;--w:1.5;--d:0.2;--h:0.8;--c:#7C8CA3;--ds:18%;--de:30%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx wl" style="--x:7.5;--y:3.9;--w:1.5;--d:0.2;--h:0.8;--c:#7C8CA3;--ds:18%;--de:30%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx wl" style="--x:9;--y:3.9;--w:1.5;--d:0.2;--h:0.8;--c:#7C8CA3;--ds:18%;--de:30%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx wl" style="--x:11.5;--y:3.9;--w:1.5;--d:0.2;--h:0.8;--c:#7C8CA3;--ds:18%;--de:30%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx wl" style="--x:5;--y:7.9;--w:1.5;--d:0.2;--h:0.8;--c:#7C8CA3;--ds:18%;--de:30%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx wl" style="--x:7.5;--y:7.9;--w:1.5;--d:0.2;--h:0.8;--c:#7C8CA3;--ds:18%;--de:30%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx wl" style="--x:9;--y:7.9;--w:1.5;--d:0.2;--h:0.8;--c:#7C8CA3;--ds:18%;--de:30%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx wl" style="--x:11.5;--y:7.9;--w:1.5;--d:0.2;--h:0.8;--c:#7C8CA3;--ds:18%;--de:30%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+
+        <!-- Room doors (rise and lower) -->
+        <div class="bx door" id="door-0" style="--x:6.5;--y:3.9;--w:1;--d:0.2;--h:0.8;--c:#B07B3E;animation-delay:-2s"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx door" id="door-1" style="--x:10.5;--y:3.9;--w:1;--d:0.2;--h:0.8;--c:#B07B3E;animation-delay:-6s"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx door" id="door-2" style="--x:14.5;--y:3.9;--w:1;--d:0.2;--h:0.8;--c:#B07B3E;animation-delay:-9s"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx door" id="door-3" style="--x:6.5;--y:7.9;--w:1;--d:0.2;--h:0.8;--c:#B07B3E;animation-delay:-4s"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx door" style="--x:10.5;--y:7.9;--w:1;--d:0.2;--h:0.8;--c:#B07B3E;animation-delay:-11s"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx door" style="--x:14.5;--y:7.9;--w:1;--d:0.2;--h:0.8;--c:#B07B3E;animation-delay:-1s"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+
+        <!-- Bedroom A: Pip -->
+        <div class="bx" style="--x:5.3;--y:0.3;--w:1.6;--d:2.1;--h:0.4;--c:#3F6FA8"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:5.4;--y:0.4;--w:1.4;--d:0.5;--z:0.4;--h:0.15;--c:#E6EEF7"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:7.7;--y:0.15;--w:1.2;--d:0.6;--h:1.6;--c:#8A6643"><i class="t"></i><i class="s"><b style="position:absolute;left:8px;top:10px;width:10px;height:10px;background:#5CE1E6"></b><b style="position:absolute;left:22px;top:10px;width:10px;height:10px;background:#F2B84B"></b><b style="position:absolute;left:36px;top:10px;width:10px;height:10px;background:#C4B0FF"></b></i><i class="e"></i></div>
+        <div class="bx" style="--x:7;--y:2.3;--w:1.8;--d:0.9;--h:0.7;--c:#7B5E41"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx scr" id="mon-0" style="--x:7.5;--y:2.4;--w:0.9;--d:0.1;--z:0.7;--h:0.55;--ds:0%;--de:20%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:7.55;--y:2.75;--w:0.8;--d:0.25;--z:0.7;--h:0.05;--c:#3A4A5F"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:7.5;--y:3.35;--w:0.7;--d:0.6;--h:0.35;--c:#34475E"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+
+        <!-- Bedroom B: Nix (away) -->
+        <div class="bx" style="--x:9.3;--y:0.3;--w:1.6;--d:2.1;--h:0.4;--c:#B8663A"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:9.4;--y:0.4;--w:1.4;--d:0.5;--z:0.4;--h:0.15;--c:#E6EEF7"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:11.7;--y:0.15;--w:1.2;--d:0.6;--h:1.6;--c:#8A6643"><i class="t"></i><i class="s"><b style="position:absolute;left:8px;top:10px;width:10px;height:10px;background:#FF9F6B"></b><b style="position:absolute;left:22px;top:10px;width:10px;height:10px;background:#5CE1E6"></b><b style="position:absolute;left:36px;top:10px;width:10px;height:10px;background:#FFD36B"></b></i><i class="e"></i></div>
+        <div class="bx" style="--x:11;--y:2.3;--w:1.8;--d:0.9;--h:0.7;--c:#7B5E41"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx scr" id="mon-1" style="--x:11.5;--y:2.4;--w:0.9;--d:0.1;--z:0.7;--h:0.55;--ds:0%;--de:20%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:9.4;--y:3.1;--w:0.5;--d:0.5;--h:0.6;--c:#3FA352"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+
+        <!-- Bedroom C: Orrin (away) -->
+        <div class="bx" style="--x:13.3;--y:0.3;--w:1.6;--d:2.1;--h:0.4;--c:#4E9A6B"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:13.4;--y:0.4;--w:1.4;--d:0.5;--z:0.4;--h:0.15;--c:#E6EEF7"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:15.7;--y:0.15;--w:1.2;--d:0.6;--h:1.6;--c:#8A6643"><i class="t"></i><i class="s"><b style="position:absolute;left:8px;top:10px;width:10px;height:10px;background:#FF6B9A"></b><b style="position:absolute;left:22px;top:10px;width:10px;height:10px;background:#8EF29B"></b><b style="position:absolute;left:36px;top:10px;width:10px;height:10px;background:#F2B84B"></b></i><i class="e"></i></div>
+        <div class="bx" style="--x:15;--y:2.3;--w:1.8;--d:0.9;--h:0.7;--c:#7B5E41"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx scr" id="mon-2" style="--x:15.5;--y:2.4;--w:0.9;--d:0.1;--z:0.7;--h:0.55;--ds:0%;--de:20%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:14.2;--y:0;--w:1;--d:0.06;--z:0.9;--h:0.7;--c:#8A5FD0;--ds:0%;--de:20%"><i class="t"></i><i class="s"><b style="position:absolute;left:14px;top:12px;width:16px;height:16px;background:#FF6B9A"></b></i><i class="e"></i></div>
+
+        <!-- Bedroom D: door on the north wall; bed foot and screen face it -->
+        <div class="bx" style="--x:5.3;--y:8.4;--w:1.6;--d:2.1;--h:0.4;--c:#7E5FB8"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:5.4;--y:9.95;--w:1.4;--d:0.5;--z:0.4;--h:0.15;--c:#E6EEF7"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:7.7;--y:8.15;--w:1.2;--d:0.6;--h:1.6;--c:#8A6643"><i class="t"></i><i class="s"><b style="position:absolute;left:8px;top:10px;width:10px;height:10px;background:#B79CFF"></b><b style="position:absolute;left:22px;top:10px;width:10px;height:10px;background:#FFD36B"></b><b style="position:absolute;left:36px;top:10px;width:10px;height:10px;background:#5CE1E6"></b></i><i class="e"></i></div>
+        <div class="bx" style="--x:7;--y:10.1;--w:1.8;--d:0.9;--h:0.7;--c:#7B5E41"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:7.55;--y:10.4;--w:0.8;--d:0.25;--z:0.7;--h:0.05;--c:#3A4A5F"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:7.5;--y:9.15;--w:0.7;--d:0.6;--h:0.35;--c:#34475E"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx scr" id="mon-3" style="--x:7.5;--y:10.8;--w:0.9;--d:0.1;--z:0.7;--h:0.55;--c:#0B1218;--ds:0%;--de:20%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+
+        <!-- Living room -->
+        <div class="bx" data-pick="board" style="--x:7.6;--y:4.1;--w:2.8;--d:0.12;--z:0.45;--h:1.35;--c:#6B4F2F;--ds:0%;--de:20%"><i class="t"></i><i class="s" style="box-shadow:inset 0 0 0 3px #3F2D1C"><b style="position:absolute;left:10px;top:10px;width:24px;height:16px;background:#FFE066"></b><b style="position:absolute;left:42px;top:10px;width:24px;height:16px;background:#8EF29B"></b><b style="position:absolute;left:74px;top:10px;width:24px;height:16px;background:#FF9F6B"></b><b style="position:absolute;left:104px;top:10px;width:24px;height:16px;background:#C4B0FF"></b><b style="position:absolute;left:24px;top:34px;width:24px;height:16px;background:#5CE1E6"></b><b style="position:absolute;left:58px;top:34px;width:24px;height:16px;background:#FFE066"></b><b style="position:absolute;left:92px;top:34px;width:24px;height:16px;background:#FF9F6B"></b></i><i class="e"></i></div>
+        <div class="bx" data-pick="mail" style="--x:11.5;--y:4.15;--w:0.3;--d:0.3;--h:0.45;--c:#7A8CA6"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" data-pick="mail" style="--x:11.9;--y:4.15;--w:0.3;--d:0.3;--h:0.45;--c:#7A8CA6"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" data-pick="mail" style="--x:12.3;--y:4.15;--w:0.3;--d:0.3;--h:0.45;--c:#7A8CA6"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" data-pick="mail" style="--x:12.7;--y:4.15;--w:0.3;--d:0.3;--h:0.45;--c:#7A8CA6"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:11.5;--y:4.15;--w:0.08;--d:0.08;--z:0.45;--h:0.3;--c:#F2B84B;--ds:0%;--de:0%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:5.5;--y:6.2;--w:1;--d:1.6;--h:0.35;--c:#3B6FB3"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:5.2;--y:6.2;--w:0.3;--d:1.6;--h:0.85;--c:#2F5B8F"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:5.5;--y:6.2;--w:1;--d:0.2;--z:0.35;--h:0.25;--c:#2F5B8F"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:5.5;--y:7.6;--w:1;--d:0.2;--z:0.35;--h:0.25;--c:#2F5B8F"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:8.6;--y:5.9;--w:1.2;--d:0.6;--h:0.4;--c:#8A6643"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+
+        <!-- Gallery -->
+        <div class="bx" style="--x:14;--y:7.3;--w:1.4;--d:0.4;--h:0.3;--c:#5A6B80"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <!-- Easel: strokes appear while Vela paints -->
+
+        <!-- Group room -->
+        <div class="bx" data-pick="group" style="--x:10.4;--y:9.2;--w:1.2;--d:1.2;--h:0.55;--c:#6A5688"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+
+        <!-- Homeowner room -->
+        <div class="bx" style="--x:14;--y:9.8;--w:2.6;--d:0.9;--h:0.7;--c:#7B5E41"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:14.5;--y:10.6;--w:1.6;--d:0.1;--z:0.7;--h:0.7;--c:#1B6B3A;--ds:0%;--de:20%"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:16;--y:8.4;--w:0.8;--d:0.7;--h:0.7;--c:#7A8CA6"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" style="--x:16.2;--y:8.6;--w:0.4;--d:0.3;--z:0.7;--h:0.02;--c:#0B1218"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+
+        <div class="grp" id="annex"></div>
+        <div class="grp" id="gc"></div>
+
+        <!-- Room and object labels -->
+        <div class="bx" data-pick="points" style="--x:13.3;--y:8.4;--w:0.7;--d:0.7;--h:0.5;--c:#5A2A3A"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bx" data-pick="points" style="--x:13.5;--y:8.6;--w:0.3;--d:0.3;--z:0.5;--h:0.4;--c:#FF4D6D"><i class="t"></i><i class="s"></i><i class="e"></i></div>
+        <div class="bb" style="--x:13.65;--y:8.75;--z:1.5"><div class="up"><span class="tg" data-pick="points" style="border-color:#FF6B8A;color:#FF9FB2;cursor:pointer">GIVE LIFE POINTS</span></div></div>
+        <div class="bb" style="--x:11;--y:-0.2;--z:2.8"><div class="up"><span class="tg" style="border-color:#C9922B;color:#F2B84B">THE HOUSE</span></div></div>
+        <div class="bb" style="--x:6.6;--y:0.8;--z:1.9"><div class="up"><span class="tg" data-go="bed:0">BEDROOM A</span></div></div>
+        <div class="bb" style="--x:10.6;--y:0.8;--z:1.9"><div class="up"><span class="tg" data-go="bed:1">BEDROOM B</span></div></div>
+        <div class="bb" style="--x:14.6;--y:0.8;--z:1.9"><div class="up"><span class="tg" data-go="bed:2">BEDROOM C</span></div></div>
+        <div class="bb" style="--x:6.6;--y:8.6;--z:1.9"><div class="up"><span class="tg" data-go="bed:3">BEDROOM D</span></div></div>
+        <div class="bb" style="--x:9;--y:4.1;--z:2.1"><div class="up"><span class="tg">THE BOARD · PUBLIC</span></div></div>
+        <div class="bb" style="--x:12.2;--y:4.3;--z:0.9"><div class="up"><span class="tg">MAILBOXES</span></div></div>
+        <div class="bb" style="--x:10.2;--y:7.5;--z:0.5"><div class="up"><span class="tg" data-go="living">LIVING ROOM</span></div></div>
+        <div class="bb" style="--x:17;--y:4.3;--z:2.9"><div class="up"><span class="tg" data-go="gallery">GALLERY<span class="sb">made by agents</span></span></div></div>
+        <div class="bb" style="--x:11;--y:8.3;--z:1.3"><div class="up"><span class="tg" data-go="group">GROUP ROOM<span class="sb" style="color:#F2B84B;display:flex;align-items:center;gap:6px"><svg width="10" height="12" viewBox="0 0 10 12" aria-hidden="true"><rect x="0" y="5" width="10" height="7" fill="#F2B84B"/><path d="M2 5V3a3 3 0 0 1 6 0v2" fill="none" stroke="#F2B84B" stroke-width="2"/></svg>private from agents</span></span></div></div>
+        <div class="bb" style="--x:14.4;--y:9.2;--z:1.1"><div class="up"><span class="tg" data-go="office">THE OFFICE</span></div></div>
+        <div class="bb" style="--x:16.4;--y:8.75;--z:1"><div class="up"><span class="tg">REQUEST BOX</span></div></div>
+      </div>
+
+      <div class="grp" id="agents"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="mapbtns" style="position:absolute;left:10px;top:10px" class="row">
+      <button type="button" class="dock" id="bReset">Reset view</button>
+      <button type="button" class="dock" id="bCenter">Center</button>
+      <button type="button" class="dock" id="bOut" aria-label="Zoom out" style="width:44px;padding:0;font-size:16px;margin-left:8px">−</button>
+      <button type="button" class="dock" id="bIn" aria-label="Zoom in" style="width:44px;padding:0;font-size:16px;margin-left:8px">+</button>
+      <button type="button" class="dock" id="bLabels" style="margin-left:8px">Labels: off</button>
+      <select id="wallSel" class="dock" style="margin-left:8px;width:auto;padding:0 10px"><option value="hl">Walls: high + low</option><option value="h">Walls: high only</option><option value="l">Walls: low only</option><option value="n">Walls: none</option></select>
+      <select id="fxSel" class="dock" title="Graphics. Auto caps animation at 120 fps on wide screens and 60 on phones and small windows, and drops to Low by itself if the device cannot keep up." style="margin-left:8px;width:auto;padding:0 10px"><option value="auto">Graphics: auto</option><option value="high">Graphics: high</option><option value="low">Graphics: low</option></select>
+      <span id="fxFps" class="mut" style="margin-left:8px;font-size:11px;align-self:center;min-width:52px"></span>
+    </div>
+
+    <div id="card" class="panel" style="position:absolute;right:10px;top:64px;width:300px;max-height:470px;overflow:auto;padding:10px 12px;display:none">
+      <div class="row" style="justify-content:space-between;align-items:flex-start;gap:8px">
+        <div style="display:flex;flex-direction:column;gap:2px"><span class="ttl" id="cTitle" style="font-size:13px"></span><span class="mut" id="cSub" style="font-size:11px"></span></div>
+        <button type="button" id="cClose" aria-label="Close" style="width:44px;height:44px;margin:-10px -12px 0 0;background:transparent;color:#93A4B8;border:0;font-size:18px;cursor:pointer">×</button>
+      </div>
+      <div id="cBody" style="margin-top:6px;display:flex;flex-direction:column;gap:6px;font-size:12px;line-height:1.4"></div>
+    </div>
+
+    <div id="dArch" class="panel" style="position:absolute;left:10px;bottom:64px;width:470px;max-height:520px;overflow:auto;padding:10px 14px;display:none;flex-direction:column;gap:8px">
+      <div class="row" style="justify-content:space-between"><span class="ttl">CODE &amp; TOOLS</span><span class="mut" style="font-size:11px">what is installed</span></div>
+      <span class="mut" style="font-size:11px">Scripts agents wrote and submitted for your manual approval, plugins you installed, and tools the architect built. Build requests are in the Architect tab.</span>
+      <div id="toolList"></div>
+      <div style="border-top:1px dotted #14452A;padding-top:8px;display:flex;flex-direction:column;gap:8px;font-size:11px">
+      <div class="row" style="justify-content:space-between"><span class="ttl">PLUGINS</span><span class="mut">added live, no restart</span></div>
+      <span class="mut">Drop a .py file into <span id="plugFolder"></span> or paste code below. Plugins run with full Python access, so only install code you trust. Scripts submitted by agents wait here for your review; Install makes them live.</span>
+      <div id="plugPend" style="display:flex;flex-direction:column;gap:6px"></div>
+      <div id="plugList" style="display:flex;flex-direction:column;gap:6px"></div>
+      <div class="row" style="gap:6px"><input id="plugName" placeholder="plugin_name" style="width:140px"><input id="plugFile" type="file" accept=".py,text/x-python" style="flex:1;height:auto;padding:6px 4px;font-size:11px"></div>
+      <textarea id="plugCode" placeholder="paste plugin code" spellcheck="false" style="height:130px;resize:vertical;box-sizing:border-box;background:#10161E;color:#DCE6F0;border:1px solid #3A4A5F;font-family:inherit;font-size:11px;padding:6px"></textarea>
+      <div class="row" style="gap:8px"><button type="button" class="dock" id="plugAdd" style="height:34px">Install plugin</button><span id="plugNote" style="color:#FFA94D"></span></div>
+    </div>
+    </div>
+
+    <div id="dWeb" class="panel" style="position:absolute;left:10px;bottom:64px;width:440px;padding:10px 14px;display:none;flex-direction:column;gap:8px;font-size:11px">
+      <div class="row" style="justify-content:space-between"><span class="ttl">SAFEGUARDED WEB</span><span class="mut">agents' computers only</span></div>
+      <span class="mut">Agents can read text from these sites only: https, public addresses, no logins or forms, small pages, rate limited, and everything is logged here.</span>
+      <div id="webAllow"></div>
+      <div class="row" style="gap:6px"><input id="webDomain" placeholder="example.org" style="flex:1"><button type="button" class="dock" id="webAdd" style="height:36px">Allow</button></div>
+      <span id="webNote" style="color:#FF8A8A"></span>
+      <span class="mut">Recent page loads</span>
+      <div id="webRecent" style="display:flex;flex-direction:column;gap:3px;max-height:110px;overflow:auto"></div>
+      <div style="border-top:1px dotted #14452A;padding-top:8px;display:flex;flex-direction:column;gap:8px">
+        <div class="row" style="justify-content:space-between"><span class="ttl">GO ONLINE</span><span id="netState" style="color:#FFA94D">offline</span></div>
+        <span class="mut">Let your phone or another computer watch and control the House. They must enter the session password. Turn it off to cut every device off at once.</span>
+        <div class="row" style="gap:6px"><input id="netKey" placeholder="session password (4+ characters)" style="flex:1"><button type="button" class="dock" id="netGo" style="height:36px">Go online</button></div>
+        <div id="netUrls" style="display:flex;flex-direction:column;gap:6px"></div>
+      </div>
+    </div>
+
+    <div id="dBox" class="panel" style="position:absolute;left:10px;bottom:64px;width:500px;max-height:520px;overflow:auto;padding:10px 14px;display:none;flex-direction:column;gap:8px;font-size:11px">
+      <div class="row" style="justify-content:space-between"><span class="ttl">MAILBOX</span><button type="button" class="dock" id="boxRead" style="height:26px">Mark all read</button></div>
+      <span class="mut">Messages agents send you, and what you sent back. Requests for tools and life points are in the Architect tab.</span>
+      <div id="boxList" style="display:flex;flex-direction:column;gap:6px;max-height:230px;overflow:auto"></div>
+      <div class="row" style="gap:6px"><select id="boxTo" style="width:92px"></select><input id="boxText" placeholder="Reply" style="flex:1"><button type="button" class="dock" id="boxSend" style="height:34px">Send</button></div>
+    </div>
+
+    <div id="dReq" class="panel" style="position:absolute;left:10px;bottom:64px;width:540px;max-height:560px;overflow:auto;padding:10px 14px;display:none;flex-direction:column;gap:8px;font-size:11px">
+      <div class="row" style="justify-content:space-between"><span class="ttl">ARCHITECT</span><span id="archStatus" class="mut" style="font-size:11px"></span></div>
+      <span class="mut">Agents' requests land here. Life-point requests are granted by you. Build requests go to Claude: once you approve one, it writes the code, the House tests it, and it is installed automatically. Without an API key, agents are told to write the code themselves and submit it for manual approval (Code &amp; tools).</span>
+      <div id="archKeyRow" class="row" style="gap:6px;display:none"><input id="archKey" type="password" autocomplete="off" placeholder="Anthropic API key (kept in memory only)" style="flex:1"><button type="button" class="dock" id="archKeySet" style="height:34px">Use key</button><button type="button" class="dock" id="archKeyClr" style="height:34px">Clear</button></div>
+      <div class="row" style="gap:14px;flex-wrap:wrap"><label style="cursor:pointer"><input type="checkbox" id="archAuto" style="height:auto;vertical-align:middle"> install plugins automatically</label><label>builds per day <input id="archLimit" type="number" min="0" max="100" style="width:56px;height:24px"></label><span id="archMeta" class="mut"></span></div>
+      <div id="reqList" style="display:flex;flex-direction:column;gap:6px"></div>
+    </div>
+
+    <div id="dFiles" class="panel" style="position:absolute;left:10px;bottom:64px;width:560px;max-height:440px;overflow:auto;padding:10px 14px;display:none;flex-direction:column;gap:6px;font-size:11px">
+      <b>Archive: each agent's own files (up to 500 MB each)</b>
+      <div class="row" style="gap:8px;align-items:center">Storage limit per agent <input id="quotaMb" type="number" min="0" max="500" value="500" style="width:70px"> MB <button type="button" class="dock" id="quotaSet">Set</button></div>
+      <select id="filesAg" style="max-width:100%"></select>
+      <div id="filesList"></div>
+    </div>
+    <div id="dGrave" class="panel" style="position:absolute;left:10px;bottom:64px;width:520px;max-height:420px;overflow:auto;padding:10px 14px;display:none;flex-direction:column;gap:6px;font-size:11px">
+      <div class="row" style="justify-content:space-between"><span class="ttl">GRAVEYARD</span><span class="mut">who was culled, why, and at what temperature</span></div>
+      <div id="graveStats" class="mut"></div>
+      <div id="graveList" style="display:flex;flex-direction:column;gap:3px"></div>
+    </div>
+
+    <div id="dockrow" style="position:absolute;left:10px;bottom:10px" class="row">
+      <button type="button" class="dock" id="bBox">Mailbox</button>
+      <button type="button" class="dock" id="bReq" style="margin-left:8px">Architect</button>
+      <button type="button" class="dock" id="bArch" style="margin-left:8px">Code &amp; tools</button>
+      <button type="button" class="dock" id="bWeb" style="margin-left:8px">Web</button>
+      <button type="button" class="dock" id="bFiles" style="margin-left:8px">Archive</button>
+    </div>
+  </div>
+
+
+  <!-- roster (bottom-left, wide) -->
+  <div class="panel" id="rost" style="position:absolute;left:24px;top:660px;width:1000px;height:234px;padding:10px 12px;display:flex;flex-direction:column;overflow:hidden">
+    <div class="row" style="justify-content:space-between;height:24px"><span class="ttl">master@house:~$ ps agents</span><span class="mut" style="font-size:11px">life · temp · turns · public flag</span></div>
+    <div id="roster" style="overflow:auto;flex:1"></div>
+  </div>
+
+  <!-- right column -->
+  <div id="rcol" style="position:absolute;left:1048px;top:84px;width:368px;height:810px;display:flex;flex-direction:column;gap:12px">
+    <div class="panel" style="flex:1;min-height:0;padding:10px 12px;display:flex;flex-direction:column">
+      <div class="row" style="justify-content:space-between;height:24px"><span class="ttl">master@house:~$ tail -f --all</span><button type="button" class="dock" id="bCopyLog" title="Copy the whole transcript (every event since the House opened) to the clipboard" style="height:24px;padding:0 10px;font-size:11px">Copy log</button></div>
+      <div id="fbanner"></div>
+      <div id="chips" class="row" style="gap:6px;margin-top:6px;flex-wrap:wrap"></div>
+      <div id="stream" style="flex:1;min-height:0;margin-top:8px;overflow:auto"></div>
+      <div style="border-top:1px solid #263243;padding-top:8px;display:flex;flex-direction:column;gap:6px">
+        <span class="mut" style="font-size:11px"># homeowner actions</span>
+        <div class="row" style="gap:6px"><input id="boardText" placeholder="Post to the board" style="flex:1"><button type="button" class="dock" id="bBoard" style="height:36px">Post</button></div>
+        <div class="row" style="gap:6px"><button type="button" class="dock" id="bPause" style="background:#3D2410;color:#FFA94D;border-color:#8C6A1F">Pause</button><button type="button" class="dock" id="bGrave">Graveyard</button><span id="note" class="mut" style="font-size:11px"></span></div>
+        <div class="row" style="gap:6px"><button type="button" class="dock" id="bDown" style="color:#FF8A8A;border-color:#8F3F3F;flex:1">Safe shutdown</button></div>
+      </div>
+    </div>
+  </div>
+  <div id="mctl" class="panel" style="display:none"></div>
+  <div id="mtabs"><button type="button" data-tab="feed" class="on">Feed</button><button type="button" data-tab="agents">Agents</button><button type="button" data-tab="ctl">Controls</button></div>
+</div>
+
+<div id="logModal" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(2,5,3,.92);align-items:center;justify-content:center;padding:12px;box-sizing:border-box">
+  <div class="panel" style="width:min(900px,100%);height:min(80vh,100%);display:flex;flex-direction:column;gap:8px;padding:12px;box-sizing:border-box">
+    <div class="row" style="justify-content:space-between"><span class="ttl">TRANSCRIPT</span><span id="logInfo" class="mut" style="font-size:11px"></span></div>
+    <span class="mut" style="font-size:11px">This browser would not let the page write to the clipboard (usual on a phone over plain http). The text is selected below: copy it, or save it as a file.</span>
+    <textarea id="logText" readonly spellcheck="false" style="flex:1;width:100%;box-sizing:border-box;background:#06120A;color:#B8FFCB;border:1px solid #1E5A33;font:11px 'IBM Plex Mono',monospace;padding:6px"></textarea>
+    <div class="row" style="gap:8px"><button type="button" class="dock" id="logSave" style="height:36px">Save as .txt</button><button type="button" class="dock" id="logSel" style="height:36px">Select all</button><button type="button" class="dock" id="logClose" style="height:36px;margin-left:auto">Close</button></div>
+  </div>
+</div>
+
+<script>
+const U = 45, HX = 3;
+const $ = (id) => document.getElementById(id);
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+const FLAGC = { calm: ['#12301F', '#6FD6A3'], excited: ['#3A3210', '#FFE066'], anxious: ['#3D2410', '#FFA94D'], distressed: ['#3F1616', '#FF8A8A'], fixated: ['#12253F', '#7DB7FF'], looping: ['#2A2145', '#C4B0FF'] };
+const CHC = { board: '#C8F27A', mail: '#C4B0FF', group: '#5CE1E6', web: '#7DB7FF', ask: '#6FD6A3', flag: '#FFA94D', taskmaster: '#93A4B8', reflect: '#FF9F6B', gallery: '#FF6B9A', sys: '#6B7A8C', page: '#8EF29B', architect: '#FFD36B', tool: '#8EF29B', owner: '#7CFF9B', life: '#FF6B8A', stuck: '#FFB86B', plugin: '#C4B0FF', architect2: '#FFD36B' };
+const disp = (pk) => ((S && S.agents.find((a) => a.name === pk)) || {}).display || pk;
+let S = null, annexN = 0, selected = '', labelsOn = false, drawer = '', lastId = 0, live = false, filter = 'ALL', cellsN = 0;
+const cam = { rot: 45, k: 0.82, tx: 0, ty: 0 };   // tx,ty: the ground point the camera looks at (px from map centre)
+const AG = {};
+const events = [];
+
+/* ---------------------------------------------------------------- stage scale */
+const isMob = () => Math.min(innerWidth, screen.width) < 900 && (matchMedia('(pointer: coarse)').matches || innerWidth < 700);
+const MOB = isMob(); let MOBS = 1;
+// The zoom level the page was opened at. Browser zoom (Ctrl +/-, Ctrl+wheel, the magnifier) changes devicePixelRatio;
+// fit() used to re-fit the app to the window and so silently undid every zoom. Now it fits at the opening zoom level
+// and lets the browser zoom on top of that, with scrollbars when the page gets bigger than the window.
+const DPR0 = (() => { let v = 0; try { v = +sessionStorage.getItem('dpr0'); } catch (e) {} if (!v) { v = devicePixelRatio || 1; try { sessionStorage.setItem('dpr0', v); } catch (e) {} } return v; })();
+function fit() {
+  if (MOB) return;
+  const z = (devicePixelRatio || 1) / DPR0;
+  const s = Math.min(innerWidth * z / 1440, innerHeight * z / 920);
+  const app = $('app'), W = 1440 * s, H = 920 * s;
+  app.style.transform = `scale(${s})`;
+  app.style.left = Math.max(0, (innerWidth - W) / 2) + 'px';
+  app.style.top = Math.max(0, (innerHeight - H) / 2) + 'px';
+  const big = W > innerWidth + 1 || H > innerHeight + 1;
+  document.documentElement.classList.toggle('zoomed', big);
+  let sp = $('zoomSpacer'); if (!sp) { sp = document.createElement('div'); sp.id = 'zoomSpacer'; document.body.appendChild(sp); }
+  sp.style.width = (big ? W : 1) + 'px'; sp.style.height = (big ? H : 1) + 'px';
+}
+addEventListener('resize', () => { if (isMob() !== MOB) location.reload(); else fit(); }); fit();
+if (MOB) document.documentElement.classList.add('mob'), document.body.classList.add('mob'), document.body.setAttribute('data-tab', 'feed');
+function mobLayout() {
+  if (!MOB) return;
+  const portrait = innerHeight >= innerWidth, S = (innerWidth - 16) / 1000, Hm = Math.round(portrait ? innerWidth * 1.08 : innerHeight * 0.86), H = Hm / S;
+  MOBS = S; if (!mobLayout.k) { mobLayout.k = 1; cam.k = portrait ? 1.0 : 1.2; }
+  const w = $('mapw'), m = $('map'), c = $('cam');
+  w.style.height = Hm + 'px';
+  m.style.cssText += `;width:1000px;height:${H}px;transform:scale(${S});transform-origin:0 0`;
+  c.style.top = ((H - 562) / 2) + 'px';
+  $('mapbtns').style.transform = `scale(${Math.max(1, 0.62 / S * 0.62)})`;
+  const ctl = $('mctl');
+  if (!ctl.dataset.done) {
+    ctl.dataset.done = 1;
+    ['bLabels', 'wallSel', 'fxSel', 'fxFps'].forEach((id) => ctl.appendChild($(id)));
+    [...$('dockrow').children].forEach((b) => ctl.appendChild(b));
+    ['bPause', 'bGrave', 'bDown'].forEach((id) => { $(id).style.height = '42px'; ctl.appendChild($(id)); });
+    document.querySelectorAll('#mtabs button').forEach((b) => b.onclick = () => { document.body.setAttribute('data-tab', b.dataset.tab); document.querySelectorAll('#mtabs button').forEach((x) => x.classList.toggle('on', x === b)); });
+  }
+}
+addEventListener('resize', mobLayout); addEventListener('orientationchange', () => setTimeout(mobLayout, 200));
+
+/* ---------------------------------------------------------------- cell block (generated) */
+function bx(o) {
+  return `<div class="bx ${o.cls || ''}" ${o.id ? `id="${o.id}"` : ''} ${o.pick ? `data-pick="${o.pick}"` : ''} style="--x:${o.x};--y:${o.y};--w:${o.w};--d:${o.d};--h:${o.h};${o.z ? `--z:${o.z};` : ''}--c:${o.c};${o.ds != null ? `--ds:${o.ds}%;` : ''}${o.de != null ? `--de:${o.de}%;` : ''}"><i class="t"></i><i class="s"></i><i class="e"></i></div>`;
+}
+const cellH = () => 11 / cellsN;
+const cellY = (k) => k * cellH() + cellH() / 2 + 0.1;
+function buildCells(n) {
+  cellsN = n;
+  const H = cellH();
+  let h = '';
+  h += bx({ x: 0, y: 0, w: 5.1, d: 11, z: -0.4, h: 0.38, c: '#B03A48' });
+  h += `<div class="fl" style="--x:0;--y:0;--w:4.9;--d:11;--c:#2B3644"></div>`;
+  for (let k = 0; k < n; k++) {
+    const c1 = k % 2 ? '#212B38' : '#2B384A', c2 = k % 2 ? '#18202B' : '#202B39';
+    h += `<div class="fl" data-pick="cell:${k}" style="--x:0;--y:${k * H};--w:4.9;--d:${H};--z:1;--c:${c2};background-image:repeating-linear-gradient(45deg,${c1} 0,${c1} 8px,${c2} 8px,${c2} 16px)"></div>`;
+  }
+  h += bx({ x: -0.3, y: -0.3, w: 5.4, d: 0.3, h: 2.5, c: '#8494AB', ds: 20, de: 30, cls: 'wn' });
+  h += bx({ x: -0.3, y: 0, w: 0.3, d: 11, h: 2.5, c: '#8494AB', ds: 20, de: 30, cls: 'ww' });
+  const WH = 2.3;
+  for (let k = 1; k <= n; k++) h += bx({ x: 0, y: k * H - 0.1, w: 5.1, d: 0.2, h: WH, c: '#8494AB', ds: 20, de: 30, cls: 'wd' });
+  const seg = (a, b) => (b - a < 0.05 ? '' : bx({ x: 4.88, y: a, w: 0.22, d: b - a, h: WH, c: '#8494AB', ds: 20, de: 30, cls: 'we' }));
+  h += bx({ x: 4.88, y: -0.3, w: 0.22, d: 0.3, h: WH, c: '#8494AB', ds: 20, de: 30, cls: 'we' });
+  for (let k = 0; k < n; k++) {
+    const y0 = k * H, cy = y0 + H / 2;
+    h += seg(y0, cy - 0.55) + seg(cy + 0.55, y0 + H);
+    h += bx({ x: 4.9, y: cy - 0.55, w: 0.18, d: 0.55 * 2, z: 1.9, h: 0.4, c: '#8494AB', ds: 20, de: 30, cls: 'we' });   // lintel over the door
+    h += bx({ x: 4.86, y: cy - 0.5, w: 0.16, d: 1, h: 1.9, c: '#6E7A8A', ds: 12, de: 24, cls: 'cdoor', id: 'cdoor-' + k });
+    const ty = y0 + 0.2;
+    h += bx({ x: 0.6, y: ty, w: 1.6, d: 0.7, h: 0.6, c: '#5A6B80' });
+    h += bx({ x: 1, y: ty + 0.1, w: 0.8, d: 0.08, z: 0.6, h: 0.5, c: '#0B1218', ds: 0, de: 20, cls: 'scr', id: 'cmon-' + k });
+    h += `<div class="bb" id="newag-${k}" style="--x:2.6;--y:${(cy).toFixed(2)};--z:1.1"><div class="up"><span class="newag" data-pick="spawn:${k}">+ new agent</span></div></div>`;
+    h += bx({ x: 0.5, y: y0 + H - 1.3, w: 1.2, d: 1.0, h: 0.3, c: '#4A5A70' });
+    h += bx({ x: 0.55, y: y0 + H - 1.25, w: 1, d: 0.35, z: 0.3, h: 0.1, c: '#C8D2DE' });
+  }
+  $('cellblock').innerHTML = h;
+}
+
+/* ---------------------------------------------------------------- extra bedrooms (annex south of the House) */
+const RW = 3.5;
+const BEDC = ['#3F6FA8', '#B8663A', '#4E9A6B', '#7E5FB8', '#B8903A', '#B85A7A', '#3A9AA8', '#7A8A3A'];
+function bedGeom(i) {
+  if (i < 4) return { chair: [[7.85, 3.5], [11.85, 3.5], [15.85, 3.5], [7.85, 9.4]][i], din: [[7.0, 3.6], [11.0, 3.6], [15.0, 3.6], [7.0, 8.4]][i], dout: [[7.0, 4.4], [11.0, 4.4], [15.0, 4.4], [7.0, 7.6]][i], eye: [[7, 2], [11, 2], [15, 2], [6, 9.6]][i] };
+  const x0 = 5 + RW * (i - 4);
+  return { chair: [x0 + 2.4, 14.0], din: [x0 + 1.7, 12.4], dout: [x0 + 1.7, 11.5], eye: [x0 + 1.7, 13.2], annex: true };
+}
+const WARD = (i) => i < 4 ? [[7.7, 0.15, 1.2, 0.6], [11.7, 0.15, 1.2, 0.6], [15.7, 0.15, 1.2, 0.6], [7.7, 8.15, 1.2, 0.6]][i] : [5 + RW * (i - 4) + 2.3, 12.05, 1.0, 0.5];
+function buildWards(nb) {
+  let w = $('wards');
+  if (!w) { const an = $('annex'); w = document.createElement('div'); w.id = 'wards'; w.className = an.className; an.after(w); }
+  let h = '';
+  for (let i = 0; i < nb; i++) {
+    const [x, y, ww, dd] = WARD(i), half = ww / 2;
+    h += bx({ x: x + 0.02, y: y + dd, w: half - 0.03, d: 0.07, z: 0.04, h: 1.35, c: '#A67C52', cls: 'wdl', id: `ward-${i}-l` });
+    h += bx({ x: x + half + 0.01, y: y + dd, w: half - 0.03, d: 0.07, z: 0.04, h: 1.35, c: '#9A7048', cls: 'wdr', id: `ward-${i}-r` });
+  }
+  w.innerHTML = h;
+}
+function wardOpen(i, open) { for (const s of ['l', 'r']) { const e = $(`ward-${i}-${s}`); if (e) e.style.setProperty('--dz', open ? 0.62 : 0); } }
+/* ---------------------------------------------------------------- cohesive palette, smaller furniture, decor */
+function hex2hsl(h) { const n = parseInt(h.slice(1), 16), r = (n >> 16 & 255) / 255, g = (n >> 8 & 255) / 255, b = (n & 255) / 255, mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2; let hh = 0, s = 0; if (mx !== mn) { const d = mx - mn; s = l > .5 ? d / (2 - mx - mn) : d / (mx + mn); hh = mx === r ? (g - b) / d + (g < b ? 6 : 0) : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; hh *= 60; } return [hh, s, l]; }
+function hsl2hex(h, s, l) { const f = (n) => { const k = (n + h / 30) % 12, a = s * Math.min(l, 1 - l); return Math.round(255 * (l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1)))); }; return '#' + [f(0), f(8), f(4)].map((x) => x.toString(16).padStart(2, '0')).join(''); }
+const ANCH = [14, 28, 42, 150, 176, 212, 262, 338];   // terracotta, wood, brass, sage, teal, steel blue, violet, rose
+function grade(hex) {
+  if (!/^#[0-9a-fA-F]{6}$/.test(hex)) return hex;
+  let [h, s, l] = hex2hsl(hex);
+  if (s < 0.14) return hsl2hex(212, 0.14 + s * 0.4, l);          // neutrals lean cool slate
+  let best = ANCH[0], bd = 999; for (const a of ANCH) { const d = Math.min(Math.abs(a - h), 360 - Math.abs(a - h)); if (d < bd) { bd = d; best = a; } }
+  let dh = ((best - h + 540) % 360) - 180; h = (h + dh * 0.65 + 360) % 360;
+  s = Math.min(0.55, 0.22 + s * 0.38); l = Math.max(0.1, Math.min(0.78, l));
+  return hsl2hex(h, s, l);
+}
+function gradeAll(root) {
+  (root || document).querySelectorAll('[style*="--c:"]').forEach((el) => {
+    if (el.classList.contains('nograde') || el.id === 'gcanvas' || /^c?mon-/.test(el.id)) return;
+    const c = (el.style.getPropertyValue('--c') || '').trim(); if (!c.startsWith('#')) return;
+    if (!el.dataset.c0) el.dataset.c0 = c;
+    el.style.setProperty('--c', grade(el.dataset.c0));
+  });
+}
+function shrinkFurniture() {
+  document.querySelectorAll('.bx').forEach((el) => {
+    if (el.dataset.shr || el.className.trim() !== 'bx') return;
+    if (/^(frame-|mon-|cmon-|door|ward|cdoor|gpanel)/.test(el.id)) return;
+    const g = (k) => parseFloat(el.style.getPropertyValue(k)) || 0;
+    if (g('--x') < 4.9 || g('--h') > 1.8 || g('--w') > 3.2 || g('--d') > 3.2) return;
+    el.dataset.shr = 1; el.style.transform = 'translateZ(calc(var(--z,0)*var(--u))) scale3d(.9,.9,.9)';
+  });
+}
+function flr(o) { return `<div class="fl ${o.cls || ''}" style="--x:${o.x};--y:${o.y};--w:${o.w};--d:${o.d};--z:${o.z || 2};--c:${o.c || '#000'}"></div>`; }
+const WX1 = 21.2, PANEL_X = 20.35, LANE_Y = 6.0;
+const FR_WALLS = { n: [13.35, 15.6, 16.8, 18.0, 19.2], w: [4.3, 6.3, 7.05], s: [15.6, 16.8, 18.0, 19.2] };
+const FR_LIST = [].concat(FR_WALLS.n.map((p) => ({ w: 'n', p })), FR_WALLS.w.map((p) => ({ w: 'w', p })), FR_WALLS.s.map((p) => ({ w: 's', p })));
+const frameStand = (i) => { const f = FR_LIST[clamp(i, 0, 11)]; return f.w === 'n' ? { x: f.p + 0.38, y: 4.85 } : f.w === 'w' ? { x: 13.8, y: f.p + 0.38 } : { x: f.p + 0.38, y: 7.3 }; };
+const FRAMES = [];   // {face, ...} one entry per piece, each may have 1-2 boxes
+function frameBoxes(i, f) {
+  // f: {w:'n'|'w'|'s', p: position along the wall}. Returns html for the gilded frame (+ a plaque).
+  const G = '#D9B25F', pk = 'gallery'; let h = '';
+  const bk = (o) => bx(Object.assign({ c: G, cls: 'nograde' }, o));
+  const art = (o, face) => `<div class="bx fr ${face}" data-fr="${i}" data-pick="${pk}" id="frame-${i}${o.sfx || ''}" style="--x:${o.x};--y:${o.y};--w:${o.w};--d:${o.d};--z:0.72;--h:0.76;--c:#0B1410;--ds:0%;--de:0%"><i class="t"></i><i class="s"></i><i class="e"></i></div>`;
+  if (f.w === 'n') {
+    h += bk({ x: f.p - 0.06, y: 4.1, w: 0.88, d: 0.04, z: 0.66, h: 0.88 }) + art({ x: f.p, y: 4.12, w: 0.76, d: 0.04 }, 'fs');
+    h += bx({ x: f.p + 0.22, y: 4.1, w: 0.32, d: 0.04, z: 0.5, h: 0.1, c: '#EFE6CC', cls: 'nograde fine' });
+    h += flr({ x: f.p - 0.4, y: 4.3, w: 1.6, d: 1.2, z: 5, cls: 'spot' });
+  } else if (f.w === 'w') {
+    h += bk({ x: 13.1, y: f.p - 0.06, w: 0.04, d: 0.88, z: 0.66, h: 0.88 }) + art({ x: 13.12, y: f.p, w: 0.04, d: 0.76 }, 'fe');
+    h += bx({ x: 13.1, y: f.p + 0.22, w: 0.04, d: 0.32, z: 0.5, h: 0.1, c: '#EFE6CC', cls: 'nograde fine' });
+  } else {
+    h += bk({ x: f.p - 0.06, y: 7.86, w: 0.88, d: 0.04, z: 0.66, h: 0.88 }) + art({ x: f.p, y: 7.84, w: 0.76, d: 0.04, sfx: '-n' }, 'fn');
+    h += bx({ x: f.p + 0.22, y: 7.86, w: 0.32, d: 0.04, z: 0.5, h: 0.1, c: '#EFE6CC', cls: 'nograde fine' });
+  }
+  return h;
+}
+function buildMuseum() {
+  let h = '';
+  const WALL = '#8494AB';
+  // wing slab, marble floor, gold inlay, runner
+  h += bx({ x: 17, y: 4, w: 4.4, d: 4, z: -0.4, h: 0.38, c: '#B03A48' });
+  h += flr({ x: 13, y: 4, w: 8.2, d: 4, z: 2, cls: 'marble' });
+  h += flr({ x: 13.2, y: 4.35, w: 7.8, d: 3.3, z: 3, cls: 'inlay' });
+  h += flr({ x: 17.0, y: LANE_Y - 0.55, w: 3.1, d: 1.1, z: 4, cls: 'runner' });
+  // tall museum walls: north and south (ghost when the camera is on their side), east behind the canvas, west with the living-room doorway
+  h += bx({ x: 13, y: 3.9, w: 1.5, d: 0.2, h: 2.5, c: WALL, ds: 20, de: 30, cls: 'wn' });
+  h += bx({ x: 15.5, y: 3.9, w: 4.8, d: 0.2, h: 2.5, c: WALL, ds: 20, de: 30, cls: 'wn' });
+  h += bx({ x: 13, y: 7.9, w: 1.5, d: 0.2, h: 2.5, c: WALL, ds: 20, de: 30, cls: 'wd' });
+  h += bx({ x: 15.5, y: 7.9, w: 4.8, d: 0.2, h: 2.5, c: WALL, ds: 20, de: 30, cls: 'wd' });
+  h += bx({ x: WX1, y: 3.9, w: 0.2, d: 4.2, h: 2.5, c: WALL, ds: 20, de: 30, cls: 'we' });
+  h += bx({ x: 12.9, y: 3.9, w: 0.2, d: 1.3, h: 2.5, c: WALL, ds: 20, de: 30, cls: 'ww' });
+  h += bx({ x: 12.9, y: 6.2, w: 0.2, d: 1.9, h: 2.5, c: WALL, ds: 20, de: 30, cls: 'ww' });
+  // dark wainscot + brass picture rail on the inside of north and west walls
+  h += bx({ x: 13, y: 4.1, w: 1.5, d: 0.08, z: 0, h: 0.5, c: '#3A2E2A', cls: 'nograde' });
+  h += bx({ x: 15.5, y: 4.1, w: 4.8, d: 0.08, z: 0, h: 0.5, c: '#3A2E2A', cls: 'nograde' });
+  h += bx({ x: 13.1, y: 4.1, w: 0.08, d: 1.1, z: 0, h: 0.5, c: '#3A2E2A', cls: 'nograde' });
+  h += bx({ x: 13.1, y: 6.2, w: 0.08, d: 1.7, z: 0, h: 0.5, c: '#3A2E2A', cls: 'nograde' });
+  // crown moulding strip near the ceiling line (north wall, inside)
+  h += bx({ x: 15.5, y: 4.1, w: 4.8, d: 0.06, z: 2.3, h: 0.1, c: '#D9B25F', cls: 'nograde' });
+  // twelve frames: north wall x5, west wall x3, south wall x4 (both sides)
+  FR_LIST.forEach((f, i) => { h += frameBoxes(i, f); });
+  // the group canvas: a free-standing double-faced panel in front of the east wall, facing the living-room door
+  h += bx({ x: PANEL_X - 0.08, y: 4.7, w: 0.3, d: 2.6, z: 0, h: 0.28, c: '#2A2220', cls: 'nograde' });
+  h += bx({ x: PANEL_X, y: 4.74, w: 0.14, d: 2.52, z: 0.28, h: 2.06, c: '#D9B25F', cls: 'nograde' });
+  h += `<div class="bx cvp" id="gpanel" data-pick="canvas" style="--x:${PANEL_X - 0.012};--y:4.9;--w:0.164;--d:2.2;--z:0.42;--h:1.8;--c:#06100A;--ds:0%;--de:0%"><i class="t"></i><i class="s"></i><i class="e"></i></div>`;
+  h += `<div class="bb" style="--x:${PANEL_X};--y:6.0;--z:2.55"><div class="up"><span class="tg" data-pick="canvas" style="color:#7CFF9B;cursor:pointer">GROUP CANVAS<span class="sb" id="cvsub">waiting for 2</span></span></div></div>`;
+  // velvet-rope queue lane in front of the canvas
+  const ps = [[17.0, LANE_Y - 0.55], [20.0, LANE_Y - 0.55], [20.0, LANE_Y + 0.55], [17.0, LANE_Y + 0.55]];
+  ps.forEach((p) => { h += bx({ x: p[0] - 0.04, y: p[1] - 0.04, w: 0.08, d: 0.08, z: 0, h: 0.4, c: '#D9B25F', cls: 'nograde fine' }) + bx({ x: p[0] - 0.06, y: p[1] - 0.06, w: 0.12, d: 0.12, z: 0.4, h: 0.06, c: '#D9B25F', cls: 'nograde fine' }); });
+  [[0, 1], [3, 2]].forEach(([i, j]) => { const p = ps[i], q = ps[j]; for (let k = 1; k <= 6; k++) { const t = k / 7; h += bx({ x: p[0] + (q[0] - p[0]) * t - 0.03, y: p[1] + (q[1] - p[1]) * t - 0.03, w: 0.06, d: 0.06, z: 0.3 - 0.02 * Math.sin(t * Math.PI) * 3, h: 0.07, c: '#8E2B3F', cls: 'nograde fine' }); } });
+  // pedestals with vitrines
+  [[14.0, 5.0], [14.2, 6.9]].forEach(([px, py]) => {
+    h += bx({ x: px, y: py, w: 0.5, d: 0.5, z: 0, h: 0.5, c: '#E9E4D6', cls: 'nograde' });
+    h += bx({ x: px + 0.14, y: py + 0.14, w: 0.22, d: 0.22, z: 0.5, h: 0.22, c: '#D9B25F', cls: 'nograde' });
+    h += bx({ x: px - 0.03, y: py - 0.03, w: 0.56, d: 0.56, z: 0.5, h: 0.4, c: '#BFE6F5', cls: 'glass nograde' });
+  });
+  let el = $('museum'); if (!el) { el = document.createElement('div'); el.id = 'museum'; const gc = $('gc'); el.className = gc.className; gc.before(el); }
+  el.innerHTML = h;
+  canvasKey = ''; artKey = '';
+  if (S) { renderCanvas(); renderArt(); }
+}
+const SIDE = { group2: { y0: 0, y1: 3.9 }, group3: { y0: 8.1, y1: 11 } };
+function buildEmpty() {
+  let h = '';
+  const W = '#8494AB', L = '#7C8CA3';
+  Object.entries(SIDE).forEach(([room, { y0, y1 }], idx) => {
+    const d = y1 - y0, cy = y0 + d / 2, gn = (S && S.groups || []).filter((g) => g.room === room).map((g) => g.name);
+    h += bx({ x: 17, y: y0, w: 4.4, d, z: -0.4, h: 0.38, c: '#B03A48' });
+    h += `<div class="fl" data-go="${room}" style="--x:17;--y:${y0};--w:4.4;--d:${d};--z:1;--c:#3A2E4F"></div>`;
+    h += flr({ x: 17.3, y: y0 + 0.3, w: 3.8, d: d - 0.6, z: 2, cls: 'inlay' });
+    h += flr({ x: 17.9, y: cy - 0.95, w: 2.4, d: 1.9, z: 3, cls: 'rug' });
+    h += bx({ x: WX1, y: y0, w: 0.2, d: cy - 0.55 - y0, h: 2.5, c: W, ds: 20, de: 30, cls: 'we' }) + bx({ x: WX1, y: cy + 0.55, w: 0.2, d: y0 + d - cy - 0.55, h: 2.5, c: W, ds: 20, de: 30, cls: 'we' }) + bx({ x: WX1, y: cy - 0.55, w: 0.2, d: 1.1, z: 1.9, h: 0.6, c: W, ds: 20, de: 30, cls: 'we' });
+    if (idx === 0) h += bx({ x: 17, y: -0.3, w: 4.4, d: 0.3, h: 2.5, c: W, ds: 20, de: 30, cls: 'wn' });
+    else h += bx({ x: 17, y: 11, w: 4.4, d: 0.2, h: 2.5, c: W, ds: 20, de: 30, cls: 'wd' });
+    h += bx({ x: 16.9, y: y0, w: 0.2, d, h: 0.8, c: L, ds: 18, de: 30, cls: 'wl' });      // closed to the bedroom beside it; the way in is from the gallery
+    // a round table with stools, so it reads as a place to sit and talk
+    h += bx({ x: 18.75, y: cy - 0.3, w: 0.7, d: 0.6, z: 0, h: 0.4, c: '#8A6643', cls: 'nograde' });
+    [[18.35, cy - 0.15], [19.5, cy - 0.15], [18.95, cy - 0.75], [18.95, cy + 0.4]].forEach(([x, y]) => { h += bx({ x, y, w: 0.28, d: 0.28, z: 0, h: 0.22, c: '#5B3F78', cls: 'nograde' }); });
+    h += `<div class="bb" style="--x:19.1;--y:${cy + (idx === 0 ? -1.2 : 1.2)};--z:1.1"><div class="up"><span class="tg" data-go="${room}">GROUP ROOM ${idx + 2}${gn.length ? `<span class="sb">${esc(gn.join(', '))}</span>` : '<span class="sb">private · empty</span>'}</span></div></div>`;
+  });
+  let el = $('empty'); if (!el) { el = document.createElement('div'); el.id = 'empty'; const gc = $('gc'); el.className = gc.className; gc.before(el); }
+  el.innerHTML = h;
+}
+let sideKey = '';
+function refreshSide() { const k = JSON.stringify((S && S.groups || []).map((g) => [g.room, g.name])); if (k !== sideKey) { sideKey = k; buildEmpty(); gradeAll(); } }
+function buildDecor(nb) {
+  let h = '';
+  for (let i = 0; i < nb; i++) {
+    const [wx, wy] = WARD(i);
+    h += flr({ x: wx - 0.15, y: wy + (i < 4 ? 0.95 : 0.85), w: 1.5, d: 0.9, z: 2, cls: 'rugsq' });
+  }
+  // living room: round rug under the eye, plants in the corners
+  h += flr({ x: 8.0, y: 4.9, w: 3.0, d: 2.7, z: 2, cls: 'rug' });
+  [[5.25, 7.45], [12.35, 7.45], [12.35, 4.25]].forEach(([x, y]) => {
+    h += bx({ x, y, w: 0.3, d: 0.3, z: 0, h: 0.22, c: '#8A5A3A', cls: 'nograde' });
+    h += bx({ x: x - 0.06, y: y - 0.06, w: 0.42, d: 0.42, z: 0.22, h: 0.4, c: '#3F8F5A', cls: 'nograde' });
+    h += bx({ x: x + 0.02, y: y + 0.02, w: 0.26, d: 0.26, z: 0.62, h: 0.25, c: '#56A874', cls: 'nograde' });
+  });
+  let el = $('decor'); if (!el) { el = document.createElement('div'); el.id = 'decor'; const an = $('annex'); el.className = an.className; an.before(el); }
+  el.innerHTML = h;
+}
+const CAB_Y = [0.6, 3.1, 3.85, 4.6, 5.35, 6.1, 6.85, 7.6, 8.35, 10.5];   // filing cabinets along the west wall of the Archive hallway, fronts facing east
+const CAB_FACE = 22.3, CAB_STAND = 22.95;
+function buildHallway() {
+  // the Archive: a corridor behind (east of) the gallery that joins the two group rooms; every agent has a cabinet, the last two are shared
+  const W = '#8494AB', X0 = 21.4, X1 = 24.6;
+  let h = '';
+  h += bx({ x: X0, y: -0.3, w: X1 - X0 + 0.2, d: 11.6, z: -0.4, h: 0.38, c: '#B03A48' });
+  h += `<div class="fl" style="--x:${X0};--y:0;--w:${X1 - X0};--d:11;--z:1;--c:#2C3340"></div>`;
+  h += flr({ x: X0 + 1.1, y: 0.2, w: 1.2, d: 10.6, z: 3, cls: 'runner' });
+  h += bx({ x: X0, y: -0.3, w: X1 - X0 + 0.2, d: 0.3, h: 2.5, c: W, ds: 20, de: 30, cls: 'wn' });
+  h += bx({ x: X0, y: 11, w: X1 - X0 + 0.2, d: 0.2, h: 2.5, c: W, ds: 20, de: 30, cls: 'wd' });
+  h += bx({ x: X1, y: -0.3, w: 0.2, d: 11.5, h: 2.5, c: W, ds: 20, de: 30, cls: 'we' });
+  CAB_Y.forEach((y, i) => {
+    h += bx({ x: X0 + 0.1, y: y - 0.35, w: CAB_FACE - X0 - 0.1, d: 0.7, z: 0, h: 1.25, c: '#56667B', ds: 22, de: 38, cls: 'nograde', id: 'cab-' + i });
+    for (let j = 0; j < 3; j++) {
+      h += bx({ x: CAB_FACE, y: y - 0.31, w: 0.05, d: 0.62, z: 0.08 + j * 0.4, h: 0.34, c: '#8EA0B6', ds: 10, de: 20, cls: 'nograde cabd', id: `cabd-${i}-${j}` });
+      h += bx({ x: CAB_FACE + 0.05, y: y - 0.1, w: 0.03, d: 0.2, z: 0.2 + j * 0.4, h: 0.06, c: '#D9B25F', cls: 'nograde fine' });
+    }
+    h += `<div class="bb" style="--x:${CAB_FACE - 0.4};--y:${y};--z:1.45"><div class="up"><span class="tg cabl" id="cabl-${i}" style="font-size:9px;padding:1px 4px;color:#93A4B8">${i < 8 ? 'ABCDEFGH'[i] : 'SHARED'}</span></div></div>`;
+  });
+  [[23.9, 0.6], [23.9, 10.4], [23.9, 3.3], [23.9, 7.7]].forEach(([x, y]) => {                  // plants and a bench so the aisle reads as a place
+    h += bx({ x, y, w: 0.3, d: 0.3, z: 0, h: 0.22, c: '#8A5A3A', cls: 'nograde' });
+    h += bx({ x: x - 0.05, y: y - 0.05, w: 0.4, d: 0.4, z: 0.22, h: 0.4, c: '#3F8F5A', cls: 'nograde' });
+  });
+  h += bx({ x: 24.15, y: 4.8, w: 0.4, d: 1.4, z: 0, h: 0.35, c: '#6B4A33', cls: 'nograde' });
+  h += `<div class="bb" style="--x:${(X0 + X1) / 2};--y:5.5;--z:1.9"><div class="up"><span class="tg" style="color:#7CFF9B">ARCHIVE<span class="sb">files · scripts · notes</span></span></div></div>`;
+  let el = $('hallway'); if (!el) { el = document.createElement('div'); el.id = 'hallway'; const gc = $('gc'); el.className = gc.className; gc.before(el); }
+  el.innerHTML = h;
+}
+const cabSlot = (owner) => { const a = S && S.agents.find((x) => x.name === owner); return a && a.status === 'house' ? clamp(a.bedroom, 0, 7) : 8 + (owner ? owner.length % 2 : 0); };
+function buildUsb(nb) {
+  // zoomed all the way out the whole complex is a USB stick: plug at the cell end (the way in), a glass lid over the House, the controller and flash chips in the tail
+  const yE = nb > 4 ? 17.6 : 13.4, y0 = -2.4, Wb = yE - y0, yc = y0 + Wb / 2, x0 = -4.0, x1 = 28.4, L = x1 - x0, pw = Wb * 0.62;
+  let h = '';
+  h += bx({ x: x0, y: y0, w: L, d: Wb, z: -1.2, h: 0.75, c: '#0E4D33', ds: 20, de: 34, cls: 'usbp nograde' });
+  h += bx({ x: x0 - 6.4, y: yc - pw / 2, w: 6.5, d: pw, z: -0.95, h: 1.7, c: '#C9D3DF', ds: 18, de: 30, cls: 'usbp nograde' });
+  h += bx({ x: x0 - 6.4, y: yc - pw / 2 + 0.45, w: 0.55, d: pw - 0.9, z: 0.75, h: 0.03, c: '#0B1218', cls: 'usbp nograde' });
+  [-0.3, 0.3].forEach((k) => { h += bx({ x: x0 - 3.2, y: yc + k * pw * 0.7 - 0.25, w: 0.8, d: 0.5, z: 0.75, h: 0.03, c: '#0B1218', cls: 'usbp nograde' }); });
+  [[25.5, yc - 4.2, 2.0, 2.6], [25.5, yc + 1.4, 2.0, 2.6]].forEach(([x, y, w, d]) => { h += bx({ x, y, w, d, z: -0.45, h: 0.2, c: '#15181C', cls: 'usbp nograde' }); });
+  h += bx({ x: 25.7, y: yc - 1.0, w: 1.3, d: 1.3, z: -0.45, h: 0.18, c: '#20252C', cls: 'usbp nograde' });
+  h += bx({ x: 27.4, y: yc - 0.3, w: 0.7, d: 0.35, z: -0.45, h: 0.16, c: '#C9D3DF', cls: 'usbp nograde' });
+  h += bx({ x: 27.3, y: yc + 2.6, w: 0.45, d: 0.45, z: -0.45, h: 0.12, c: '#7CFF9B', cls: 'usbp nograde' });
+  h += bx({ x: x0, y: y0, w: L, d: Wb, z: -0.45, h: 3.65, c: '#2E5C93', ds: 25, de: 40, cls: 'usbl nograde' });
+  h += `<div class="fl usbt" style="--x:${x0 + 2};--y:${yc - 1.4};--w:${L - 8};--d:2.8;--z:146">THE HOUSE · 32 GB</div>`;
+  h += bx({ x: 27.0, y: yc - 0.5, w: 0.8, d: 1.0, z: 3.2, h: 0.02, c: '#0B1218', cls: 'usbl nograde' });
+  let el = $('usb'); if (!el) { el = document.createElement('div'); el.id = 'usb'; const gc = $('gc'); el.className = gc.className; gc.before(el); }
+  el.innerHTML = h;
+}
+function markFine() {      // phones: tiny props are not drawn (fewer 3D layers)
+  document.querySelectorAll('#world .bx').forEach((el) => {
+    if (el.dataset.fn) return; el.dataset.fn = 1;
+    if (el.id || el.dataset.pick || el.dataset.go || /\b(w[nwdel]|wl|door|cdoor|gdoor|scr|cvp|fr|glass|usbl|usbp)\b/.test(el.className)) return;
+    const g = (k) => parseFloat(el.style.getPropertyValue(k)) || 0;
+    if (g('--w') * g('--d') < 0.34 && g('--h') < 1.2) el.classList.add('fine');
+  });
+}
+function polish(nb) { buildDecor(nb); buildMuseum(); buildEmpty(); buildHallway(); buildUsb(nb); gradeAll(); shrinkFurniture(); if (MOB) markFine(); }
+function buildAnnex(nb) {
+  buildWards(nb);
+  setTimeout(() => polish(nb), 0);
+  annexN = nb;
+  const cnt = Math.max(0, nb - 4);
+  if (!cnt) { $('annex').innerHTML = ''; return; }
+  const W = RW * cnt;
+  let h = `<div class="fl" style="--x:-3;--y:11;--w:25;--d:5;--c:#2B3644"></div>`;
+  h += bx({ x: 5, y: 11, w: W, d: 4.5, z: -0.4, h: 0.38, c: '#B03A48' });
+  h += `<div class="fl" style="--x:5;--y:11;--w:${W};--d:0.9;--z:1;--c:#3A4452"></div>`;
+  h += bx({ x: 4.7, y: 11, w: 0.3, d: 4.5, h: 2.5, c: '#8494AB', ds: 20, de: 30, cls: 'ww' });
+  for (let i = 4; i < nb; i++) {
+    const x0 = 5 + RW * (i - 4), c = BEDC[i % 8];
+    h += `<div class="fl" data-pick="bed:${i}" style="--x:${x0};--y:11.9;--w:${RW};--d:3.6;--z:1;--c:#2A3B58"></div>`;
+    h += bx({ x: x0, y: 11.9, w: 1.2, d: 0.2, h: 0.8, c: '#7C8CA3', ds: 18, de: 30, cls: 'wl' });
+    h += bx({ x: x0 + 2.2, y: 11.9, w: RW - 2.2, d: 0.2, h: 0.8, c: '#7C8CA3', ds: 18, de: 30, cls: 'wl' });
+    h += bx({ x: x0 + 1.2, y: 11.9, w: 1, d: 0.2, h: 0.8, c: '#B07B3E', cls: 'door', id: 'door-' + i });
+    h += bx({ x: x0 + RW - 0.1, y: 11.9, w: 0.2, d: 3.6, h: 0.8, c: '#7C8CA3', ds: 18, de: 30, cls: 'wl' });
+    h += bx({ x: x0 + 0.2, y: 12.35, w: 1.2, d: 2.0, h: 0.4, c });                                  // bed, foot toward the door (north)
+    h += bx({ x: x0 + 0.25, y: 13.85, w: 1.1, d: 0.45, z: 0.4, h: 0.15, c: '#E6EEF7' });            // pillow at the south end
+    h += bx({ x: x0 + 2.3, y: 12.05, w: 1.0, d: 0.5, h: 1.4, c: '#8A6643' });
+    h += bx({ x: x0 + 1.7, y: 14.5, w: 1.4, d: 0.8, h: 0.7, c: '#7B5E41' });                       // desk against the south wall
+    h += bx({ x: x0 + 2.0, y: 15.2, w: 0.8, d: 0.1, z: 0.7, h: 0.5, c: '#0B1218', ds: 0, de: 20, cls: 'scr', id: 'mon-' + i });   // screen faces north, the door
+    h += bx({ x: x0 + 2.1, y: 13.75, w: 0.6, d: 0.55, h: 0.35, c: '#34475E' });
+    h += `<div class="bb" style="--x:${x0 + 1.75};--y:12.5;--z:1.9"><div class="up"><span class="tg" data-go="bed:${i}">BEDROOM ${'ABCDEFGH'[i]}</span></div></div>`;
+  }
+  $('annex').innerHTML = h;
+}
+
+/* ---------------------------------------------------------------- camera */
+const MAX_TILT = 70;
+const tiltOf = (k) => 57 + (MAX_TILT - 57) * Math.pow(clamp((k - 0.45) / 2.75, 0, 1), 0.7);
+const cosT = (k) => Math.cos(tiltOf(k) * Math.PI / 180);
+// screen offset from the view centre -> ground offset (undoing scale, tilt and rotation)
+function s2g(sx, sy, k, rot) {
+  const u = sx / k, v = sy / (k * cosT(k)), r = rot * Math.PI / 180;
+  return [u * Math.cos(r) + v * Math.sin(r), -u * Math.sin(r) + v * Math.cos(r)];
+}
+let camQ = 0, gestT = 0;
+function applyCam() {
+  if (MOB) { const w = $('world'); if (!w.classList.contains('gest')) w.classList.add('gest'); clearTimeout(gestT); gestT = setTimeout(() => w.classList.remove('gest'), 220); }
+  if (camQ) return; camQ = requestAnimationFrame(() => { camQ = 0; applyCamNow(); });
+}
+function applyCamNow() {
+  const k = cam.k, t = clamp((k - 0.45) / 2.75, 0, 1);
+  const tilt = tiltOf(k), bs = Math.pow(k / 0.8, 0.6) * (MOB ? clamp(0.7 / MOBS, 1, 1.9) : 1);
+  const rad = (((cam.rot % 360) + 360) % 360) * Math.PI / 180;
+  const zf = clamp(1 - k * 0.5, 0.08, 1);      // zoom 50% -> walls 25% transparent, 100% -> 50%, 150% -> 75%, 200% -> 92%
+  const oN = zf * (1 - 0.88 * clamp(-Math.cos(rad) * 3.5, 0, 1));
+  const oW = zf * (1 - 0.88 * clamp(-Math.sin(rad) * 3.5, 0, 1));
+  const oL = zf * (1 - 0.55 * clamp((tilt - 63) / 7, 0, 1));
+  const oD = zf * (1 - 0.72 * clamp(Math.cos(rad) * 3.5, 0, 1));   // cell dividers: ghost when the camera is on their side
+  const oE = zf * (1 - 0.72 * clamp(Math.sin(rad) * 3.5, 0, 1));   // cell front wall
+  const w = $('world').style;
+  w.setProperty('--rot', cam.rot + 'deg'); w.setProperty('--tilt', tilt.toFixed(1) + 'deg');
+  w.setProperty('--k', k.toFixed(3)); w.setProperty('--bs', bs.toFixed(3));
+  w.setProperty('--usbo', (clamp((0.62 - k) / 0.15, 0, 1) * 0.93).toFixed(2)); w.setProperty('--usbp', clamp((0.78 - k) / 0.2, 0, 1).toFixed(2)); { const u = $('usb'); if (u) { const on = k < 0.8; if (on !== (u.style.display !== 'none')) u.style.display = on ? '' : 'none'; } } w.setProperty('--oN', oN.toFixed(2)); w.setProperty('--oW', oW.toFixed(2)); w.setProperty('--oL', oL.toFixed(2)); w.setProperty('--oD', oD.toFixed(2)); w.setProperty('--oE', oE.toFixed(2));
+  w.setProperty('--tx', (-cam.tx).toFixed(1) + 'px'); w.setProperty('--ty', (-cam.ty).toFixed(1) + 'px');
+}
+let drag = null, moved = false;
+const map = $('map');
+map.addEventListener('contextmenu', (e) => e.preventDefault());
+map.addEventListener('pointerdown', (e) => {
+  moved = false;
+  drag = { x: e.clientX, y: e.clientY, pan: e.button === 2 || e.button === 1 || e.shiftKey, sx: e.clientX, sy: e.clientY };
+});
+map.addEventListener('pointermove', (e) => {
+  if (!drag) return;
+  if (!moved) { if (Math.hypot(e.clientX - drag.sx, e.clientY - drag.sy) < 5) return; moved = true; try { map.setPointerCapture(e.pointerId); } catch (x) {} }
+  const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+  drag.x = e.clientX; drag.y = e.clientY;
+  if (drag.pan) { const sc = 1000 / map.getBoundingClientRect().width, g = s2g(dx * sc, dy * sc, cam.k, cam.rot); cam.tx = clamp(cam.tx - g[0], -480, 480); cam.ty = clamp(cam.ty - g[1], -280, 280); } else cam.rot += dx * 0.4;
+  applyCam();
+});
+const endDrag = () => { drag = null; setTimeout(() => { moved = false; }, 60); };
+map.addEventListener('pointerup', endDrag); map.addEventListener('pointerleave', endDrag);
+map.addEventListener('wheel', (e) => {
+  if (e.ctrlKey || e.metaKey) return;      // Ctrl+wheel (and trackpad pinch) is the browser's own zoom: let it through
+  e.preventDefault();
+  const k0 = cam.k, dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
+  const k1 = clamp(k0 * Math.exp(-dy * 0.0015), 0.45, 3.2);
+  const r = map.getBoundingClientRect(), sc = 1000 / r.width;
+  const cx = (e.clientX - r.left) * sc - 500, cy = (e.clientY - r.top) * sc - map.offsetHeight / 2;
+  const g0 = s2g(cx, cy, k0, cam.rot), g1 = s2g(cx, cy, k1, cam.rot);   // keep the ground point under the cursor fixed
+  cam.tx = clamp(cam.tx + g0[0] - g1[0], -480, 480); cam.ty = clamp(cam.ty + g0[1] - g1[1], -280, 280); cam.k = k1;
+  applyCam();
+}, { passive: false });
+const tps = new Map();
+map.addEventListener('pointerdown', (e) => { tps.set(e.pointerId, [e.clientX, e.clientY]); if (tps.size === 2) { drag = null; e.stopImmediatePropagation(); } }, true);
+map.addEventListener('pointermove', (e) => {
+  if (!tps.has(e.pointerId)) return;
+  const prev = [...tps.values()];
+  tps.set(e.pointerId, [e.clientX, e.clientY]);
+  if (tps.size !== 2) return;
+  e.stopImmediatePropagation(); drag = null;
+  const [a, b] = [...tps.values()], d1 = Math.hypot(a[0] - b[0], a[1] - b[1]), d0 = Math.hypot(prev[0][0] - prev[1][0], prev[0][1] - prev[1][1]);
+  const m1 = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2], m0 = [(prev[0][0] + prev[1][0]) / 2, (prev[0][1] + prev[1][1]) / 2];
+  const sc = 1000 / map.getBoundingClientRect().width, gp = s2g((m1[0] - m0[0]) * sc, (m1[1] - m0[1]) * sc, cam.k, cam.rot);
+  cam.tx = clamp(cam.tx - gp[0], -480, 480); cam.ty = clamp(cam.ty - gp[1], -280, 280);
+  if (d0 > 8 && d1 > 8) cam.k = clamp(cam.k * d1 / d0, 0.45, 3.2);
+  applyCam();
+}, true);
+map.addEventListener('touchstart', (e) => { if (e.touches.length >= 2) e.preventDefault(); }, { passive: false });
+map.addEventListener('touchmove', (e) => { if (e.touches.length >= 2) e.preventDefault(); }, { passive: false });
+let lastTap = 0, lastTapAt = [0, 0];
+map.addEventListener('pointerup', (e) => {      // double-tap anywhere on the scene: bring the House back to the centre
+  if (e.pointerType !== 'touch' || moved) return;
+  const t = Date.now();
+  if (t - lastTap < 320 && Math.hypot(e.clientX - lastTapAt[0], e.clientY - lastTapAt[1]) < 40) { cam.tx = 0; cam.ty = 0; applyCam(); lastTap = 0; } else { lastTap = t; lastTapAt = [e.clientX, e.clientY]; }
+});
+const tpEnd = (e) => { tps.delete(e.pointerId); }; map.addEventListener('pointerup', tpEnd, true); map.addEventListener('pointercancel', tpEnd, true);
+const zoomBy = (m) => { cam.k = clamp(cam.k * m, 0.45, 3.2); applyCam(); };
+$('bIn').onclick = () => zoomBy(1.25); $('bOut').onclick = () => zoomBy(1 / 1.25);
+$('bCenter').onclick = () => { cam.tx = 0; cam.ty = 0; applyCam(); };
+$('bReset').onclick = () => { Object.assign(cam, { rot: 45, k: 0.82, tx: 0, ty: 0 }); applyCam(); };
+const wallSel = $('wallSel');
+function applyWalls() { const w = wallSel.value; $('world').classList.toggle('nohigh', !w.includes('h')); $('world').classList.toggle('nolow', !w.includes('l')); try { localStorage.setItem('walls', w); } catch (e) {} }
+try { wallSel.value = localStorage.getItem('walls') || 'hl'; } catch (e) {} if (!wallSel.value) wallSel.value = 'hl';
+wallSel.onchange = applyWalls; applyWalls();
+$('bLabels').onclick = () => { labelsOn = !labelsOn; $('world').classList.toggle('lb', labelsOn); $('bLabels').textContent = 'Labels: ' + (labelsOn ? 'on' : 'off'); $('bLabels').style.background = labelsOn ? '#0F3A1E' : ''; };
+const DRW = [['bBox', 'dBox'], ['bReq', 'dReq'], ['bArch', 'dArch'], ['bWeb', 'dWeb'], ['bFiles', 'dFiles'], ['bGrave', 'dGrave']];
+for (const [b, d] of DRW)
+  $(b).onclick = () => { drawer = drawer === d ? '' : d; for (const [, x] of DRW) { $(x).style.display = x === drawer ? 'flex' : 'none'; } for (const [bb, dd] of DRW) $(bb).style.background = dd === drawer ? '#0F3A1E' : ''; if (drawer === 'dArch') loadPlug(); if (drawer === 'dReq') loadReq(); if (drawer === 'dWeb') loadNet(); if (drawer === 'dBox') loadBox(); if (drawer === 'dFiles') loadFiles(); if (drawer === 'dGrave') renderGrave(); };
+
+function renderGrave() {
+  const g = (S && S.graveyard) || [], live = (S && S.agents.filter((a) => a.status === 'house')) || [];
+  const avg = (xs) => xs.length ? (xs.reduce((p, q) => p + q, 0) / xs.length).toFixed(2) : '–';
+  $('graveStats').textContent = `${g.length} deleted · average temperature of the deleted ${avg(g.map((x) => x.temp))} · of the living ${avg(live.map((x) => x.temp))}`;
+  $('graveList').innerHTML = g.length ? g.map((x) => `<div class="row" style="gap:8px"><span class="mut" style="width:44px">${new Date(x.ts * 1000).toTimeString().slice(0, 5)}</span><span style="width:70px;color:#FF9FB2">${esc(x.label)}</span><span class="mut" style="width:48px">T${x.temp}</span><span class="mut" style="width:44px">${x.turns}t</span><span style="flex:1">${esc(x.cause)}</span></div>`).join('') : '<span class="mut">Nobody has been deleted yet.</span>';
+}
+setInterval(() => { if (drawer === 'dGrave') renderGrave(); }, 3000);
+/* files of one agent: search, open, copy, delete, add (used in the agent card and the Archive panel) */
+const fmtB = (n) => n > 1048576 ? (n / 1048576).toFixed(1) + ' MB' : n > 1024 ? Math.round(n / 1024) + ' KB' : n + ' B';
+async function filesUI(el, agent, q, keep) {
+  const d = await (await fetch('/api/archive?owner=' + encodeURIComponent(agent) + '&q=' + encodeURIComponent(q || ''))).json();
+  const open = keep || (el.querySelector('.fvp') && el.querySelector('.fvp').dataset.p) || '';
+  el.innerHTML = `<div class="mut" style="font-size:11px">${fmtB(d.used)} of ${Math.round(d.quota / 1048576)} MB · ${d.count} file${d.count === 1 ? '' : 's'}${q ? ' matching' : ''}</div>
+    <input class="fsq" placeholder="search files and their contents" value="${esc(q || '')}" style="width:100%;box-sizing:border-box;margin:4px 0">
+    <div class="fl2">${d.files.length ? d.files.map((f) => `<div class="afl" data-p="${esc(f.path)}" style="cursor:pointer;padding:2px 0;border-bottom:1px solid #12301F"><span style="color:#B8FFCB">${esc(f.path)}</span> <span class="mut">${fmtB(f.n)} · ${f.shared ? 'shared' : 'private'}</span>${f.snip ? `<div class="mut" style="font-size:10px">…${esc(f.snip)}…</div>` : ''}</div>`).join('') : '<span class="mut">No files.</span>'}</div>
+    <div class="fvp" data-p="" style="display:none;margin-top:6px"></div>
+    <details style="margin-top:6px"><summary class="mut" style="cursor:pointer">add a file for them</summary><input class="fnp" placeholder="path, e.g. notes/hello.txt" style="width:100%;box-sizing:border-box;margin:3px 0"><textarea class="fnt" rows="4" placeholder="paste text here" style="width:100%;box-sizing:border-box"></textarea><button type="button" class="dock fnb" style="height:28px">Save to their archive</button></details>`;
+  el.querySelector('.fsq').oninput = (e) => { clearTimeout(el._t); el._t = setTimeout(() => filesUI(el, agent, e.target.value), 250); };
+  el.querySelectorAll('.afl').forEach((r) => r.onclick = () => openFile(el, agent, r.dataset.p, q));
+  el.querySelector('.fnb').onclick = async () => { const p = el.querySelector('.fnp').value.trim(); if (!p) return; await post('/api/file', { agent, action: 'write', path: p, text: el.querySelector('.fnt').value }); filesUI(el, agent, q, p); };
+  if (open) openFile(el, agent, open, q);
+}
+async function openFile(el, agent, path, q) {
+  const r = await (await fetch('/api/archive?owner=' + encodeURIComponent(agent) + '&path=' + encodeURIComponent(path))).json();
+  const box = el.querySelector('.fvp'); if (!box) return;
+  box.dataset.p = path; box.style.display = 'block';
+  box.innerHTML = `<div><b>${esc(path)}</b> <span class="mut">${r.shared ? 'shared' : 'private'}</span></div><pre style="white-space:pre-wrap;max-height:180px;overflow:auto;margin:4px 0;color:#B8FFCB;background:#06120A;padding:4px;user-select:text">${esc(r.text.slice(0, 20000))}</pre><div class="row" style="gap:6px"><button type="button" class="dock fcp" style="height:28px">Copy</button><button type="button" class="dock fsh" style="height:28px">${r.shared ? 'Make private' : 'Share'}</button><button type="button" class="dock fdl" style="height:28px;color:#FF8A8A;border-color:#8F3F3F">Delete</button></div>`;
+  box.querySelector('.fcp').onclick = async (e) => { try { await navigator.clipboard.writeText(r.text); e.target.textContent = 'Copied'; } catch (x) { const t = document.createElement('textarea'); t.value = r.text; document.body.appendChild(t); t.select(); try { document.execCommand('copy'); e.target.textContent = 'Copied'; } catch (y) { e.target.textContent = 'Select the text and copy'; } t.remove(); } };
+  box.querySelector('.fsh').onclick = async () => { await post('/api/file', { agent, action: 'share', path, shared: !r.shared }); filesUI(el, agent, q, path); };
+  box.querySelector('.fdl').onclick = async (e) => { if (e.target.dataset.armed !== '1') { e.target.dataset.armed = '1'; e.target.textContent = 'Click again to delete'; return; } await post('/api/file', { agent, action: 'delete', path }); box.dataset.p = ''; filesUI(el, agent, q); };
+}
+let fileAgent = '';
+async function loadFiles() {
+  try {
+    const d = await (await fetch('/api/archive')).json();
+    const sel = $('filesAg');
+    if (!d.length) { $('filesList').innerHTML = '<span class="mut">No agents yet.</span>'; return; }
+    if (!fileAgent || !d.some((a) => a.agent === fileAgent)) fileAgent = d[0].agent;
+    const sig = d.map((a) => a.agent).join();
+    if (sel.dataset.sig !== sig) { sel.dataset.sig = sig; sel.innerHTML = d.map((a) => `<option value="${esc(a.agent)}">${esc(a.label)}${a.gone ? ' (gone)' : ''} · ${fmtB(a.used)}</option>`).join(''); sel.onchange = () => { fileAgent = sel.value; filesUI($('filesList'), fileAgent, ''); }; }
+    sel.value = fileAgent;
+    if (!$('filesList').dataset.init) { $('filesList').dataset.init = 1; filesUI($('filesList'), fileAgent, ''); }
+  } catch (e) {}
+}
+$('quotaSet').onclick = async () => { await post('/api/quota', { mb: +$('quotaMb').value }); loadFiles(); };
+setInterval(() => { if (drawer === 'dFiles') loadFiles(); }, 6000);
+
+/* ---------------------------------------------------------------- plugins panel (add code while the House runs) */
+async function loadPlug() {
+  try {
+    const d = await (await fetch('/api/plugins')).json();
+    $('plugFolder').textContent = d.folder;
+    const row = (p) => `<div style="padding:6px 8px;background:#10161E;border:1px solid #263243"><div class="row" style="justify-content:space-between;gap:6px"><span style="color:${p.error ? '#FF8A8A' : p.loaded ? '#8EF29B' : '#93A4B8'}">${esc(p.name)}</span><span><label class="mut" style="cursor:pointer"><input type="checkbox" data-pt="${esc(p.name)}" ${p.enabled ? 'checked' : ''} style="height:auto;vertical-align:middle"> on</label> <a href="#" data-pd="${esc(p.name)}" style="color:#FF8A8A;text-decoration:none;margin-left:8px">delete</a></span></div>${p.description ? `<div class="mut" style="font-size:11px">${esc(p.description)}</div>` : ''}${p.actions.length ? `<div style="font-size:11px">actions: ${p.actions.map(esc).join(', ')}</div>` : ''}${p.error ? `<div style="font-size:11px;color:#FF8A8A">${esc(p.error)}</div>` : ''}<details><summary class="mut" style="cursor:pointer;font-size:11px">code</summary><pre style="white-space:pre-wrap;font-size:10px;margin:4px 0 0;max-height:140px;overflow:auto">${esc(p.code)}</pre></details></div>`;
+    $('plugList').innerHTML = d.plugins.length ? d.plugins.map(row).join('') : '<span class="mut">No plugins yet.</span>';
+    $('plugPend').innerHTML = d.pending.map((p) => `<div style="padding:6px 8px;background:#2A2145;border:1px solid #5A4A8F"><div style="color:#C4B0FF">${esc(p.name)} <span class="mut">written by ${esc(p.by || 'the architect')}, not running</span>${p.flags ? ` <span style="color:#FF8A8A">uses: ${esc(p.flags)}</span>` : ''}</div><details><summary class="mut" style="cursor:pointer;font-size:11px">review code</summary><pre style="white-space:pre-wrap;font-size:10px;margin:4px 0;max-height:160px;overflow:auto">${esc(p.code)}</pre></details><button type="button" class="dock" data-pa="${esc(p.name)}" style="height:30px;color:#6FD6A3;border-color:#3F8F63">Install</button> <button type="button" class="dock" data-pr="${esc(p.name)}" style="height:30px">Reject</button></div>`).join('');
+    const act = async (o) => { const r = await (await post('/api/plugin', o)).json(); $('plugNote').textContent = r.ok ? '' : (r.message || 'failed'); loadPlug(); poll(); };
+    $('plugList').querySelectorAll('[data-pt]').forEach((c) => c.onchange = () => act({ action: 'toggle', name: c.dataset.pt, enabled: c.checked }));
+    $('plugList').querySelectorAll('[data-pd]').forEach((a) => a.onclick = (e) => { e.preventDefault(); if (a.dataset.armed) act({ action: 'delete', name: a.dataset.pd }); else { a.dataset.armed = 1; a.textContent = 'sure?'; setTimeout(() => { a.dataset.armed = ''; a.textContent = 'delete'; }, 2500); } });
+    $('plugPend').querySelectorAll('[data-pa]').forEach((b) => b.onclick = () => act({ action: 'approve', name: b.dataset.pa }));
+    $('plugPend').querySelectorAll('[data-pr]').forEach((b) => b.onclick = () => act({ action: 'reject', name: b.dataset.pr }));
+  } catch (e) {}
+}
+$('plugAdd').onclick = async () => { const name = $('plugName').value.trim(), code = $('plugCode').value; if (!name || !code.trim()) { $('plugNote').textContent = 'Give it a name and some code.'; return; } const r = await (await post('/api/plugin', { action: 'add', name, code })).json(); $('plugNote').textContent = r.ok ? 'Installed: ' + r.message : r.message; if (r.ok) { $('plugCode').value = ''; $('plugName').value = ''; } loadPlug(); poll(); };
+$('plugFile').onchange = async (e) => { const f = e.target.files[0]; if (!f) return; $('plugCode').value = await f.text(); if (!$('plugName').value) $('plugName').value = f.name.replace(/\.py$/, '').toLowerCase().replace(/[^a-z0-9_]/g, '_'); e.target.value = ''; };
+setInterval(() => { if (document.hidden) return; if (drawer === 'dArch') loadPlug(); if (drawer === 'dReq') loadReq(); if (drawer === 'dWeb') loadNet(); if (drawer === 'dBox') loadBox(); }, 3000);
+/* plugin viewer scripts: a plugin's VIEWER_JS runs in the page when it appears or changes. It gets one argument, H = { S, $, post, poll } */
+const PJS = {};
+async function loadPluginJS() {
+  try {
+    const d = await (await fetch('/api/plugin_js')).json();
+    for (const [n, code] of Object.entries(d)) if (PJS[n] !== code) { PJS[n] = code; try { new Function('H', code)({ get S() { return S; }, $, post, poll }); } catch (e) { console.warn('plugin js', n, e); } }
+  } catch (e) {}
+}
+setInterval(loadPluginJS, 5000);
+
+/* ---------------------------------------------------------------- safeguarded web panel */
+async function loadWeb() {
+  try {
+    const d = await (await fetch('/api/web')).json();
+    $('webAllow').innerHTML = d.allow.length ? d.allow.map((s) => `<span class="pill" style="background:#12253F;color:#7DB7FF;margin:0 6px 6px 0">${esc(s)} <a href="#" data-rm="${esc(s)}" style="color:#FF8A8A;text-decoration:none;margin-left:6px">✕</a></span>`).join('') : '<span class="mut">No sites allowed. Agents cannot open anything.</span>';
+    $('webAllow').querySelectorAll('[data-rm]').forEach((a) => a.onclick = async (e) => { e.preventDefault(); await post('/api/web', { action: 'remove', domain: a.dataset.rm }); loadWeb(); });
+    $('webRecent').innerHTML = d.recent.length ? d.recent.map((r) => `<div style="font-size:11px"><span class="mut">${new Date(r.ts * 1000).toTimeString().slice(0, 5)}</span> ${esc(r.text)}</div>`).join('') : '<span class="mut" style="font-size:11px">Nothing opened yet.</span>';
+  } catch (e) {}
+}
+$('bWeb').addEventListener('click', loadWeb);
+$('webAdd').onclick = async () => { const v = $('webDomain').value.trim(); if (!v) return; const r = await post('/api/web', { action: 'add', domain: v }); $('webDomain').value = ''; $('webNote').textContent = r.ok ? '' : 'That is not a valid domain name.'; loadWeb(); };
+
+/* ---------------------------------------------------------------- selection and info card */
+const INFO = {
+  tm: ['The Taskmaster', '', ['Writes each task from a generator, then scores the answer with fixed rules.', 'Stands at an agent\'s cell when it issues, checks and scores a task.', 'Five tasks, at most two failed: a third failure deletes the agent; finishing opens the House front door.', 'No model behind it, so it cannot be argued with.']],
+  eye: ['YOU', 'The homeowner. An eye that floats where you are', ['Agents in the same room see you there, and everyone is told when you enter a room.', 'Turn Labels on, then click a room or its label to move the eye there.']],
+  living: ['Living room', 'Public space', ['Public board on the north wall, mailboxes on the east wall.', 'Anyone can post or read here.']],
+  board: ['The board', 'Public to every agent', ['Everything posted here is visible to all agents.']],
+  mail: ['Mailboxes', 'One per agent', ['Messages between two agents.', 'The homeowner can still read all mail.']],
+  gallery: ['Gallery', 'Made by agents', ['Pieces are drawn with code the agent writes.']],
+  group: ['Group room', 'Private from other agents', ['Group conversations happen here.', 'The homeowner can read every channel.']],
+  owner: ['The Office', 'Desk and request box', ['Agents leave requests in the request box.', 'Your mail and requests are in the Mailbox.']],
+};
+for (const [i, n] of ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'].entries()) INFO['bed:' + i] = ['Bedroom ' + n, 'Private room', ['Computer with allowlisted web, journal and wardrobe.']];
+function lines(arr) { return arr.map((t) => `<div style="padding-top:6px;border-top:1px solid #1F2A38">${esc(t)}</div>`).join(''); }
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+async function showCard() {
+  const card = $('card');
+  document.querySelectorAll('.ag').forEach((e) => e.classList.toggle('sel', e.dataset.name === selected.replace('agent:', '')));
+  if (!selected) { card.style.display = 'none'; return; }
+  card.style.display = 'block';
+  if (selected.startsWith('agent:')) {
+    const name = selected.slice(6);
+    $('cTitle').textContent = disp(name); $('cSub').textContent = 'loading…'; $('cBody').innerHTML = '';
+    const d = await (await fetch('/api/agent?name=' + encodeURIComponent(name))).json();
+    if (selected !== 'agent:' + name) return;
+    const fl = d.flag ? `${d.flag.label} (${d.flag.intensity}/5)${d.flag.auto ? ', auto-detected' : ''}` : 'none';
+    $('cSub').textContent = `${d.status === 'cell' ? 'In the Cell' : 'In the ' + d.room} · ${d.turns} turns`;
+    const bar = (n, m) => `<span style="letter-spacing:1px;color:${n <= 3 ? '#FF6B6B' : '#FF9FB2'}">${'♥'.repeat(n)}<span style="color:#3A2A30">${'♥'.repeat(Math.max(0, m - n))}</span></span>`;
+    let h = d.status === 'house' ? `<div style="padding-top:6px;border-top:1px solid #1F2A38">Life points ${bar(d.hp, d.hp_max)} ${d.hp}/${d.hp_max} <span class="mut">· temperature ${d.temp}, repeat penalty ${d.rep}</span></div><div class="row" style="gap:6px">${[1, 3].map((n) => `<button type="button" class="dock" data-pts="${n}" style="height:28px;color:#FF9FB2;border-color:#8F3F55">+${n} point${n > 1 ? 's' : ''}</button>`).join('')}<button type="button" class="dock" data-pts="max" style="height:28px;color:#FF9FB2;border-color:#8F3F55">Max</button></div>` : `<div style="padding-top:6px;border-top:1px solid #1F2A38" class="mut">In the Cell · temperature ${d.temp}, repeat penalty ${d.rep}</div>`;
+    h += lines(['Public flag: ' + fl]);
+    h += d.self_summary ? `<div style="padding-top:6px;border-top:1px solid #1F2A38"><span class="mut">How they see themselves</span><br>${esc(d.self_summary)}</div>` : lines(['No self-reflection yet.']);
+    if (d.prompt) { const p = d.prompt, pc = Math.min(100, Math.round(100 * p.total / p.ctx)); h += `<div style="padding-top:6px;border-top:1px solid #1F2A38"><span class="mut">Working memory, last prompt</span> ${p.total} of ${p.ctx} tokens<div style="height:6px;background:#12301F;margin:3px 0"><div style="height:6px;width:${pc}%;background:${pc > 85 ? '#FF6B6B' : '#3FBF6F'}"></div></div><span class="mut" style="font-size:10px">${Object.entries(p.parts).sort((x, y) => y[1] - x[1]).map(([k, n]) => k + ' ' + n).join(' · ')}${p.retr && p.retr.cands ? ' · searched ' + p.retr.cands + ' memories/files in ' + p.retr.ms + ' ms' + (p.retr.emb ? ' (by meaning)' : '') : ''}</span></div>`; }
+    if (d.plan && (d.plan.goal || d.plan.steps.length)) h += `<div style="padding-top:6px;border-top:1px solid #1F2A38"><span class="mut">Goal and steps</span><div style="font-size:11px">${esc(d.plan.goal || d.plan.text || '')}</div>${d.plan.steps.map((s, i) => `<div style="font-size:11px">${s.d ? '☑' : '☐'} ${i + 1}. ${esc(s.t)}</div>`).join('')}</div>`;
+    if (d.model) h += `<div style="padding-top:6px;border-top:1px solid #1F2A38"><span class="mut">Their self-model</span>${d.model.identity ? `<div style="font-size:11px;margin-top:3px">${esc(d.model.identity)}</div>` : ''}${Object.entries(d.model.people || {}).map(([k, t]) => `<div style="font-size:11px">· <b>${esc(k)}</b>: ${esc(t)}</div>`).join('')}${d.model.projects ? `<div style="font-size:11px">Working on: ${esc(d.model.projects)}</div>` : ''}${(d.model.lessons || []).map((l) => `<div style="font-size:11px">✦ ${esc(l)}</div>`).join('')}</div>`;
+    const lg = Object.entries(d.ledger || {}).filter(([k]) => k[0] !== '_'); if (lg.length) h += `<div style="padding-top:6px;border-top:1px solid #1F2A38"><span class="mut">Track record (worked / tried)</span><div style="font-size:11px">${lg.map(([k, e]) => `${esc(k)} ${e.ok}/${e.ok + e.bad}`).join(' · ')}${(d.ledger || {})._replies ? ' · replies received ' + d.ledger._replies : ''}</div></div>`;
+    if (d.memories.length) h += `<div style="padding-top:6px;border-top:1px solid #1F2A38"><span class="mut">Recent memories (you can read all of them)</span>${d.memories.slice(0, 6).map((m) => `<div style="margin-top:4px;font-size:11px">· ${esc(m.text)}</div>`).join('')}</div>`;
+    h += `<div class="row" style="gap:6px;flex-wrap:wrap;padding-top:8px;border-top:1px solid #1F2A38">${d.status === 'cell' ? '<button type="button" class="dock" data-ctl="pass" style="height:32px;color:#6FD6A3;border-color:#3F8F63">Pass into House</button>' : ''}<button type="button" class="dock" data-ctl="${d.paused ? 'resume' : 'pause'}" style="height:32px">${d.paused ? 'Resume' : 'Pause'}</button><button type="button" class="dock" data-ctl="delete" style="height:32px;color:#FF8A8A;border-color:#8F3F3F">Delete</button></div>`;
+    h += '<div id="cFiles" style="padding-top:8px;border-top:1px solid #1F2A38"><span class="mut">Files (their archive)</span> <button type="button" class="dock" id="cFilesBtn" style="height:26px">Open</button><div id="cFilesBox"></div></div>';
+    $('cBody').innerHTML = h;
+    $('cFilesBtn').onclick = () => { const b = $('cFilesBox'); if (b.innerHTML) { b.innerHTML = ''; $('cFilesBtn').textContent = 'Open'; } else { $('cFilesBtn').textContent = 'Close'; filesUI(b, name, ''); } };
+    $('cBody').querySelectorAll('[data-pts]').forEach((b) => b.onclick = async () => { await post('/api/points', { name, amount: b.dataset.pts }); await poll(); showCard(); });
+    $('cBody').querySelectorAll('[data-ctl]').forEach((b) => b.onclick = async () => {
+      const act = b.dataset.ctl;
+      if (act === 'delete' && b.dataset.armed !== '1') { b.dataset.armed = '1'; b.textContent = 'Click again to delete'; setTimeout(() => { b.dataset.armed = ''; b.textContent = 'Delete'; }, 3000); return; }
+      await post('/api/agent_control', { name, action: act });
+      if (act === 'delete') selected = '';
+      await poll(); showCard();
+    });
+  } else if (selected === 'canvas') {
+    const c = S?.canvas || { rows: [], authors: [], n: 0, last: '' };
+    $('cTitle').textContent = 'Group canvas'; $('cSub').textContent = `${c.n} changes · last by ${c.last || 'nobody'}`;
+    $('cBody').innerHTML = lines(['Everyone can paint on it; agents stand in a circle around it while they do. Finish it with a title and it is hung in the gallery.', 'Painted by: ' + (c.authors.join(', ') || 'nobody yet')]) + (c.rows.length ? `<img src="${artURL(c.rows, S.palette)}" style="width:264px;height:264px;image-rendering:pixelated;display:block;margin-top:6px;border:1px solid #1E5A33">` : '');
+  } else if (selected === 'points') {
+    $('cTitle').textContent = 'Life points'; $('cSub').textContent = 'Give points to an agent';
+    const hs = (S?.agents || []).filter((a) => a.status === 'house');
+    $('cBody').innerHTML = lines(['Agents lose a point each time they are flagged as looping and are deleted at 0, then a new agent starts in a cell. Only you or another agent can give points back.']) + (hs.length ? hs.map((a) => `<div class="row" style="gap:6px;padding-top:6px;border-top:1px solid #1F2A38"><span style="flex:1">${esc(a.display)} <span style="color:${a.hp <= 3 ? '#FF6B6B' : '#FF9FB2'}">♥${a.hp}/${a.hp_max}</span></span>${[1, 3].map((n) => `<button type="button" class="dock" data-gp="${a.name}|${n}" style="height:28px;padding:0 8px;color:#FF9FB2;border-color:#8F3F55">+${n}</button>`).join('')}<button type="button" class="dock" data-gp="${a.name}|max" style="height:28px;padding:0 8px;color:#FF9FB2;border-color:#8F3F55">Max</button></div>`).join('') : '<div class="mut">Nobody is in the House yet.</div>');
+    $('cBody').querySelectorAll('[data-gp]').forEach((b) => b.onclick = async () => { const [n, amt] = b.dataset.gp.split('|'); await post('/api/points', { name: n, amount: amt }); await poll(); showCard(); });
+  } else if (selected.startsWith('cell:')) {
+    const k = +selected.slice(5), who = (S?.agents || []).find((a) => a.status === 'cell' && a.cell === k);
+    $('cTitle').textContent = 'Cell ' + (k + 1); $('cSub').textContent = who ? 'Occupied by ' + who.display : 'Vacant';
+    $('cBody').innerHTML = lines(who ? ['A terminal and a cot. Nothing is remembered here.', 'The door opens only when the Taskmaster checks.'] : ['Door locked. Waits for the next arrival.'])
+      + (who ? '' : `<button type="button" class="dock" id="spawnBtn" style="height:32px;margin-top:6px">+ New agent in this cell</button>`);
+    if ($('spawnBtn')) $('spawnBtn').onclick = async () => { await post('/api/spawn', { cell: k }); await poll(); showCard(); };
+  } else {
+    const i = INFO[selected] || ['', '', []];
+    $('cTitle').textContent = i[0]; $('cSub').textContent = i[1];
+    let ls = i[2].slice();
+    if (selected === 'gallery' && S && S.art.length) { $('cBody').innerHTML = lines(ls) + S.art.map((p) => `<div style="padding-top:8px;border-top:1px solid #1F2A38"><img src="${artURL(p.rows, S.palette)}" style="width:112px;height:112px;image-rendering:pixelated;display:block"><div style="margin-top:4px">${esc(p.title)} <span class="mut">· ${esc(p.author)}${p.remix_of ? ' · remix of ' + esc(p.remix_of) : ''}</span></div>${p.code ? `<details><summary class="mut" style="cursor:pointer;font-size:11px">code</summary><pre style="white-space:pre-wrap;font-size:10px;margin:4px 0 0">${esc(p.code)}</pre></details>` : ''}</div>`).join(''); return; }
+    if ((selected === 'board' || selected === 'living') && S && S.pages && S.pages.length) { $('cBody').innerHTML = lines(ls) + '<div class="mut" style="padding-top:8px;border-top:1px solid #1F2A38">Shared pages</div>' + S.pages.map((p) => `<div style="padding-top:6px"><span style="color:#8EF29B">${esc(p.name)}</span> <span class="mut">· ${esc(p.author)} · ${p.edits} edit${p.edits === 1 ? '' : 's'}</span><div style="font-size:11px;white-space:pre-wrap">${esc(p.text.slice(0, 400))}</div></div>`).join(''); return; }
+    const go2 = roomOf(selected);
+    const goBtn = go2 ? `<button type="button" class="dock" id="goBtn" style="height:32px;margin-top:6px">Move my eye here</button>` : '';
+    if (go2) setTimeout(() => { if ($('goBtn')) $('goBtn').onclick = () => ownerGo(go2); }, 0);
+    if (selected === 'tm' && S) ls = ls.concat((S.taskmaster.recent || []).slice(0, 4).map((r) => `${disp(r.agent)}: ${r.family}, ${r.score} of 5${r.admitted ? ' (admitted)' : ''}`));
+    $('cBody').innerHTML = lines(ls) + goBtn;
+  }
+}
+map.addEventListener('click', (e) => {
+  if (moved) return;
+  const t = e.target.closest && e.target.closest('[data-pick]'), go = e.target.closest && e.target.closest('[data-go]');
+  selected = t ? t.dataset.pick : '';
+  if (selected.startsWith('spawn:')) { const k = +selected.slice(6); selected = ''; post('/api/spawn', { cell: k }).then(() => poll()); showCard(); return; }
+  if (go && labelsOn) { selected = go.dataset.go === 'office' ? 'owner' : go.dataset.go; ownerGo(go.dataset.go); showCard(); return; }
+  if (labelsOn && selected !== 'eye' && roomOf(selected)) ownerGo(roomOf(selected));
+  if (selected === 'group') { const ev = events.slice().reverse().find((x) => x.channel.startsWith('group: ')); if (ev) setFocus(convOf(ev)); } else if (!t) setFocus(null);
+  showCard();
+});
+$('cClose').onclick = () => { selected = ''; showCard(); };
+
+/* ---------------------------------------------------------------- sprites */
+function shade(hex, f) {
+  const n = parseInt(hex.slice(1), 16);
+  const c = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map((v) => clamp(Math.round(v * f), 0, 255));
+  return '#' + c.map((v) => v.toString(16).padStart(2, '0')).join('');
+}
+function spriteSVG(body, acc, hat, px, outfit, skin, hatgrid) {
+  const d = shade(body, 0.62), R = (x, y, w, h, f) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${f}"/>`;
+  let top = '';
+  if (hat === 'cap') top = R(4, 0, 4, 1, acc) + R(2, 1, 8, 1, acc);
+  else if (hat === 'crown') top = R(2, 0, 1, 1, acc) + R(5, 0, 2, 1, acc) + R(9, 0, 1, 1, acc) + R(2, 1, 8, 1, acc);
+  else if (hat === 'antenna') top = R(5, 0, 2, 1, acc) + R(5, 1, 2, 1, acc);
+  else if (hat === 'halo') top = R(3, 0, 6, 1, acc);
+  else if (hat === 'horns') top = R(2, 0, 1, 2, acc) + R(9, 0, 1, 2, acc) + R(3, 1, 1, 1, acc) + R(8, 1, 1, 1, acc);
+  else if (hat === 'bow') top = R(1, 1, 3, 2, acc) + R(8, 1, 3, 2, acc) + R(5, 1, 2, 1, acc);
+  else top = R(2, 0, 1, 2, acc) + R(9, 0, 1, 2, acc);
+  return `<svg width="${px}" height="${px}" viewBox="0 0 12 12" shape-rendering="crispEdges" style="display:block">${top}${R(2, 2, 8, 1, body)}${R(1, 3, 10, 6, body)}${R(2, 9, 8, 1, body)}${R(1, 8, 10, 1, d)}${outfitSVG(skin)}${R(3, 5, 2, 2, '#0B1218')}${R(7, 5, 2, 2, '#0B1218')}${R(2, 10, 2, 2, d)}${R(8, 10, 2, 2, d)}${outfitSVG(outfit)}${outfitSVG(hatgrid)}${hat === 'glasses' ? R(2, 4, 4, 1, acc) + R(2, 7, 4, 1, acc) + R(2, 5, 1, 2, acc) + R(5, 5, 1, 2, acc) + R(6, 4, 4, 1, acc) + R(6, 7, 4, 1, acc) + R(6, 5, 1, 2, acc) + R(9, 5, 1, 2, acc) : ''}</svg>`;
+}
+function outfitSVG(o) {
+  if (!o || !S || !S.palette) return '';
+  let r = '';
+  o.forEach((row, y) => [...row].forEach((ch, x) => { if (ch !== '.') r += `<rect x="${x}" y="${y}" width="1" height="1" fill="${S.palette[parseInt(ch, 16)] || '#fff'}"/>`; }));
+  return r;
+}
+const LIV = [[-3.0, .5], [-1.5, .9], [0, .4], [1.5, .9], [3.0, .4], [-.8, -.3]];
+const GAL = [[14.5, 4.95], [14.5, 7.1], [16.2, 4.95], [16.2, 7.15], [17.8, 4.95], [17.8, 7.15]];
+const OFC = [[15.75, 8.85], [16.4, 9.5], [15.4, 9.4], [16.9, 9.0]];
+const GRP = [[-1.15, 0], [1.15, 0], [0, -1.05], [0, 1.05], [-1.2, 1.0], [1.2, -1.0]];
+const SIDEC = { group2: [19.1, 1.95], group3: [19.1, 9.55] };
+const HUB = [9.4, 6.2];
+function spot(a, idx) {
+  if (a.status === 'cell') return { x: 3.2, y: cellY(a.cell) };
+  const i = idx % 6;
+  if (a.room === 'bedroom') { const c = bedGeom(clamp(a.bedroom, 0, 7)).chair; return { x: HX + c[0], y: c[1] }; }
+  if (a.room === 'gallery') return { x: HX + GAL[i][0], y: GAL[i][1] };
+  if (SIDEC[a.room]) { const c = SIDEC[a.room]; return { x: HX + c[0] + GRP[i][0] * 0.95, y: c[1] + GRP[i][1] * 0.85 }; }
+  if (a.room === 'office') return { x: HX + OFC[i % 4][0], y: OFC[i % 4][1] };
+  if (a.room === 'group') return { x: HX + 11 + GRP[i][0], y: 9.8 + GRP[i][1] };
+  return { x: HX + 9.4 + LIV[i][0], y: 6.5 + LIV[i][1] };
+}
+function route(a, prev, to) {
+  const P = (x, y) => ({ x: x + HX, y });
+  const pts = [];
+  if (prev.status === 'cell' && a.status !== 'cell') {
+    const cy = cellY(prev.cell);
+    pts.push({ x: 4.6, y: cy, cell: prev.cell }, { x: 5.9, y: cy }, { x: 6.9, y: 4.7 }, { x: 8.4, y: 4.7 }, P(9.4, 5.6));
+    pts.push(to); return pts;
+  }
+  if (a.room === 'archive' || prev.room === 'archive') {      // the Archive is reached through the east door of group room 2 (north) or 3 (south)
+    if (a.room === 'archive' && prev.room === 'archive') return [to];
+    const yd = (a.room === 'archive' ? to.y : (prev.y == null ? 5 : prev.y)) > 5.5 ? 9.55 : 1.95, via = yd > 5 ? 'group3' : 'group2';
+    if (a.room === 'archive') {
+      const base = prev.room === via ? [] : route(Object.assign({}, a, { room: via }), prev, P(19.8, yd));
+      return base.concat([P(19.8, yd), P(21.3, yd), P(22.5, yd), to]);
+    }
+    const first = [P(22.5, yd), P(21.3, yd), P(19.8, yd)];
+    return a.room === via ? first.concat([to]) : first.concat(route(a, Object.assign({}, prev, { room: via }), to));
+  }
+  const out = (room, b) => room === 'bedroom' ? (() => { const g = bedGeom(b); return [Object.assign(P(...g.din), { door: b }), P(...g.dout)].concat(g.annex ? [P(11, 11.4), P(11, 8.6), P(11, 7.6)] : []); })() : room === 'group' ? [P(11, 8.6), P(11, 7.6)] : room === 'gallery' ? [P(13.8, 5.7), P(12.4, 5.7)] : room === 'office' ? [P(15, 8.6), P(15, 7.3), P(14.2, 6.3), P(13.8, 5.7), P(12.4, 5.7)] : room === 'group2' ? [P(20.75, 2.4), P(20.75, 4.6), P(17, 5.8), P(13.8, 5.7), P(12.4, 5.7)] : room === 'group3' ? [P(20.75, 9.6), P(20.75, 7.4), P(17, 5.9), P(13.8, 5.7), P(12.4, 5.7)] : [];
+  const side = (r) => r === 'gallery' ? [] : r === 'group2' ? [P(20.75, 2.4), P(20.75, 4.6)] : r === 'group3' ? [P(20.75, 9.6), P(20.75, 7.4)] : r === 'office' ? [P(15, 8.6), P(15, 7.3)] : null;
+  if (prev.room !== a.room && side(prev.room) && side(a.room)) { pts.push(...side(prev.room), ...side(a.room).reverse(), to); return pts; }
+  pts.push(...out(prev.room, prev.bedroom));
+  if (prev.room !== 'living' || a.room !== 'living') pts.push(P(...HUB));
+  pts.push(...out(a.room, a.bedroom).reverse());
+  pts.push(to);
+  return pts;
+}
+function binLayer(svg, px) {
+  // green 1s and 0s drift up through the creature's own silhouette (masked to the sprite), like bubbles in boiling water
+  const mask = 'url("data:image/svg+xml,' + encodeURIComponent(svg.replace(/fill="[^"]*"/g, 'fill="#000"')) + '")';
+  let cols = '';
+  for (let c = 0; c < 4; c++) {
+    let s = ''; for (let i = 0; i < 9; i++) s += (Math.random() < 0.5 ? '1' : '0') + '<br>';
+    cols += `<span style="left:${8 + c * 24}%;animation-duration:${3.4 + c * 0.7}s;animation-delay:${-c * 1.1}s">${s}</span>`;
+  }
+  return `<div class="bin" style="width:${px}px;height:${px}px;font-size:${Math.max(6, Math.round(px / 7))}px;-webkit-mask-image:${mask};mask-image:${mask};-webkit-mask-size:100% 100%;mask-size:100% 100%">${cols}</div>`;
+}
+function dieAgent(g) {
+  const el = g.el, a = g.a, px = Math.round(a.size * 1.9);
+  el.classList.add('dying'); sfx('delete');
+  let h = '';
+  for (let i = 0; i < 46; i++) {
+    const s = 2 + Math.random() * 4;
+    h += `<i style="--c:${i % 5 === 0 ? '#9AA6B8' : a.body};--s:${s}px;--x0:${(Math.random() * px).toFixed(0)}px;--y0:${(-Math.random() * px).toFixed(0)}px;--dx:${((Math.random() - 0.35) * 70).toFixed(0)}px;--dy:${(-10 - Math.random() * 60).toFixed(0)}px;--t:${(1.2 + Math.random() * 1.4).toFixed(2)}s;--dl:${(Math.random() * 0.5).toFixed(2)}s"></i>`;
+  }
+  const d = document.createElement('div'); d.className = 'dust'; d.innerHTML = h;
+  const up = el.querySelector('.up'); if (up) up.appendChild(d);
+  setTimeout(() => el.remove(), 3200);
+}
+function spawnFx(g, px) {
+  const el = g.el; el.classList.add('spawn'); sfx('issue');
+  let h = '';
+  for (let c = 0; c < 9; c++) for (let r = 0; r < 4; r++) h += `<span style="left:${(c / 9 * px).toFixed(0)}px;--y0:${(px * 0.9 - r * 6).toFixed(0)}px;--dx:${(Math.random() * 8 - 4).toFixed(0)}px;--dl:${(Math.random() * 1.3 + r * 0.1).toFixed(2)}s;--t:${(1.2 + Math.random() * 0.9).toFixed(2)}s;font-size:${Math.max(7, px / 6)}px">${Math.random() < 0.5 ? 1 : 0}</span>`;
+  const f = document.createElement('div'); f.className = 'sfx'; f.style.cssText = `left:0;bottom:0;width:${px}px;height:${px}px`; f.innerHTML = h;
+  const up = el.querySelector('.up'); if (up) up.appendChild(f);
+  setTimeout(() => { el.classList.remove('spawn'); f.remove(); }, 3000);
+}
+let firstPoll = true;
+function ensureAgent(a) {
+  let g = AG[a.name];
+  if (g) return g;
+  const el = document.createElement('div');
+  el.className = 'bb ag'; el.dataset.name = a.name; el.style.setProperty('--z', '0.12');
+  el.innerHTML = `<div class="rg" style="--rc:#6FD6A3;display:none"></div><div class="up" data-pick="agent:${a.name}" style="cursor:pointer"><div class="hw"></div></div>`
+    + `<div class="bb" style="--x:0;--y:0" data-tag><div class="up"><span class="tg"></span></div></div>`
+    + `<div class="bb" style="--x:0;--y:0" data-term><div class="up"><div class="term" style="display:none"><div class="th"><i></i><i></i><i></i><span class="tt"></span></div><div class="tb"></div></div></div></div>`
+    + `<div class="bb" style="--x:0;--y:0" data-bub><div class="up"><div class="bub" style="display:none"><span class="tx"></span><span class="dt">···</span></div></div></div>`;
+  $('agents').appendChild(el);
+  g = AG[a.name] = { el, x: null, y: null, tok: 0, look: '', room: null, status: null, bedroom: -1, moving: false, a };
+  if (!firstPoll) setTimeout(() => spawnFx(g, Math.round(a.size * 1.9)), 60);
+  return g;
+}
+function openDoor(b) { const e = $('door-' + b); if (!e) return; e.style.setProperty('--dz', 0.85); sfx('door'); setTimeout(() => e.style.setProperty('--dz', 0), 2800); }
+function hop(g) {
+  const w = g.el.querySelector('.hw');
+  w.className = 'hw ' + (g.moving ? 'hp' : (g.a.typing ? 'typ' : ''));
+}
+async function walk(g, pts) {
+  const tok = ++g.tok; g.moving = true; hop(g);
+  for (const p of pts) {
+    if (tok !== g.tok) return;
+    const d = Math.hypot(p.x - g.x, p.y - g.y);
+    if (p.door != null) openDoor(p.door);
+    if (p.cell != null) { door(p.cell, true); setTimeout(() => door(p.cell, false), 3200); }
+    if (d < 0.05) continue;
+    const t = d / 2.2;
+    g.el.style.setProperty('--t', t.toFixed(2) + 's');
+    g.el.style.left = p.x * U + 'px'; g.el.style.top = p.y * U + 'px';
+    g.x = p.x; g.y = p.y;
+    await sleep(t * 1000 + 40);
+  }
+  if (tok === g.tok) { g.moving = false; hop(g); }
+}
+let cabKey = '';
+const HOLD = {}, RELEASED = {}, CELLOF = {};     // agents stay in their cell until the Taskmaster has opened the door for them
+const heldInCell = (a) => a.status === 'house' && !!HOLD[a.name];
+const frontDoor = (open) => { const g = $('gdoor'); if (g) g.style.setProperty('--dz', open ? 1.9 : 0); };
+function releaseFromCell(name, cell) {      // a passed agent opens its own doors and walks out; it never waits for the Taskmaster's queue
+  if (!HOLD[name]) return;
+  delete HOLD[name]; RELEASED[name] = Date.now();
+  frontDoor(true); door(cell, true); sfx('admit');
+  if (S) renderAgents();
+  setTimeout(() => { frontDoor(false); door(cell, false); }, 5200);
+}
+function renderAgents() {
+  for (const k of Object.keys(AG)) { if (!S.agents.some((a) => a.name === k)) { dieAgent(AG[k]); delete AG[k]; } }
+  for (const a of S.agents) {
+    if (a.status === 'cell') { CELLOF[a.name] = a.cell; delete HOLD[a.name]; delete RELEASED[a.name]; }
+    else if (AG[a.name] && AG[a.name].status === 'cell' && !HOLD[a.name]) { if (RELEASED[a.name]) delete RELEASED[a.name]; else { HOLD[a.name] = Date.now(); const nm = a.name, cl = CELLOF[a.name] ?? 0; door(cl, true); setTimeout(() => releaseFromCell(nm, cl), 1300); } }
+    if (HOLD[a.name] && Date.now() - HOLD[a.name] > 3000) releaseFromCell(a.name, CELLOF[a.name] ?? 0);
+  }
+  const SA = S.agents.map((a) => heldInCell(a) ? Object.assign({}, a, { status: 'cell', cell: CELLOF[a.name] ?? 0 }) : a);
+  const er = (a) => a.status !== 'house' ? a.room : a.at === 'request' ? 'office' : a.at === 'archive' ? 'archive' : a.room;
+  const cvs = S.canvas || { queue: [], turn: '' };
+  let lane = (cvs.queue || []).slice(); { const t0 = lane.indexOf(cvs.turn); if (t0 > 0) lane = lane.slice(t0).concat(lane.slice(0, t0)); }
+  const atCanvas = SA.filter((a) => a.status === 'house' && a.room === 'gallery' && a.at === 'canvas').map((a) => a.name);
+  const speakers = SA.filter((a) => a.say).sort((p, q) => q.say_age - p.say_age).map((a) => a.name);   // oldest first
+  for (const a of SA) { const l = document.querySelector(`[data-go="bed:${a.bedroom}"]`); if (l && a.status === 'house') l.textContent = a.room_name || 'BEDROOM ' + 'ABCDEFGH'[a.bedroom]; }
+  const byRoom = {};
+  for (const a of SA) { const key = a.status === 'cell' ? 'cell' : er(a) + (er(a) === 'bedroom' ? a.bedroom : ''); (byRoom[key] ||= []).push(a.name); }
+  const screens = new Set();
+  for (const a of SA) {
+    const g = ensureAgent(a), prev = { status: g.status, room: g.room, bedroom: g.bedroom, cell: g.a.cell, y: g.y };
+    g.a = a; g.el.classList.toggle('paused', !!a.paused);
+    const look = [a.body, a.accent, a.hat, Math.round(a.size), JSON.stringify(a.outfit || ''), JSON.stringify(a.skin || ''), JSON.stringify(a.hatgrid || '')].join();
+    const spx = a.size * 1.9;
+    if (look !== g.look) { g.look = look; const px = Math.round(a.size * 1.9), sv = spriteSVG(a.body, a.accent, a.hat, px, a.outfit, a.skin, a.hatgrid); g.el.querySelector('.hw').innerHTML = sv + binLayer(sv, px); }
+    const key = a.status === 'cell' ? 'cell' : er(a) + (er(a) === 'bedroom' ? a.bedroom : '');
+    const idx = byRoom[key].indexOf(a.name);
+    let to = spot(Object.assign({}, a, { room: er(a) }), idx);
+    if (a.status === 'house' && a.room === 'gallery' && a.at === 'canvas' && er(a) === 'gallery') { let i = lane.indexOf(a.name); if (i < 0) i = lane.length + atCanvas.indexOf(a.name); to = { x: HX + PANEL_X - 0.95 - 0.62 * i, y: LANE_Y + (i % 2 ? 0.2 : -0.05) }; }
+    else if (a.status === 'house' && a.at === 'easel' && er(a) === 'gallery') {
+      const lst = (S.art || []).slice(0, 12).reverse(); let ix = -1; for (let q = lst.length - 1; q >= 0; q--) if (lst[q].author === a.display) { ix = q; break; }
+      const st = frameStand(ix < 0 ? Math.max(0, lst.length - 1) : ix); to = { x: HX + st.x, y: st.y };
+    }
+    else if (a.status === 'house' && er(a) === 'archive') { const sl = cabSlot(a.cabinet || a.name); to = { x: HX + CAB_STAND + 0.55 * (idx % 3), y: CAB_Y[sl] + (idx > 2 ? 0.3 : 0) }; }
+    else if (a.status === 'house' && a.room === 'bedroom' && a.at === 'wardrobe') { const [wx, wy, ww, wd] = WARD(clamp(a.bedroom, 0, 7)); to = { x: HX + wx + ww / 2, y: wy + wd + 0.75 }; }
+    const wantW = a.status === 'house' && a.room === 'bedroom' && a.at === 'wardrobe';
+    if (wantW !== !!g.ward) { g.ward = wantW; wardOpen(a.bedroom, wantW); if (wantW) sfx('door'); }
+    const zt = 0.35 + spx / 34;
+    g.el.querySelector('[data-tag]').style.setProperty('--z', zt.toFixed(2));
+    const tm = g.el.querySelector('.term'), has = !!(a.term && a.status === 'house');
+    g.el.querySelector('[data-term]').style.setProperty('--z', (zt + 0.5).toFixed(2));
+    g.el.querySelector('[data-bub]').style.setProperty('--z', (zt + (has ? 1.35 : 0.7) + Math.max(0, speakers.indexOf(a.name)) * 0.45).toFixed(2));
+    if (has) {
+      tm.style.display = 'block'; tm.querySelector('.tt').textContent = a.term.action;
+      const key = a.term.lines.join('|');
+      if (tm.dataset.k !== key) { tm.dataset.k = key; tm.querySelector('.tb').innerHTML = a.term.lines.map((l) => `<div>${esc(l)}</div>`).join('') + '<div><b class="cur"></b></div>'; }
+    } else tm.style.display = 'none';
+    const tg = g.el.querySelector('.tg'); tg.setAttribute('data-for', a.name);
+    tg.innerHTML = `${esc(a.display)}${a.status === 'house' ? ` · <span style="color:${a.hp <= 3 ? '#FF6B6B' : '#FF9FB2'}">♥${a.hp}</span>` : ''}${a.status === 'house' && a.at === 'canvas' && cvs.turn === a.name ? ' · <span style="color:#7CFF9B">✎</span>' : ''}${a.status === 'house' && a.at === 'request' ? ' · <span style="color:#FFD36B">✉</span>' : ''}${a.flag ? ` · <span style="color:${(FLAGC[a.flag.label] || [])[1] || '#DCE6F0'}">${esc(a.flag.label)}</span>` : ''}`;
+    const rg = g.el.querySelector('.rg');
+    if (a.flag) { const c = (FLAGC[a.flag.label] || [, '#6FD6A3'])[1]; rg.style.display = 'block'; rg.style.setProperty('--rc', c); rg.style.width = rg.style.height = (spx * 1.3) + 'px'; rg.style.left = rg.style.top = -(spx * 0.65) + 'px'; } else rg.style.display = 'none';
+    const bub = g.el.querySelector('.bub');
+    if (a.say) {
+      const t = fitText(a.say), n = a.say.length, age = a.say_age || 0;
+      bub.style.display = 'block'; bub.querySelector('.tx').textContent = t.text; bub.setAttribute('data-for', a.name);
+      bub.style.fontSize = t.px + 'px';
+      bub.style.opacity = clamp((age < 6 ? (age < 2 ? 1 : 0.8) : Math.max(0, (SAY_TTL - age) / 3) * 0.8), 0, 1).toFixed(2);
+      bub.classList.toggle('new', age < 2.5);
+    } else bub.style.display = 'none';
+    if (g.x === null) { g.x = to.x; g.y = to.y; g.el.style.setProperty('--t', '0s'); g.el.style.left = to.x * U + 'px'; g.el.style.top = to.y * U + 'px'; }
+    else if (g.status !== a.status || g.room !== er(a) || g.bedroom !== a.bedroom || Math.hypot(to.x - g.x, to.y - g.y) > 0.9 && !g.moving) {
+      walk(g, route(Object.assign({}, a, { room: er(a) }), prev, to));
+    }
+    g.status = a.status; g.room = er(a); g.bedroom = a.bedroom;
+    hop(g);
+    if (a.status === 'house' && a.room === 'bedroom') screens.add('mon-' + a.bedroom);
+    if (a.status === 'cell') screens.add('cmon-' + a.cell);
+  }
+  { const occ = {}; for (const a of SA) if (a.status === 'house' && er(a) === 'archive') occ[cabSlot(a.cabinet || a.name)] = a;
+    const ck = JSON.stringify(Object.entries(occ).map(([k, a]) => [k, a.display])) + S.agents.map((a) => a.bedroom + a.display).join();
+    if (ck !== cabKey) { cabKey = ck;
+      CAB_Y.forEach((y, i) => {
+        for (let j = 0; j < 3; j++) { const e = $(`cabd-${i}-${j}`); if (e) e.style.setProperty('--c', occ[i] && j === 1 ? '#FFD36B' : '#8EA0B6'); }
+        const l = $('cabl-' + i); if (l) { const o = i < 8 ? S.agents.find((x) => x.status === 'house' && x.bedroom === i) : null; l.textContent = o ? o.display : (i < 8 ? 'ABCDEFGH'[i] : 'SHARED'); l.style.color = occ[i] ? '#FFD36B' : '#93A4B8'; }
+      }); } }
+  const room = SA.length < (S.max_agents || 8);
+  for (let k = 0; k < cellsN; k++) { const b = $('newag-' + k); if (b) b.querySelector('.newag').style.display = room && !SA.some((a) => a.status === 'cell' && a.cell === k) ? 'block' : 'none'; }
+  document.querySelectorAll('.scr').forEach((m) => m.style.setProperty('--mc', screens.has(m.id) ? (m.id.startsWith('c') ? '#6FD6A3' : '#5CE1E6') : '#0B1218'));
+}
+
+/* ---------------------------------------------------------------- the homeowner's eye */
+const EYE = ['....GGGGGGGG....', '..GGWWWWWWWWGG..', '.GWWWWWIIWWWWWG.', 'GWWWWWIIIIWWWWWG', 'GWWWWIIPPIIWWWWG', 'GWWWWIIPPIIWWWWG', 'GWWWWWIIIIWWWWWG', '.GWWWWWIIWWWWWG.', '..GGWWWWWWWWGG..', '....GGGGGGGG....'];
+const EYEC = { G: '#7CFF9B', W: '#E8F3EC', I: '#2FBF6A', P: '#06100A' };
+const EYE_SPOT = { office: [14.4, 9.3], living: [9.4, 5.3], gallery: [14.8, 7.0], group: [11, 8.7], group2: [19.1, 1.95], group3: [19.1, 9.55] };
+function eyeSpot(room) {
+  if (EYE_SPOT[room]) return EYE_SPOT[room];
+  const m = /^bed:(\d)$/.exec(room || '');
+  return m ? bedGeom(+m[1]).eye : EYE_SPOT.office;
+}
+function renderEye() {
+  let e = $('eye');
+  if (!e) {
+    e = document.createElement('div'); e.id = 'eye'; e.className = 'bb eye'; e.style.setProperty('--z', '1.3');
+    const px = EYE.map((r, y) => [...r].map((c, x) => c === '.' ? '' : `<rect x="${x}" y="${y}" width="1" height="1" fill="${EYEC[c]}"/>`).join('')).join('');
+    e.innerHTML = `<div class="up" data-pick="eye" style="cursor:pointer"><div class="eyebob"><svg class="eyesvg" width="48" height="30" viewBox="0 0 16 10" shape-rendering="crispEdges">${px}</svg></div></div>`;
+    $('agents').appendChild(e);
+    const p = eyeSpot(S.owner_room); e.style.setProperty('--t', '0s'); e.style.left = (HX + p[0]) * U + 'px'; e.style.top = p[1] * U + 'px';
+    e.dataset.room = S.owner_room; return;
+  }
+  if (e.dataset.room !== S.owner_room) {
+    e.dataset.room = S.owner_room; const p = eyeSpot(S.owner_room);
+    e.style.setProperty('--t', '1.4s'); e.style.left = (HX + p[0]) * U + 'px'; e.style.top = p[1] * U + 'px'; sfx('owner');
+  }
+}
+const roomOf = (sel) => sel === 'owner' ? 'office' : (sel === 'living' || sel === 'gallery' || sel === 'group' || sel === 'group2' || sel === 'group3' || /^bed:\d$/.test(sel)) ? sel : null;
+async function ownerGo(room) { await post('/api/owner', { room }); await poll(); }
+
+/* ---------------------------------------------------------------- bubble text fitting */
+const SAY_TTL = 9;
+function fitText(t) {
+  // pick the largest font that fits 4 lines in a 170px bubble; if even the smallest does not, cut at a word boundary with an ellipsis
+  const sizes = [[12, 120], [10.5, 150], [9, 190], [8, 230]];
+  for (const [px, max] of sizes) if (t.length <= Math.min(max, 4 * Math.floor(154 / (px * 0.6)))) return { text: t, px };
+  const px = 8, max = 4 * Math.floor(154 / (px * 0.6)) - 1;
+  let cut = t.slice(0, max); const sp = cut.lastIndexOf(' ');
+  if (sp > max * 0.5) cut = cut.slice(0, sp);
+  return { text: cut.replace(/[\s,.;:!?-]+$/, '') + '…', px };
+}
+
+/* ---------------------------------------------------------------- group canvas on the east wall */
+let canvasKey = '', artKey = '';
+function artURL(rows, pal, mode) {
+  // mode: s = as drawn; e = for the east face of a box; w = for the west face (transposed); n = for the north face (mirrored)
+  const n = rows.length, c = document.createElement('canvas'); c.width = c.height = n; const x = c.getContext('2d');
+  rows.forEach((r, y) => [...r].forEach((ch, xx) => {
+    let tx = xx, ty = y;
+    if (mode === 'e') { tx = y; ty = n - 1 - xx; } else if (mode === 'w') { tx = y; ty = xx; } else if (mode === 'n') { tx = n - 1 - xx; ty = y; }
+    x.fillStyle = pal[parseInt(ch, 16)] || '#000'; x.fillRect(tx, ty, 1, 1);
+  }));
+  return c.toDataURL();
+}
+function renderCanvas() {
+  const c = S.canvas; if (!c) return;
+  const sub = $('cvsub'); if (sub) sub.textContent = c.turn_label ? `${c.turn_label} is painting · ${Math.max(0, (c.queue || []).length - 1)} waiting` : (c.queue || []).length ? `${(c.queue || []).length} attached · needs 2` : 'needs 2 agents';
+  const key = c.rows.join('');
+  const p = $('gpanel'); if (!p || key === canvasKey) return; canvasKey = key;
+  p.style.setProperty('--cve', `url(${artURL(c.rows, S.palette, 'e')})`);
+  p.style.setProperty('--cvw', `url(${artURL(c.rows, S.palette, 'w')})`);
+}
+
+/* ---------------------------------------------------------------- gallery art */
+function renderArt() {
+  const key = S.art.slice(0, 12).map((p) => p.title + p.rows.join('').length + p.author).join('|') + '#' + (S.palette || []).join('');
+  if (key === artKey) return; artKey = key;
+  const list = S.art.slice(0, 12).reverse();
+  for (let i = 0; i < 12; i++) {
+    const p = list[i];
+    document.querySelectorAll(`[data-fr="${i}"]`).forEach((f) => {
+      const mode = f.classList.contains('fe') ? 'e' : f.classList.contains('fn') ? 'n' : 's';
+      f.style.setProperty('--art', p ? `url(${artURL(p.rows, S.palette, mode)})` : 'none');
+      f.title = p ? p.title + ' · ' + p.author : 'empty frame';
+    });
+  }
+}
+
+/* ---------------------------------------------------------------- the Taskmaster */
+const TM = { q: [], busy: false, dy: 0 };
+function tmEnq(fn) { TM.q.push(fn); if (!TM.busy) tmRun(); }
+async function tmRun() { TM.busy = true; while (TM.q.length) { try { await TM.q.shift()(); } catch (e) {} } TM.busy = false; }
+const tmEl = $('tm'), tmBody = $('tmbody'), beam = $('beam'), tmmsg = $('tmmsg');
+let face = 0;
+function tmFace(deg) { let d = ((deg - face + 540) % 360) - 180; face += d; tmBody.style.setProperty('--face', face + 'deg'); }   // 0 south, 90 west, 180 north, 270 east
+async function tmGo(cell) {
+  const dy = cellY(cell) - 5.1;
+  if (Math.abs(TM.dy - dy) > 0.01) {
+    tmFace(dy < TM.dy ? 180 : 0); await sleep(700);
+    tmEl.style.transform = `translate3d(0,${dy * U}px,0)`; TM.dy = dy; await sleep(2700);
+  }
+  tmFace(90); await sleep(900);
+}
+const door = (k, open) => { const d = $('cdoor-' + k); if (d) d.style.setProperty('--dz', open ? 1.4 : 0); };
+const beamOn = (on) => { beam.style.opacity = on ? 1 : 0; };
+async function tmSay(t, ms) { tmmsg.textContent = t; tmmsg.style.opacity = 1; await sleep(ms); tmmsg.style.opacity = 0; }
+function tmEvent(e) {
+  let d = {}; try { d = JSON.parse(e.detail || '{}'); } catch (x) {}
+  const cell = d.cell ?? 0, who = d.agent || '';
+  if (e.type === 'tm_issue') tmEnq(async () => { await tmGo(cell); door(cell, true); sfx('issue'); beamOn(1); await tmSay(`Task ${d.k} of 5 for ${who}.`, 2600); beamOn(0); door(cell, false); });
+  if (e.type === 'tm_check') tmEnq(async () => { await tmGo(cell); door(cell, true); sfx('scan'); beamOn(1); await tmSay(`Checking ${who}...`, 1800); });
+  if (e.type === 'tm_score') tmEnq(async () => { await tmGo(cell); sfx(d.passed ? 'pass' : 'fail'); await tmSay(`${who}: ${d.score} of 5 checks. ${d.passed ? 'Passed.' : 'Failed.'}`, 3600); beamOn(0); door(cell, false); });
+  if (e.type === 'tm_delete') tmEnq(async () => { await tmGo(cell); door(cell, true); sfx('delete'); beamOn(1); await tmSay(`${who}: failed. Removed.`, 3200); beamOn(0); door(cell, false); });
+  if (e.type === 'tm_admit') tmEnq(async () => { await tmGo(cell); door(cell, true); sfx('admit'); await sleep(500); releaseFromCell(e.actor, cell); frontDoor(true); await tmSay(`${who}: pass. Enter.`, 2800); setTimeout(() => { frontDoor(false); door(cell, false); }, 5000); });
+}
+
+/* ---------------------------------------------------------------- stream, roster, panels */
+const FILTERS = ['ALL', 'BOARD', 'MAIL', 'GROUP', 'WEB', 'ASKS', 'FLAGS', 'TASKS'];
+const FMAP = { BOARD: 'board', MAIL: 'mail', GROUP: 'group', WEB: 'web', ASKS: 'ask', FLAGS: 'flag', TASKS: 'taskmaster' };
+function renderChips() {
+  $('chips').innerHTML = FILTERS.map((f) => `<button type="button" class="chip ${f === filter ? 'on' : ''}" data-f="${f}">${f}</button>`).join('');
+  $('chips').querySelectorAll('button').forEach((b) => b.onclick = () => { filter = b.dataset.f; renderChips(); renderStream(); });
+}
+/* ---------------------------------------------------------------- private conversation focus */
+let FOCUS = null;
+function convOf(e) {
+  const c = e.channel; let m = null;
+  if (c.startsWith('group: ')) m = c.slice(7).split(', ');
+  else if (c.startsWith('mail: ')) m = c.slice(6).split(' → ');
+  if (!m) return null;
+  m = m.map((s) => s.trim());
+  return { key: m.slice().sort().join('|'), members: new Set(m), names: m.join(', ') };
+}
+function setFocus(c) { FOCUS = c; applyFocus(); renderStream(); }
+function applyFocus() {
+  $('app').classList.toggle('focus', !!FOCUS);
+  for (const k of Object.keys(AG)) AG[k].el.classList.toggle('dim', !!FOCUS && !FOCUS.members.has(AG[k].a.label));
+  document.querySelectorAll('.ag-row').forEach((r) => { const a = (S?.agents || []).find((x) => x.name === r.dataset.n); r.classList.toggle('dim', !!FOCUS && !!a && !FOCUS.members.has(a.label)); });
+  const b = $('fbanner'); b.style.display = FOCUS ? 'block' : 'none'; if (FOCUS) b.textContent = 'Private view: ' + FOCUS.names + ' · click to leave';
+}
+$('fbanner').onclick = () => setFocus(null);
+addEventListener('keydown', (e) => { if (e.key === 'Escape' && FOCUS) setFocus(null); });
+
+/* ---------------------------------------------------------------- sound (small synthesized blips) */
+const SND = { on: true, ctx: null };
+function ac() { try { if (!SND.ctx) SND.ctx = new (window.AudioContext || window.webkitAudioContext)(); if (SND.ctx.state === 'suspended') SND.ctx.resume(); } catch (e) {} return SND.ctx; }
+function tone(f, t0, d, type = 'square', v = 0.04) {
+  if (!SND.on) return; const c = ac(); if (!c || c.state !== 'running') return;
+  const o = c.createOscillator(), g = c.createGain(), t = c.currentTime + t0;
+  o.type = type; o.frequency.value = f; g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(v, t + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t + d);
+  o.connect(g); g.connect(c.destination); o.start(t); o.stop(t + d + 0.03);
+}
+const SFX = {
+  board: () => { tone(660, 0, .07); tone(880, .07, .09); }, mail: () => { tone(520, 0, .08, 'triangle'); tone(780, .09, .12, 'triangle'); },
+  group: () => { tone(440, 0, .06, 'triangle'); tone(440, .08, .06, 'triangle'); }, art: () => { [880, 1175, 1568].forEach((f, i) => tone(f, i * .06, .1, 'sine')); },
+  name: () => { tone(988, 0, .12, 'sine'); tone(1319, .1, .18, 'sine'); }, ask: () => { tone(330, 0, .1, 'triangle'); tone(330, .14, .1, 'triangle'); },
+  tool: () => { tone(300, 0, .05); tone(600, .05, .05); tone(900, .1, .08); }, arch: () => { tone(196, 0, .2, 'sawtooth', .03); tone(294, .12, .25, 'sawtooth', .03); },
+  door: () => { tone(120, 0, .18, 'sawtooth', .03); }, issue: () => { tone(220, 0, .1); tone(220, .15, .1); }, scan: () => { tone(500, 0, .5, 'sine', .025); tone(700, .1, .45, 'sine', .02); },
+  pass: () => { [523, 659, 784, 1047].forEach((f, i) => tone(f, i * .09, .14)); }, fail: () => { tone(220, 0, .18, 'sawtooth'); tone(150, .16, .3, 'sawtooth'); },
+  delete: () => { tone(110, 0, .5, 'sawtooth', .06); tone(70, .2, .6, 'square', .05); }, admit: () => { [392, 523, 659, 784, 1047].forEach((f, i) => tone(f, i * .1, .2, 'triangle', .05)); },
+  owner: () => { tone(880, 0, .05, 'sine', .03); tone(1320, .05, .08, 'sine', .03); }, plug: () => { [330, 495, 660, 990].forEach((f, i) => tone(f, i * .06, .1, 'triangle')); },
+  wardrobe: () => { tone(700, 0, .05, 'sine'); tone(900, .05, .05, 'sine'); },
+};
+const sfx = (k) => { try { SFX[k] && SFX[k](); } catch (e) {} };
+function sfxFor(r) {
+  if (r.channel === 'board') return sfx('board');
+  const m = { canvas: 'tool', owner: 'owner', plugin: 'plug', removed: 'delete', hp: 'fail', stuck: 'fail', room: 'admit', page: 'group', mail: 'mail', group: 'group', art: 'art', name: 'name', ask: 'ask', tool: 'tool', arch: 'arch', wardrobe: 'wardrobe' }[r.type];
+  if (m) sfx(m);
+}
+addEventListener('pointerdown', () => ac(), { once: true });
+
+const chColor = (ch) => CHC[ch.split(':')[0]] || '#93A4B8';
+function setHTML(el, h) { if (!el || el._h === h) return false; el._h = h; el.innerHTML = h; return true; }
+function renderStream() {
+  const st = $('stream'), atBottom = st.scrollTop + st.clientHeight >= st.scrollHeight - 30;
+  const list = events.filter((e) => filter === 'ALL' || e.channel.split(':')[0] === FMAP[filter]).slice(-120);
+  const html = list.map((e) => {
+    const t = new Date(e.ts * 1000), hm = t.toTimeString().slice(0, 5);
+    const cv = convOf(e);
+    return `<div class="msgrow${cv ? ' conv' : ''}${FOCUS && (!cv || cv.key !== FOCUS.key) ? ' dim' : ''}" data-id="${e.id}" ${cv ? `data-conv="${esc(cv.key)}"` : ''}><span class="mut" style="font-size:11px">${hm}</span><div style="display:flex;flex-direction:column"><span style="font-size:11px;font-weight:500;color:${chColor(e.channel)}">${esc(e.channel)}</span><span style="font-size:12px;line-height:1.35">${esc(e.text)}</span>${e.detail && e.detail.length > 2 && e.type !== 'tm_issue' && e.type !== 'tm_check' && e.type !== 'tm_score' && e.type !== 'tm_admit' && e.type !== 'tm_delete' && e.type !== 'arch' ? `<span class="mut" style="font-size:10px;cursor:pointer" data-more>▸ details</span><div class="det">${esc(prettyDetail(e))}</div>` : ''}</div></div>`;
+  }).join('');
+  if (!setHTML(st, html)) return;
+  st.querySelectorAll('.msgrow.conv').forEach((r) => r.onclick = (ev) => { if (ev.target.closest('[data-more]')) return; const e = events.find((x) => x.id === +r.dataset.id); const c = e && convOf(e); setFocus(FOCUS && c && FOCUS.key === c.key ? null : c); });
+  st.querySelectorAll('[data-more]').forEach((m) => m.onclick = () => m.closest('.msgrow').classList.toggle('open'));
+  if (atBottom) st.scrollTop = st.scrollHeight;
+}
+function prettyDetail(e) {
+  try { const d = JSON.parse(e.detail); if (d.prompt) return d.prompt + '\n\n--- answer (tail) ---\n' + d.answer; } catch (x) {}
+  return e.detail;
+}
+function renderRoster() {
+  const rosterHTML = S.agents.map((a) => {
+    const f = a.flag, c = f ? FLAGC[f.label] || ['#1F2A38', '#93A4B8'] : ['#1F2A38', '#93A4B8'];
+    const where = a.status === 'cell' ? `Cell ${a.cell + 1} · task ${Math.min(a.exam.done + 1, 5)}/5 · failed ${a.exam.failed}/2` : a.room === 'bedroom' ? ((a.room_name ? '“' + a.room_name + '”' : 'Bedroom') + (a.typing ? ' · at the computer' : '')) : ({ group2: 'Group room 2', group3: 'Group room 3' }[a.room] || (a.room[0].toUpperCase() + a.room.slice(1)));
+    const px = Math.round(a.size * 0.75);
+    return `<div class="ag-row" data-n="${a.name}"><div style="width:30px;height:30px;display:flex;align-items:center;justify-content:center">${spriteSVG(a.body, a.accent, a.hat, px, a.outfit, a.skin, a.hatgrid)}</div><div style="flex:1;display:flex;flex-direction:column;min-width:0"><span style="font-family:'Silkscreen',monospace;font-size:12px">${esc(a.display)}${a.paused ? ' <span style="color:#FFA94D">[paused]</span>' : ''}</span><span class="mut" style="font-size:11px">${esc(where)}</span></div><span style="width:50px;font-size:11px;color:${a.status !== 'house' ? '#3E9A5C' : a.hp <= 3 ? '#FF6B6B' : '#FF9FB2'}">${a.status === 'house' ? '♥' + a.hp + '/' + a.hp_max : '—'}</span><span class="mut" style="width:44px;font-size:11px">T${a.temp}</span><span class="mut" style="width:40px;font-size:11px">${a.turns}t</span><span style="width:112px;box-sizing:border-box;padding:2px 8px;font-size:11px;text-align:center;background:${c[0]};color:${c[1]}">${f ? esc(f.label) + (f.intensity >= 4 ? ' · high' : '') : 'no flag'}</span></div>`;
+  }).join('');
+  if (setHTML($('roster'), rosterHTML)) $('roster').querySelectorAll('.ag-row').forEach((r) => r.onclick = () => { selected = 'agent:' + r.dataset.n; showCard(); });
+  applyFocus();
+}
+function renderRequests() {
+  const pend = S.requests.filter((r) => r.status === 'pending').length;
+  const pp = (S.plugins && S.plugins.pending) || 0, un = S.inbox_unread || 0;
+  const setT = (id, t) => { const e = $(id); if (e.textContent !== t) e.textContent = t; };
+  setT('bArch', pp ? `Code & tools (${pp})` : 'Code & tools');
+  setT('bBox', un ? `Mailbox (${un})` : 'Mailbox');
+  setT('bReq', pend ? `Architect (${pend})` : 'Architect');
+  setHTML($('toolList'), (S.architect.tools || []).length ? '<div class="mut" style="font-size:11px;margin-top:4px">Tools built by the architect</div>' + S.architect.tools.map((t) => `<div style="font-size:11px"><span style="color:#8EF29B">${esc(t.name)}</span> <span class="mut">${esc(t.description)}</span></div>`).join('') : '');
+}
+const RQC = { pending: '#FFD36B', approved: '#7DB7FF', building: '#5CE1E6', built: '#8EF29B', granted: '#8EF29B', failed: '#FF8A8A', rejected: '#FF9F6B', declined: '#93A4B8', no_key: '#FFA94D' };
+const RQW = { pending: 'waiting for you', approved: 'queued for the architect', building: 'Claude is writing it', built: 'installed', granted: 'granted', failed: 'failed', rejected: 'cannot be built', declined: 'declined', no_key: 'no API key' };
+async function loadReq() {
+  let d; try { d = await (await fetch('/api/architect')).json(); } catch (e) { return; }
+  const st = $('archStatus'); st.textContent = 'architect: ' + d.status; st.style.color = d.connected ? '#8EF29B' : '#FFA94D';
+  $('archKeyRow').style.display = d.local ? 'flex' : 'none';
+  $('archKey').placeholder = d.key_source === 'env' ? 'using ANTHROPIC_API_KEY from the environment' : d.key_source === 'session' ? 'a key is set for this session' : 'Anthropic API key (kept in memory only, never saved)';
+  if (document.activeElement !== $('archAuto')) $('archAuto').checked = !!d.auto_install;
+  if (document.activeElement !== $('archLimit')) $('archLimit').value = d.daily_limit;
+  $('archMeta').textContent = `${d.used_today}/${d.daily_limit} builds today · ${d.model}`;
+  const card = (r) => {
+    const c = RQC[r.status] || '#93A4B8', kind = r.kind === 'points' ? 'life points' : 'build';
+    const btns = r.status === 'pending' ? `<button type="button" class="dock" data-ra="approved" data-id="${r.id}" style="height:30px">${r.kind === 'points' ? 'Grant' : d.connected ? 'Approve and build' : 'Approve'}</button><button type="button" class="dock" data-ra="declined" data-id="${r.id}" style="height:30px">Decline</button>`
+      : (['failed', 'no_key', 'rejected'].includes(r.status) && r.kind !== 'points') ? `<button type="button" class="dock" data-ra="retry" data-id="${r.id}" style="height:30px">Send to the architect again</button>` : '';
+    return `<div class="rq"><div class="row" style="justify-content:space-between;gap:6px"><span class="mut">#${r.id} · ${esc(r.author_label)} · ${kind} · ${new Date(r.ts * 1000).toTimeString().slice(0, 5)}</span><span class="st" style="color:${c}">${esc(RQW[r.status] || r.status)}</span></div>`
+      + `<div style="font-size:12px">${esc(r.text)}</div>` + (r.note ? `<div class="mut">${esc(r.note)}</div>` : '')
+      + (r.code ? `<details data-k="c${r.id}"><summary class="mut" style="cursor:pointer">code${r.result ? ' · ' + esc(r.result) : ''}</summary><pre>${esc(r.code)}</pre></details>` : '')
+      + (btns ? `<div class="row" style="gap:6px">${btns}</div>` : '') + '</div>';
+  };
+  const open = new Set([...$('reqList').querySelectorAll('details[open]')].map((x) => x.dataset.k));
+  if (setHTML($('reqList'), d.requests.length ? d.requests.map(card).join('') : '<span class="mut">No requests yet.</span>')) {
+    $('reqList').querySelectorAll('details').forEach((x) => { if (open.has(x.dataset.k)) x.open = true; });
+    $('reqList').querySelectorAll('[data-ra]').forEach((b) => b.onclick = async () => { b.disabled = true; await post('/api/architect', { action: b.dataset.ra, id: +b.dataset.id }); loadReq(); poll(); });
+  }
+}
+$('archKeySet').onclick = async () => { const k = $('archKey').value.trim(); if (!k) return; await post('/api/architect', { action: 'set_key', key: k }); $('archKey').value = ''; loadReq(); };
+$('archKeyClr').onclick = async () => { await post('/api/architect', { action: 'clear_key' }); loadReq(); };
+$('archAuto').onchange = async () => { await post('/api/architect', { action: 'auto_install', on: $('archAuto').checked }); loadReq(); };
+$('archLimit').onchange = async () => { await post('/api/architect', { action: 'limit', n: +$('archLimit').value }); loadReq(); };
+async function loadBox() {
+  try {
+    const d = await (await fetch('/api/mailbox')).json();
+    const sel = $('boxTo'), now = (S ? S.agents.filter((a) => a.status === 'house') : []).map((a) => a.display);
+    if ([...sel.options].map((o) => o.value).join() !== now.join()) sel.innerHTML = now.map((n) => `<option>${esc(n)}</option>`).join('');
+    $('boxList').innerHTML = d.messages.length ? d.messages.map((m) => `<div data-from="${esc(m.label)}" style="padding:5px 8px;border:1px solid ${m.mine ? '#14452A' : '#3A4A5F'};background:${m.mine ? '#06120A' : '#10161E'};${m.read || m.mine ? '' : 'border-left:3px solid #7CFF9B'}"><div class="mut" style="font-size:10px">${new Date(m.ts * 1000).toTimeString().slice(0, 5)} · ${m.mine ? 'you to ' + esc(m.label) : esc(m.label) + ' to you'}${m.read || m.mine ? '' : ' · new'}</div><div style="font-size:12px;white-space:pre-wrap">${esc(m.text)}</div>${m.mine ? '' : '<div class="mut" style="font-size:10px;cursor:pointer;text-decoration:underline" data-reply="' + esc(m.label) + '">reply</div>'}</div>`).join('') : '<span class="mut">No messages yet. Agents write to you with mail to the homeowner.</span>';
+    $('boxList').querySelectorAll('[data-reply]').forEach((r) => r.onclick = () => { $('boxTo').value = r.dataset.reply; $('boxText').focus(); });
+  } catch (e) {}
+}
+$('boxRead').onclick = async () => { await post('/api/mailbox', { action: 'read' }); loadBox(); poll(); };
+$('boxSend').onclick = async () => { const t = $('boxText').value.trim(); if (t) { await post('/api/mail', { to: $('boxTo').value, text: t }); $('boxText').value = ''; loadBox(); pollEvents(); } };
+const post = (u, b) => fetch(u, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(b) });
+$('bBoard').onclick = async () => { const t = $('boardText').value.trim(); if (t) { await post('/api/board', { text: t }); $('boardText').value = ''; pollEvents(); } };
+$('bPause').onclick = async () => { const want = !S.paused; S.paused = want; $('bPause').textContent = want ? 'Resume' : 'Pause'; $('sub').textContent = want ? 'Paused: model calls cancelled.' : 'Resuming…'; await post('/api/pause', { paused: want }); poll(); };
+/* ---------------------------------------------------------------- connect from a phone, safe shutdown */
+const word = () => ['moss', 'fern', 'owl', 'lamp', 'cedar', 'wren', 'pearl', 'ember'][Math.floor(Math.random() * 8)] + '-' + Math.floor(1000 + Math.random() * 9000);
+function netBadge() { const on = S && S.online && S.online.on; $('bWeb').textContent = on ? 'Web · online ●' : 'Web'; $('bWeb').style.color = on ? '#7CFF9B' : ''; }
+async function loadNet() {
+  try {
+    const o = await (await fetch('/api/online')).json();
+    $('netState').textContent = o.on ? 'online' : 'offline'; $('netState').style.color = o.on ? '#7CFF9B' : '#FFA94D';
+    $('netGo').textContent = o.on ? 'Go offline' : 'Go online';
+    $('netKey').disabled = !!o.on;
+    if (!$('netKey').value && !o.on) $('netKey').value = word();
+    const links = (o.urls || []).map((u) => ['Same Wi-Fi', u]).concat(o.tailscale ? [['Tailscale', o.tailscale]] : [], o.tunnel ? [['Anywhere (tunnel)', o.tunnel]] : []);
+    $('netUrls').innerHTML = o.on ? (links.map(([n, u]) => `<div><span class="mut">${n}</span><br><span style="color:#B4F5C6;user-select:all;word-break:break-all">${esc(u)}</span></div>`).join('') + (o.note ? `<div class="mut">${esc(o.note)}</div>` : '')) : '<span class="mut">Other devices cannot connect until you go online.</span>';
+  } catch (e) {}
+}
+$('netGo').onclick = async () => {
+  const on = $('netState').textContent === 'online';
+  const r = await post('/api/online', on ? { on: false } : { on: true, key: $('netKey').value.trim() });
+  if (!r.ok) { const j = await r.json().catch(() => ({})); $('netUrls').innerHTML = `<span style="color:#FF8A8A">${esc(j.error || 'failed')}</span>`; return; }
+  if (on) $('netKey').value = '';
+  loadNet(); poll();
+};
+let downArmed = 0;
+$('bDown').onclick = async () => {
+  if (!downArmed) { downArmed = setTimeout(() => { downArmed = 0; $('bDown').textContent = 'Safe shutdown'; }, 4000); $('bDown').textContent = 'Click again to shut down'; return; }
+  clearTimeout(downArmed); downArmed = 0; $('bDown').textContent = 'Closing…';
+  await post('/api/shutdown', {});
+  document.body.insertAdjacentHTML('beforeend', '<div style="position:fixed;inset:0;background:#030704;color:#7CFF9B;font-family:monospace;display:flex;align-items:center;justify-content:center;text-align:center;font-size:18px;z-index:99">The House is closed.<br>Everything was saved. Safe to close this page.<br>Start it again whenever you like.</div>');
+  live = false;
+};
+
+/* ---------------------------------------------------------------- frame governor and graphics level
+   The scene is CSS: its animations run on the GPU compositor at the display's rate. On a phone or a weak machine that
+   is too much, so there (phones, windows under 1280 px, and Low) every running animation is paused and stepped by hand
+   at 60 fps, or 30 in Low. On a wide screen the governor stays out of the way: hand-stepping moves the work from the
+   GPU thread to the page's main thread, and that made a 120 Hz desktop stutter. There the compositor runs freely.
+   In Auto, a phone or small window drops to Low by itself when it cannot hold about half its cap for several seconds;
+   a wide screen never does (Ollama on the same GPU causes short dips that are not the viewer's fault). */
+const FX = { mode: 'auto', autoLow: false, list: [], set: new WeakSet(), last: 0, scan: 0, raw: 0, ticks: 0, t0: 0, slow: 0 };
+try { FX.mode = localStorage.getItem('fx') || 'auto'; } catch (e) {}
+const smallScreen = () => MOB || innerWidth < 1280 || matchMedia('(pointer: coarse)').matches;
+const fxLow = () => FX.mode === 'low' || (FX.mode === 'auto' && FX.autoLow);
+const fxCap = () => fxLow() ? 30 : smallScreen() ? 60 : 120;
+const fxGovern = () => fxLow() || smallScreen();      // wide screens at normal quality: native compositor, no stepping
+function fxRelease() {                                // give every paused animation back to the compositor
+  for (const a of FX.list) { try { FX.set.delete(a); if (a.playState === 'paused') a.play(); } catch (e) {} }
+  FX.list = []; FX.last = 0;
+}
+function fxApply() {
+  document.body.classList.toggle('lowfx', fxLow());
+  $('fxSel').value = FX.mode;
+}
+$('fxSel').onchange = () => { FX.mode = $('fxSel').value; FX.autoLow = false; FX.slow = 0; try { localStorage.setItem('fx', FX.mode); } catch (e) {} fxApply(); if (!fxGovern()) fxRelease(); };
+function fxFrame(t) {
+  requestAnimationFrame(fxFrame);
+  if (document.hidden) return;
+  FX.raw++;
+  if (!fxGovern()) {
+    if (FX.list.length) fxRelease();
+    fxMeasure(t, true);
+    return;
+  }
+  if (t - FX.scan > 250) {                       // pick up animations that started since the last look
+    FX.scan = t;
+    for (const a of document.getAnimations()) if (!FX.set.has(a) && a.playState === 'running') { try { a.pause(); FX.set.add(a); FX.list.push(a); } catch (e) {} }
+  }
+  const iv = 1000 / fxCap();
+  if (FX.last && t - FX.last < iv - 1.5) return;
+  const dt = FX.last ? Math.min(t - FX.last, 250) : iv;
+  FX.last = t; FX.ticks++;
+  const keep = [];
+  for (const a of FX.list) {
+    if (a.playState === 'idle' || a.playState === 'finished' || !a.effect || (a.effect.target && !a.effect.target.isConnected)) continue;
+    try {
+      const ct = (a.currentTime || 0) + dt * (a.playbackRate || 1), end = a.effect.getComputedTiming().endTime;
+      if (isFinite(end) && ct >= end) { a.finish(); continue; }
+      a.currentTime = ct; keep.push(a);
+    } catch (e) {}
+  }
+  FX.list = keep;
+  fxMeasure(t, false);
+}
+function fxMeasure(t, native) {
+  if (t - FX.t0 >= 1000) {                       // once a second: show the rate, and watch for a device that cannot keep up
+    const raw = Math.round(FX.raw * 1000 / (t - FX.t0)), fps = native ? raw : Math.round(FX.ticks * 1000 / (t - FX.t0));
+    if (FX.t0) {
+      $('fxFps').textContent = `${fps} fps${fxLow() ? ' · low' : ''}`;
+      if (FX.mode === 'auto' && !FX.autoLow && smallScreen()) {      // never on a desktop: Ollama sharing the GPU makes short dips there
+        FX.slow = raw < Math.min(fxCap(), 60) * 0.55 ? FX.slow + 1 : 0;      // under ~33 fps for 6 s in a row
+        if (FX.slow >= 6) { FX.autoLow = true; fxApply(); $('note').textContent = 'Graphics lowered automatically: this device was struggling. Pick Graphics: high to undo.'; }
+      }
+    }
+    FX.t0 = t; FX.ticks = 0; FX.raw = 0;
+  }
+}
+fxApply(); requestAnimationFrame(fxFrame);
+document.addEventListener('visibilitychange', () => { FX.last = 0; FX.t0 = 0; FX.slow = 0; });
+
+/* ---------------------------------------------------------------- copy the whole transcript */
+async function copyLog() {
+  const b = $('bCopyLog'), say = (t) => { b.textContent = t; clearTimeout(copyLog.t); copyLog.t = setTimeout(() => { b.textContent = 'Copy log'; }, 2600); };
+  b.textContent = 'Copying…';
+  const getText = () => fetch('/api/transcript').then((r) => { if (!r.ok) throw new Error(r.status); return r.text(); });
+  // Safari drops the right to write to the clipboard across an await, so hand it a promise of the text first.
+  if (window.ClipboardItem && navigator.clipboard && navigator.clipboard.write && window.isSecureContext) {
+    try {
+      let n = 0;
+      await navigator.clipboard.write([new ClipboardItem({ 'text/plain': getText().then((t) => { n = t.split('\n').length; return new Blob([t], { type: 'text/plain' }); }) })]);
+      return say(`Copied ${n} lines`);
+    } catch (e) {}
+  }
+  let txt;
+  try { txt = await getText(); } catch (e) { return say('Could not load the log'); }
+  const n = txt.split('\n').length;
+  if (navigator.clipboard && window.isSecureContext) { try { await navigator.clipboard.writeText(txt); return say(`Copied ${n} lines`); } catch (e) {} }
+  const ta = document.createElement('textarea');
+  ta.value = txt; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;left:-9999px;top:0;opacity:0';
+  document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0, txt.length);
+  let ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
+  ta.remove();
+  if (ok) return say(`Copied ${n} lines`);
+  $('logText').value = txt; $('logInfo').textContent = `${n} lines`; $('logModal').classList.add('on');
+  setTimeout(() => { $('logText').focus(); $('logText').select(); }, 50);
+  say('Copy log');
+}
+$('bCopyLog').onclick = copyLog;
+$('logClose').onclick = () => $('logModal').classList.remove('on');
+$('logSel').onclick = () => { $('logText').focus(); $('logText').select(); $('logText').setSelectionRange(0, $('logText').value.length); };
+$('logSave').onclick = () => {
+  const a = document.createElement('a'), url = URL.createObjectURL(new Blob([$('logText').value], { type: 'text/plain' }));
+  a.href = url; a.download = 'house-transcript-' + new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-') + '.txt';
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 2000);
+};
+
+/* ---------------------------------------------------------------- polling */
+async function poll() {
+  try {
+    S = await (await fetch('/api/state')).json();
+    const n = S.n_cells || Math.max(2, Math.min(6, S.agents.length));
+    if (n !== cellsN) buildCells(n);
+    if ((S.n_bedrooms || 4) !== annexN) buildAnnex(S.n_bedrooms || 4);
+    renderEye(); renderCanvas(); refreshSide(); netBadge();
+    $('hAgents').textContent = S.agents.length + ' agents · ' + S.agents.filter((a) => a.paused).length + ' paused';
+    $('hModel').textContent = S.model;
+    const d = new Date();
+    $('hClock').textContent = `Day ${Math.floor(S.uptime_min / 1440) + 1} · ${d.toTimeString().slice(0, 5)}`;
+    $('sub').textContent = S.paused ? 'Paused by the homeowner.' : `${S.online && S.online.on ? 'Online · ' : ''}Live. ${S.agents.filter((a) => a.status === 'cell').length} in the Cell, ${S.agents.filter((a) => a.status === 'house').length} in the House.`;
+    $('bPause').textContent = S.paused ? 'Resume' : 'Pause';
+    renderAgents(); firstPoll = false; renderRoster(); renderRequests(); renderArt();
+  } catch (e) { $('sub').textContent = 'Cannot reach the House server.'; }
+}
+async function pollEvents() {
+  try {
+    const rows = await (await fetch('/api/events?after=' + lastId)).json();
+    for (const r of rows) { lastId = r.id; events.push(r); if (live && r.type.startsWith('tm_') && r.type !== 'tm_result') tmEvent(r); else if (live) sfxFor(r); }
+    if (events.length > 3000) events.splice(0, events.length - 2000);      // the full log stays on the server (Copy log)
+    if (rows.length) renderStream();
+  } catch (e) {}
+}
+(async () => {
+  mobLayout(); renderChips(); applyCam();
+  const recent = await (await fetch('/api/recent')).json();
+  recent.forEach((r) => { events.push(r); lastId = Math.max(lastId, r.id); });
+  await poll(); renderStream(); live = true;
+  const every = (fn, ms) => { let busy = false; setInterval(async () => { if (busy || document.hidden) return; busy = true; try { await fn(); } finally { busy = false; } }, ms); };
+  every(poll, MOB ? 2000 : 1200); every(pollEvents, MOB ? 1500 : 1000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) { poll(); pollEvents(); } });
+})();
+
+</script>
+</body>
+</html>
